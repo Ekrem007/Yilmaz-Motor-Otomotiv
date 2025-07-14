@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v9.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v9.0": {
+      "YılmazMotorWeb.Core/1.0.0": {
+        "runtime": {
+          "YılmazMotorWeb.Core.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "YılmazMotorWeb.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

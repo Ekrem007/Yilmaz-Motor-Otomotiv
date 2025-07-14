@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core\YılmazMotorWeb.Core.csproj" />
+    <ProjectReference Include="..\YılmazMotorWeb.Dal\YılmazMotorWeb.Dal.csproj" />
+    <ProjectReference Include="..\YılmazMotorWeb.Entities\YılmazMotorWeb.Entities.csproj" />
+  </ItemGroup>
+
+</Project>
