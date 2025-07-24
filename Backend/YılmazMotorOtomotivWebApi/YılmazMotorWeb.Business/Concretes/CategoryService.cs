@@ -56,9 +56,18 @@ namespace YılmazMotorWeb.Business.Concretes
 			return new SuccessDataResult<Category>(category, "Category retrieved successfully");
 		}
 
-		public IResult Update(Category category)
+		public IResult Update(Category category, int categoryId)
 		{
-			_categoryDal.Update(category);
+			if (category == null)
+			{
+				return new ErrorResult("Category cannot be null");
+			}
+			var existingCategory = _categoryDal.GetById(categoryId);
+			if (existingCategory == null)
+			{
+				return new ErrorResult("Category not found");
+			}
+			_categoryDal.Update(category, categoryId);
 			return new SuccessResult("Category updated successfully");
 		}
 	}

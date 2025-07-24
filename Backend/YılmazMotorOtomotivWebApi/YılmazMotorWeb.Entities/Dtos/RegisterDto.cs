@@ -13,5 +13,7 @@ namespace YılmazMotorWeb.Entities.Dtos
 		public string Password { get; set; }
 		public string Name { get; set; }
 		public string SurName { get; set; }
+		public int PhoneNumber { get; set; }
+		public string Address { get; set; }
 	}
 }

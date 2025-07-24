@@ -1,0 +1,94 @@
+<!-- NAVBAR -->
+<app-navbar></app-navbar>
+
+<!-- Product Search part -->
+<section class="bg-dark text-white py-5 position-relative">
+  <div class="container text-center">
+    <h1 class="display-5 fw-bold">Doğru Parçayı Hızlıca Bulun</h1>
+    <p class="lead mb-4">Binlerce araç parçası içinden tam ihtiyacınız olanı kolayca bulun.</p>
+    <form class="d-flex justify-content-center mx-auto" style="max-width: 600px;" (ngSubmit)="onSearch($event)">
+      <input class="form-control form-control-lg rounded-start-pill border-0" 
+             type="search" 
+             placeholder="Örn: buji, fren diski, far..." 
+             aria-label="Search"
+             [(ngModel)]="searchTerm"
+             name="searchTerm">
+      <button class="btn btn-primary btn-lg rounded-end-pill px-4" type="submit">
+        <i class="bi bi-search me-1"></i> Ara
+      </button>
+    </form>
+  </div>
+</section>
+ <!-- Slider kısmı -->
+<section class="container my-5" style="min-height: 30vh;">
+  <div id="parcaSlider" class="carousel slide h-100" data-bs-ride="carousel">
+    <div class="carousel-inner h-100 rounded-3 overflow-hidden shadow-lg">
+      <div class="carousel-item active h-100">
+        <img src="https://osomimarlik.com/wp-content/uploads/2020/02/magaza-tasarimlari-1500x900.jpg"
+             class="d-block w-100 h-100"
+             style="object-fit: cover;" alt="...">
+      </div>
+      <div class="carousel-item h-100">
+        <img src="https://www.eserraf.com/img/urunler/ozel-uretim-katlama-masasi-ornek-magaza-uygulama-17_01_3924_max.jpg"
+             class="d-block w-100 h-100"
+             style="object-fit: cover;" alt="...">
+      </div>
+      <div class="carousel-item h-100">
+        <img src="https://www.markettasarimi.com/wp-content/uploads/2021/10/2021-market-dizayni.jpg"
+             class="d-block w-100 h-100"
+             style="object-fit: cover;" alt="...">
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#parcaSlider" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon bg-dark rounded-circle p-2"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#parcaSlider" data-bs-slide="next">
+      <span class="carousel-control-next-icon bg-dark rounded-circle p-2"></span>
+    </button>
+  </div>
+</section>
+
+<!-- Hakkımızda Kısa Bilgi -->
+<section class="container my-5">
+  <div class="row align-items-center">
+    <div class="col-lg-6 mb-4 mb-lg-0">
+      <div class="pe-lg-4">
+        <h2 class="fw-bold text-dark mb-3">Yılmaz Motor Otomotiv</h2>
+        <p class="text-muted lead mb-4">
+          2010 yılından beri otomotiv sektöründe güvenilir hizmet veren, 
+          müşteri memnuniyetini ön planda tutan bir aile şirketiyiz.
+        </p>
+        <div class="row mb-4">
+          <div class="col-6">
+            <div class="text-center p-3 bg-light rounded">
+              <div class="h4 fw-bold text-primary mb-1">14+</div>
+              <small class="text-muted">Yıl Deneyim</small>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="text-center p-3 bg-light rounded">
+              <div class="h4 fw-bold text-primary mb-1">1000+</div>
+              <small class="text-muted">Memnun Müşteri</small>
+            </div>
+          </div>
+        </div>
+        <a routerLink="/about" class="btn btn-primary">
+          <i class="bi bi-info-circle me-2"></i>Hakkımızda Daha Fazla Bilgi
+        </a>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="text-center">
+        <div class="bg-primary rounded-4 p-5">
+          <i class="bi bi-tools text-white" style="font-size: 5rem;"></i>
+          <h4 class="text-white mt-3 mb-0">Profesyonel Hizmet</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+

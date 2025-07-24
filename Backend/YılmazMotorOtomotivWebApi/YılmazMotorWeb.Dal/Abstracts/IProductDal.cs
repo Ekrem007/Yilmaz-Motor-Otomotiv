@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using YılmazMotorWeb.Entities.Concretes;
+using YılmazMotorWeb.Entities.Dtos;
 
 namespace YılmazMotorWeb.Dal.Abstracts
 {
@@ -13,6 +14,8 @@ namespace YılmazMotorWeb.Dal.Abstracts
 		void UpdateProduct(Product product,int productId);
 		void DeleteProduct(int id);
 		Product GetProductById(int id);
-		List<Product> GetAllProducts();
+		List<ProductWithCategoryNameDto> GetAllProducts();
+		List<ProductWithCategoryNameDto> GetProductsByCategoryId(int categoryId);
+		List<ProductWithCategoryNameDto> GetProductsByName(string name);
 	}
 }

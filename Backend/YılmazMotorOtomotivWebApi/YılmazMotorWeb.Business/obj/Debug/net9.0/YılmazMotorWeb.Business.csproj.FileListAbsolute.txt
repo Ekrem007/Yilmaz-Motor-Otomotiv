@@ -36,3 +36,4 @@ C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWe
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWeb.Business\obj\Debug\net9.0\refint\YılmazMotorWeb.Business.dll
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWeb.Business\obj\Debug\net9.0\YılmazMotorWeb.Business.pdb
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWeb.Business\obj\Debug\net9.0\ref\YılmazMotorWeb.Business.dll
+C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWeb.Business\obj\Debug\net9.0\YılmazMotorWeb.Business.sourcelink.json

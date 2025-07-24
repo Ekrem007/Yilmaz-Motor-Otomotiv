@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 using YılmazMotorWeb.Dal.Abstracts;
 using YılmazMotorWeb.Dal.Context;
 using YılmazMotorWeb.Entities.Concretes;
+using YılmazMotorWeb.Entities.Dtos;
 
 namespace YılmazMotorWeb.Dal.Concretes
 {
@@ -36,9 +38,26 @@ namespace YılmazMotorWeb.Dal.Concretes
 			}
 		}
 
-		public List<Product> GetAllProducts()
+		public List<ProductWithCategoryNameDto> GetAllProducts()
 		{
-			return _context.Products.ToList();
+			var products = _context.Products
+				.Include(p => p.Category)
+				.Select(p => new ProductWithCategoryNameDto
+				{
+					Id = p.Id,
+					CategoryName = p.Category.Name,
+					Name = p.Name,
+					Description = p.Description,
+					Price = p.Price,
+					ImageUrl = p.ImageUrl,
+					Stock = p.Stock
+				}).ToList();
+			if (products == null || !products.Any())
+			{
+				throw new Exception("No products found");
+			}
+			return products;
+
 		}
 
 		public Product GetProductById(int id)
@@ -49,6 +68,28 @@ namespace YılmazMotorWeb.Dal.Concretes
 				throw new Exception("Product not found");
 			}
 			return product;
+		}
+
+		public List<ProductWithCategoryNameDto> GetProductsByCategoryId(int categoryId)
+		{
+			var products = _context.Products
+				.Include(p => p.Category)
+				.Where(p => p.CategoryId == categoryId)
+				.Select(p => new ProductWithCategoryNameDto
+				{
+					Id = p.Id,
+					CategoryName = p.Category.Name,
+					Name = p.Name,
+					Description = p.Description,
+					Price = p.Price,
+					ImageUrl = p.ImageUrl,
+					Stock = p.Stock
+				}).ToList();
+			if (products == null || !products.Any())
+			{
+				throw new Exception("No products found for the specified category");
+			}
+			return products;
 		}
 
 		public void UpdateProduct(Product product,int productId)
@@ -62,6 +103,7 @@ namespace YılmazMotorWeb.Dal.Concretes
 				existingProduct.Price = product.Price;
 				existingProduct.Stock = product.Stock;
 				existingProduct.CategoryId = product.CategoryId;
+				existingProduct.ImageUrl = product.ImageUrl;
 				_context.SaveChanges();
 			}
 			else
@@ -69,5 +111,25 @@ namespace YılmazMotorWeb.Dal.Concretes
 				throw new Exception("Product not found");
 			}
 		}
+		public List<ProductWithCategoryNameDto> GetProductsByName(string name)
+		{
+			var products = _context.Products
+				.Include(p => p.Category)
+				.Where(p => p.Name.ToLower().Contains(name.ToLower()))
+				.Select(p => new ProductWithCategoryNameDto
+				{
+					Id = p.Id,
+					CategoryName = p.Category.Name,
+					Name = p.Name,
+					Description = p.Description,
+					Price = p.Price,
+					ImageUrl = p.ImageUrl,
+					Stock = p.Stock
+				}).ToList();
+
+
+			return products;
+		}
+
 	}
 }

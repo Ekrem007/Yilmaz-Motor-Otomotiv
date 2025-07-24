@@ -61,5 +61,41 @@ namespace YılmazMotorWebApi.Controllers
 				message = result.Message
 			});
 		}
+		[HttpGet]
+		[Route("api/[controller]/getbyid/{id}")]
+		public IActionResult GetById(int id)
+		{
+			var result = _productService.GetById(id);
+			return Ok(new
+			{
+				success = result.Success,
+				message = result.Message,
+				data = result.Data
+			});
+		}
+		[HttpGet]
+		[Route("api/[controller]/getproductsbycategoryid/{categoryId}")]
+		public IActionResult GetByCategoryId(int categoryId)
+		{
+			var result = _productService.GetProductsByCategoryId(categoryId);
+			return Ok(new
+			{
+				success = result.Success,
+				message = result.Message,
+				data = result.Data
+			});
+		}
+		[HttpGet]
+		[Route("api/[controller]/getProductsByName/{name}")]
+		public IActionResult GetProductsByName(string name)
+		{
+			var result = _productService.GetProductsByName(name);
+			return Ok(new
+			{
+				success = result.Success,
+				message = result.Message,
+				data = result.Data
+			});
+		}
 	}
 }

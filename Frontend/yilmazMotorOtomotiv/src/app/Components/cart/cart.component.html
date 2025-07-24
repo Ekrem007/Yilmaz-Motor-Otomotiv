@@ -1,0 +1,335 @@
+<app-navbar></app-navbar>
+
+<div class="bg-light min-vh-100">
+  <div class="container py-5">
+    <!-- Başlık -->
+    <div class="row mb-5">
+      <div class="col-12">
+        <div class="bg-white rounded-4 shadow-sm p-4 border">
+          <div class="d-flex align-items-center justify-content-between flex-wrap">
+            <div class="d-flex align-items-center mb-3 mb-md-0">
+              <div class="icon-wrapper bg-primary rounded-circle p-3 me-3">
+                <i class="bi bi-cart3 text-white fs-3"></i>
+              </div>
+              <div>
+                <h1 class="fw-bold text-dark mb-1">Sepetim</h1>
+                <p class="text-muted mb-0">{{ totalItems }} ürün</p>
+              </div>
+            </div>
+            <div class="d-flex gap-2 flex-wrap">
+              <button class="btn btn-outline-danger" (click)="clearCart()" *ngIf="cartItems.length > 0">
+                <i class="bi bi-trash me-2"></i>Sepeti Temizle
+              </button>
+              <a routerLink="/products" class="btn btn-outline-primary">
+                <i class="bi bi-shop me-2"></i>Alışverişe Devam Et
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sepet İçeriği -->
+    <div class="row" *ngIf="cartItems.length > 0">
+      <!-- Sepet Öğeleri -->
+      <div class="col-lg-8 mb-4">
+        <div class="bg-white rounded-4 shadow-sm border">
+          <div class="p-4 border-bottom">
+            <h4 class="fw-bold text-dark mb-0">Sepetinizdeki Ürünler</h4>
+          </div>
+          <div class="p-4">
+            <div class="cart-item mb-4 pb-4 border-bottom" *ngFor="let item of cartItems; let last = last" [class.border-bottom-0]="last">
+              <div class="row align-items-center">
+                <div class="col-md-2 mb-3 mb-md-0">
+                  <img [src]="item.product.imageUrl" [alt]="item.product.name" 
+                       class="img-fluid rounded-3 shadow-sm" style="max-height: 80px; object-fit: cover;">
+                </div>
+                <div class="col-md-4 mb-3 mb-md-0">
+                  <h6 class="fw-bold text-dark mb-1">{{ item.product.name }}</h6>
+                  <p class="text-muted small mb-0">{{ item.product.description }}</p>
+                  <span class="badge bg-light text-dark mt-1" *ngIf="hasCategory(item.product)">
+                    {{ item.product.categoryName }}
+                  </span>
+                </div>
+                <div class="col-md-2 mb-3 mb-md-0">
+                  <span class="fw-bold text-primary">{{ item.product.price | turkishCurrency }}</span>
+                </div>
+                <div class="col-md-3 mb-3 mb-md-0">
+                  <div class="d-flex align-items-center">
+                    <button class="btn btn-outline-secondary btn-sm" 
+                            (click)="decreaseQuantity(item.product.id)"
+                            [disabled]="item.quantity <= 1">
+                      <i class="bi bi-dash"></i>
+                    </button>
+                    <span class="mx-3 fw-bold">{{ item.quantity }}</span>
+                    <button class="btn btn-outline-secondary btn-sm" 
+                            (click)="increaseQuantity(item.product.id)">
+                      <i class="bi bi-plus"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="col-md-1">
+                  <button class="btn btn-outline-danger btn-sm" 
+                          (click)="removeFromCart(item.product.id)"
+                          title="Sepetten Çıkar">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sepet Özeti -->
+      <div class="col-lg-4">
+        <div class="bg-white rounded-4 shadow-sm border">
+          <div class="p-4 border-bottom">
+            <h4 class="fw-bold text-dark mb-0">Sipariş Özeti</h4>
+          </div>
+          <div class="p-4">
+            <div class="d-flex justify-content-between mb-3">
+              <span class="text-muted">Toplam Ürün:</span>
+              <span class="fw-bold">{{ totalItems }} adet</span>
+            </div>
+            <div class="d-flex justify-content-between mb-3">
+              <span class="text-muted">Ara Toplam:</span>
+              <span class="fw-bold">{{ totalPrice | turkishCurrency }}</span>
+            </div>
+            <div class="d-flex justify-content-between mb-3">
+              <span class="text-muted">Kargo:</span>
+              <span class="text-success fw-bold">Ücretsiz</span>
+            </div>
+            <hr>
+            <div class="d-flex justify-content-between mb-4">
+              <span class="h5 fw-bold text-dark">Toplam:</span>
+              <span class="h5 fw-bold text-primary">{{ totalPrice | turkishCurrency }}</span>
+            </div>
+            
+            <!-- Giriş yapmış kullanıcı için satın al butonu -->
+            <button *ngIf="isUserLoggedIn()" 
+                    class="btn btn-primary w-100 rounded-3 mb-3" 
+                    (click)="openPaymentModal()">
+              <i class="bi bi-credit-card me-2"></i>Satın Al
+            </button>
+            
+            <!-- Giriş yapmamış kullanıcı için giriş butonu -->
+            <div *ngIf="!isUserLoggedIn()" class="mb-3">
+              <div class="alert alert-info text-center mb-3">
+                <i class="bi bi-info-circle me-2"></i>Sipariş vermek için giriş yapmanız gerekiyor
+              </div>
+              <a routerLink="/login" class="btn btn-success w-100 rounded-3">
+                <i class="bi bi-person-check me-2"></i>Giriş Yap
+              </a>
+            </div>
+            
+            <a routerLink="/products" class="btn btn-outline-secondary w-100 rounded-3">
+              <i class="bi bi-arrow-left me-2"></i>Alışverişe Devam Et
+            </a>
+          </div>
+        </div>
+
+      
+
+    <!-- Boş Sepet -->
+    <div *ngIf="cartItems.length === 0" class="text-center py-5">
+      <div class="bg-white rounded-4 shadow-sm p-5">
+        <div class="mb-4">
+          <div class="icon-wrapper bg-light rounded-circle p-4 d-inline-flex">
+            <i class="bi bi-cart-x text-muted" style="font-size: 3rem;"></i>
+          </div>
+        </div>
+        <h3 class="text-muted mb-3">Sepetiniz Boş</h3>
+        <p class="text-muted mb-4">Henüz sepetinize ürün eklemediniz. Ürünleri inceleyerek alışverişe başlayabilirsiniz.</p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+          <a routerLink="/products" class="btn btn-primary">
+            <i class="bi bi-shop me-2"></i>Ürünleri İncele
+          </a>
+          <a routerLink="/" class="btn btn-outline-secondary">
+            <i class="bi bi-house me-2"></i>Anasayfaya Dön
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Ödeme Modalı -->
+<div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="paymentModalLabel">
+          <i class="bi bi-credit-card me-2"></i>Ödeme Bilgileri
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="paymentForm" (ngSubmit)="processPayment()">
+          <div class="row">
+            <!-- Sipariş Özeti -->
+            <div class="col-md-5 mb-4">
+              <div class="bg-light rounded-3 p-3">
+                <h6 class="fw-bold mb-3">Sipariş Özeti</h6>
+                <div class="small">
+                  <div class="d-flex justify-content-between mb-2" *ngFor="let item of cartItems">
+                    <span>{{ item.product.name }} ({{ item.quantity }}x)</span>
+                    <span>{{ (item.product.price * item.quantity) | turkishCurrency }}</span>
+                  </div>
+                  <hr>
+                  <div class="d-flex justify-content-between fw-bold">
+                    <span>Toplam:</span>
+                    <span class="text-primary">{{ totalPrice | turkishCurrency }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Ödeme Formu -->
+            <div class="col-md-7">
+              <!-- Kart Bilgileri -->
+              <div class="mb-4">
+                <h6 class="fw-bold mb-3">Kart Bilgileri</h6>
+                <div class="row">
+                  <div class="col-12 mb-3">
+                    <label for="cardNumber" class="form-label">Kart Numarası</label>
+                    <input type="text" 
+                           class="form-control" 
+                           [class.is-invalid]="paymentForm.get('cardNumber')?.invalid && paymentForm.get('cardNumber')?.touched"
+                           [class.is-valid]="paymentForm.get('cardNumber')?.valid && paymentForm.get('cardNumber')?.touched"
+                           id="cardNumber" 
+                           formControlName="cardNumber"
+                           placeholder="1234 5678 9012 3456"
+                           maxlength="19"
+                           (input)="formatCardNumber($event)">
+                    <div class="invalid-feedback" *ngIf="paymentForm.get('cardNumber')?.invalid && paymentForm.get('cardNumber')?.touched">
+                      Geçerli bir kart numarası giriniz
+                    </div>
+                  </div>
+                  <div class="col-md-8 mb-3">
+                    <label for="cardHolder" class="form-label">Kart Sahibi</label>
+                    <input type="text" 
+                           class="form-control" 
+                           id="cardHolder" 
+                           formControlName="cardHolder"
+                           placeholder="Ad Soyad">
+                    <div class="invalid-feedback" *ngIf="paymentForm.get('cardHolder')?.invalid && paymentForm.get('cardHolder')?.touched">
+                      Kart sahibi adını giriniz
+                    </div>
+                  </div>
+                  <div class="col-md-4 mb-3">
+                    <label for="expiryDate" class="form-label">Son Kullanma</label>
+                    <input type="text" 
+                           class="form-control" 
+                           id="expiryDate" 
+                           formControlName="expiryDate"
+                           placeholder="MM/YY"
+                           maxlength="5"
+                           (input)="formatExpiryDate($event)">
+                    <div class="invalid-feedback" *ngIf="paymentForm.get('expiryDate')?.invalid && paymentForm.get('expiryDate')?.touched">
+                      Geçerli bir tarih giriniz
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="cvv" class="form-label">CVV</label>
+                    <input type="text" 
+                           class="form-control" 
+                           id="cvv" 
+                           formControlName="cvv"
+                           placeholder="123"
+                           maxlength="4">
+                    <div class="invalid-feedback" *ngIf="paymentForm.get('cvv')?.invalid && paymentForm.get('cvv')?.touched">
+                      CVV kodunu giriniz
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Fatura Adresi -->
+              <div class="mb-4">
+                <h6 class="fw-bold mb-3">
+                  Fatura Adresi 
+                  <small class="text-muted">(Otomatik Doldurulmuş)</small>
+                </h6>
+                
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="firstName" class="form-label">Ad</label>
+                    <input type="text" 
+                           class="form-control" 
+                           id="firstName" 
+                           formControlName="firstName"
+                           placeholder="Adınız"
+                           readonly>
+                    <div class="invalid-feedback" *ngIf="paymentForm.get('firstName')?.invalid && paymentForm.get('firstName')?.touched">
+                      Adınızı giriniz
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="lastName" class="form-label">Soyad</label>
+                    <input type="text" 
+                           class="form-control" 
+                           id="lastName" 
+                           formControlName="lastName"
+                           placeholder="Soyadınız"
+                           readonly>
+                    <div class="invalid-feedback" *ngIf="paymentForm.get('lastName')?.invalid && paymentForm.get('lastName')?.touched">
+                      Soyadınızı giriniz
+                    </div>
+                  </div>
+                  <div class="col-12 mb-3">
+                    <label for="email" class="form-label">E-posta</label>
+                    <input type="email" 
+                           class="form-control" 
+                           id="email" 
+                           formControlName="email"
+                           placeholder="ornek@email.com"
+                           readonly>
+                    <div class="invalid-feedback" *ngIf="paymentForm.get('email')?.invalid && paymentForm.get('email')?.touched">
+                      Geçerli bir e-posta adresi giriniz
+                    </div>
+                  </div>
+                  <div class="col-12 mb-3">
+                    <label for="phone" class="form-label">Telefon</label>
+                    <input type="tel" 
+                           class="form-control" 
+                           id="phone" 
+                           formControlName="phone"
+                           placeholder="0XXX XXX XX XX"
+                           readonly>
+                    <div class="invalid-feedback" *ngIf="paymentForm.get('phone')?.invalid && paymentForm.get('phone')?.touched">
+                      Telefon numaranızı giriniz
+                    </div>
+                  </div>
+                  <div class="col-12 mb-3">
+                    <label for="address" class="form-label">Adres</label>
+                    <textarea class="form-control" 
+                              id="address" 
+                              formControlName="address"
+                              rows="3"
+                              placeholder="Tam adresinizi giriniz"
+                              readonly></textarea>
+                    <div class="invalid-feedback" *ngIf="paymentForm.get('address')?.invalid && paymentForm.get('address')?.touched">
+                      Adresinizi giriniz
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+        <button type="button" 
+                class="btn btn-primary" 
+                (click)="processPayment()"
+                [disabled]="!paymentForm.valid || isProcessing">
+          <span *ngIf="isProcessing" class="spinner-border spinner-border-sm me-2" role="status"></span>
+          <i class="bi bi-credit-card me-2" *ngIf="!isProcessing"></i>
+          {{ isProcessing ? 'İşleniyor...' : 'Ödemeyi Tamamla' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

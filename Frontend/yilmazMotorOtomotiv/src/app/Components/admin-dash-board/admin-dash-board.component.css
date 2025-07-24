@@ -1,0 +1,61 @@
+.admin-card {
+  padding: 2rem;
+  border-radius: 1rem;
+  color: white;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  min-height: 280px;
+  
+}
+
+.admin-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+}
+
+.icon-wrapper {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.bg-gradient-primary {
+  background: linear-gradient(135deg, #0d6efd, #4dabf7);
+}
+
+.bg-gradient-success {
+  background: linear-gradient(135deg, #198754, #69e3a1);
+}
+
+.bg-gradient-info {
+  background: linear-gradient(135deg, #0dcaf0, #74d3f7);
+}
+
+.bg-gradient-dark {
+  background: linear-gradient(135deg, #343a40, #6c757d);
+}
+.dashboard-header {
+  background: linear-gradient(135deg, #000000, #4dabf7);
+  color: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.dashboard-header h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.dashboard-header p {
+  font-size: 1.1rem;
+  margin: 0;
+}
+.bg-gradient-warning {
+  background: linear-gradient(135deg, #ffc107, #ffdd2d);
+}
+
+

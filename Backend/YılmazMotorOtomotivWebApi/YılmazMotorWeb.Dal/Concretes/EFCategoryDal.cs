@@ -39,14 +39,13 @@ namespace YılmazMotorWeb.Dal.Concretes
 			return _context.Categories.FirstOrDefault(c => c.Id == id);
 		}
 
-		public void Update(Category category)
+		public void Update(Category category, int categoryId)
 		{
-			var existingCategory = _context.Categories.Find(category.Id);
-			if (existingCategory != null)
+			var updateCategory = _context.Categories.Find(categoryId);
+			if (updateCategory != null)
 			{
-				existingCategory.Name = category.Name;
-				existingCategory.Description = category.Description;
-
+				updateCategory.Name = category.Name;
+				updateCategory.Description = category.Description;
 				_context.SaveChanges();
 			}
 			else

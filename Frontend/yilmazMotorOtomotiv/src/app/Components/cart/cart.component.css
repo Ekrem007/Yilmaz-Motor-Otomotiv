@@ -1,0 +1,87 @@
+table img {
+  width: 60px;
+  height: auto;
+}
+
+/* Ödeme Modal Stilleri */
+.modal-header {
+  border-bottom: none;
+}
+
+.modal-footer {
+  border-top: none;
+  padding-top: 0;
+}
+
+.icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-item {
+  transition: all 0.3s ease;
+}
+
+.cart-item:hover {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem;
+  margin: -1rem;
+}
+
+/* Form Validation Styles */
+.form-control.is-invalid {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+.form-control:focus {
+  border-color: #86b7fe;
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+/* Spinner Customization */
+.spinner-border-sm {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Payment Form Specific Styles */
+.modal-body {
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.bg-light {
+  background-color: #f8f9fa !important;
+}
+
+/* Card Number Input */
+#cardNumber {
+  letter-spacing: 2px;
+  font-family: 'Courier New', monospace;
+}
+
+/* CVV Input */
+#cvv {
+  letter-spacing: 1px;
+  font-family: 'Courier New', monospace;
+}
+
+/* Expiry Date Input */
+#expiryDate {
+  letter-spacing: 1px;
+  font-family: 'Courier New', monospace;
+}
+
+/* Responsive Modal */
+@media (max-width: 768px) {
+  .modal-dialog {
+    margin: 1rem;
+  }
+  
+  .modal-body {
+    padding: 1rem;
+  }
+}

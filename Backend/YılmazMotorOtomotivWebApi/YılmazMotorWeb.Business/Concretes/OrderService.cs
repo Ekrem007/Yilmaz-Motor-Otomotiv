@@ -58,7 +58,6 @@ namespace YılmazMotorWeb.Business.Concretes
 			}
 			return new SuccessDataResult<Order>(order, "Order retrieved successfully");
 		}
-
 		public IResult Update(Order order, int orderId)
 		{
 			if (order == null)
@@ -73,5 +72,30 @@ namespace YılmazMotorWeb.Business.Concretes
 			_orderDal.UpdateOrder(order, orderId);
 			return new SuccessResult("Order updated successfully");
 		}
+		public IDataResult<List<OrderDetailsDto>> GetOrderDetailsByOrderId(int orderId)
+		{
+			var orderDetails = _orderDal.GetOrderDetailsByOrderId(orderId);
+			return new SuccessDataResult<List<OrderDetailsDto>>(orderDetails, "Order details retrieved successfully");
+		}
+		public IResult ChangeOrderStatus(int orderId, OrderStatus status)
+		{
+			var order = _orderDal.GetOrderById(orderId);
+			if (order == null)
+			{
+				return new ErrorResult("Order not found");
+			}
+			_orderDal.ChangeOrderStatus(orderId, status);
+			return new SuccessResult("Order status changed successfully");
+		}
+		public IDataResult<List<OrderDetailsDto>> GetOrdersByUserId(int userId)
+		{
+			var orders = _orderDal.GetOrdersByUserId(userId);
+			if (orders == null || !orders.Any())
+			{
+				return new ErrorDataResult<List<OrderDetailsDto>>("No orders found for this user");
+			}
+			return new SuccessDataResult<List<OrderDetailsDto>>(orders, "Orders retrieved successfully");
+		}
+
 	}
 }

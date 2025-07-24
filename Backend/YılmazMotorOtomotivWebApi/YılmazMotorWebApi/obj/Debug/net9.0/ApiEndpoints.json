@@ -1,6 +1,32 @@
 [
   {
     "ContainingType": "Y\u0131lmazMotorWebApi.Controllers.AuthController",
+    "Method": "GetAll",
+    "RelativePath": "api/Auth/getall",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Y\u0131lmazMotorWebApi.Controllers.AuthController",
+    "Method": "GetUserById",
+    "RelativePath": "api/Auth/getUserById/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Y\u0131lmazMotorWebApi.Controllers.AuthController",
     "Method": "Login",
     "RelativePath": "api/Auth/login",
     "HttpMethod": "POST",
@@ -26,6 +52,27 @@
       {
         "Name": "dto",
         "Type": "Y\u0131lmazMotorWeb.Entities.Dtos.RegisterDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Y\u0131lmazMotorWebApi.Controllers.AuthController",
+    "Method": "Update",
+    "RelativePath": "api/Auth/update/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "Y\u0131lmazMotorWeb.Entities.Dtos.UpdateUserDto",
         "IsRequired": true
       }
     ],

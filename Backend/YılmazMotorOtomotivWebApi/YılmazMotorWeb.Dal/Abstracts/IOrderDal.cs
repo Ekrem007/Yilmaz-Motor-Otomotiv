@@ -15,6 +15,9 @@ namespace YılmazMotorWeb.Dal.Abstracts
 		void DeleteOrder(int id);
 		Order GetOrderById(int id);
 		List<OrderDto> GetAllOrders();
+		List<OrderDetailsDto> GetOrderDetailsByOrderId(int orderId);
+		void ChangeOrderStatus(int orderId, OrderStatus status);
+		List<OrderDetailsDto> GetOrdersByUserId(int userId);
 
 	}
 }

@@ -32,3 +32,4 @@ C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWe
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWeb.Dal\obj\Debug\net9.0\YılmazMotorWeb.Dal.pdb
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWeb.Dal\obj\Debug\net9.0\YılmazMotorWeb.Dal.genruntimeconfig.cache
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWeb.Dal\obj\Debug\net9.0\ref\YılmazMotorWeb.Dal.dll
+C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWeb.Dal\obj\Debug\net9.0\YılmazMotorWeb.Dal.sourcelink.json

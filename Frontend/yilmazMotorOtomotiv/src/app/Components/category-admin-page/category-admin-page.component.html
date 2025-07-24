@@ -1,0 +1,97 @@
+<div class="container my-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold"><i class="bi bi-tags"></i> Kategori Yönetimi</h2>
+    <button class="btn btn-success" (click)="startAddCategory()" [disabled]="isEditing || isAdding">
+      <i class="bi bi-plus-circle me-2"></i> Yeni Kategori Ekle</button>
+  </div>
+  <div class="card shadow-lg">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-dark">
+            <tr>
+              <th>ID</th>
+              <th>Kategori Adı</th>
+              <th>Açıklama</th>
+              <th class="text-center">İşlemler</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let category of categories">
+              <td>{{ category.id }}</td>
+              <td class="fw-semibold">{{ category.name }}</td>
+              <td>{{ category.description }}</td>
+              <td class="text-center">
+                <button class="btn btn-sm btn-outline-primary me-2" (click)="editCategory(category)"[disabled]="isEditing || isAdding" ><i class="bi bi-pencil-square"></i></button>
+                <button class="btn btn-sm btn-outline-danger" (click)="deleteCategory(category.id)" [disabled]="isEditing || isAdding"><i class="bi bi-trash"></i></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!--Yeni kategori ekleme  formu-->
+ <div *ngIf="isAdding" class="mt-4">
+    <div class="card">
+      <div class="card-header bg-success text-white">
+        <h5 class="mb-0">
+          <i class="bi bi-plus-circle me-2"></i>Yeni Kategori Ekle
+        </h5>
+      </div>
+      <div class="card-body">
+        <form (ngSubmit)="addCategory()">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Kategori Adı *</label>
+              <input type="text" class="form-control" [(ngModel)]="newCategory.name" name="newName" required>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Açıklama</label>
+              <textarea class="form-control" [(ngModel)]="newCategory.description" name="newDescription" rows="3" placeholder="Kategori açıklaması..."></textarea>
+            </div>
+          </div>
+          <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-success">
+              <i class="bi bi-check-circle me-2"></i>Ekle
+            </button>
+            <button type="button" class="btn btn-secondary" (click)="cancelAdd()">
+              <i class="bi bi-x-circle me-2"></i>İptal
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+    <!--kategori Güncelleme  formu-->
+    <div *ngIf="isEditing && selectedCategory && !isAdding" class="mt-4">
+    <div class="card">
+      <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">Kategori Düzenle</h5>
+      </div>
+      <div class="card-body">
+        <form (ngSubmit)="updateCategory()">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Kategori Adı</label>
+              <input type="text" class="form-control" [(ngModel)]="selectedCategory.name" name="name" required>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Açıklama</label>
+              <textarea class="form-control" [(ngModel)]="selectedCategory.description" name="description" rows="3"></textarea>
+            </div>
+          </div>
+          <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-success">
+              <i class="bi bi-check-circle me-2"></i>Güncelle
+            </button>
+            <button type="button" class="btn btn-secondary" (click)="cancelEdit()">
+              <i class="bi bi-x-circle me-2"></i>İptal
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+

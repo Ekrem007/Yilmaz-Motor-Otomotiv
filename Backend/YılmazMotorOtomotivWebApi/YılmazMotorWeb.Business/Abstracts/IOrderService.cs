@@ -16,6 +16,9 @@ namespace YılmazMotorWeb.Business.Abstracts
 		IResult Add(Order order);
 		IResult Update(Order order, int orderId);
 		IResult Delete(int orderId);
+		IDataResult<List<OrderDetailsDto>> GetOrderDetailsByOrderId(int orderId);
+		IResult ChangeOrderStatus(int orderId, OrderStatus status);
+		IDataResult<List<OrderDetailsDto>> GetOrdersByUserId(int userId);
 
 	}
 }

@@ -33,6 +33,7 @@ namespace YılmazMotorWeb.Dal.Concretes
 			}
 
 			order.TotalAmount = order.OrderItems?.Sum(item => item.Price * item.Quantity) ?? 0;
+			order.Status = OrderStatus.Pending;
 
 			_context.Orders.Add(order);
 			_context.SaveChanges();
@@ -93,6 +94,64 @@ namespace YılmazMotorWeb.Dal.Concretes
 			{
 				throw new Exception("Order not found");
 			}
+		}
+		public List<OrderDetailsDto> GetOrderDetailsByOrderId(int orderId)
+		{
+			var order = _context.Orders
+				.Include(o => o.OrderItems)
+					.ThenInclude(oi => oi.Product)
+				.Include(o => o.User)
+				.FirstOrDefault(o => o.Id == orderId);
+
+			if (order == null || order.OrderItems == null || !order.OrderItems.Any())
+			{
+				return new List<OrderDetailsDto>();
+			}
+
+			var result = order.OrderItems.Select(oi => new OrderDetailsDto
+			{
+				OrderId = order.Id,
+				UserId = order.UserId,
+				UserName = order.User != null ? order.User.Name + " " + order.User.SurName : "Kullanıcı yok",
+				ProductName = oi.Product != null ? oi.Product.Name : "Ürün yok",
+				Quantity = oi.Quantity,
+				ProductPrice = oi.Price,
+				TotalAmount = oi.Price * oi.Quantity
+			}).ToList();
+
+			return result;
+		}
+		public void ChangeOrderStatus(int orderId, OrderStatus status)
+		{
+			var order = _context.Orders.Find(orderId);
+			if (order != null)
+			{
+				order.Status = status;
+				_context.SaveChanges();
+			}
+			else
+			{
+				throw new Exception("Order not found");
+			}
+		}
+		public List<OrderDetailsDto> GetOrdersByUserId(int userId)
+		{
+			return _context.Orders
+				.Where(o => o.UserId == userId)
+				.Include(o => o.OrderItems)
+					.ThenInclude(oi => oi.Product)
+				.Include(o => o.User)
+				.SelectMany(o => o.OrderItems.Select(oi => new OrderDetailsDto
+				{
+					OrderId = o.Id,
+					ProductName = oi.Product != null ? oi.Product.Name : "Ürün yok",
+					Quantity = oi.Quantity,
+					ProductPrice = oi.Price,
+					TotalAmount = oi.Price * oi.Quantity,
+					Status = o.Status.ToString(),
+					OrderDate = o.OrderDate,
+				})).ToList();
+
 		}
 	}
 }

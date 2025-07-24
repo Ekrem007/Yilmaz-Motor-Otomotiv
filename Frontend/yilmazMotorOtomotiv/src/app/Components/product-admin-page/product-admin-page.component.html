@@ -1,0 +1,207 @@
+<div class="container my-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold">
+      <i class="bi bi-box-seam me-2 text-primary"></i>Ürün Yönetimi
+    </h2>
+    
+    <button class="btn btn-success" (click)="startAddProduct()" [disabled]="isEditing || isAdding">
+      <i class="bi bi-plus-circle me-2"></i>Yeni Ürün Ekle
+    </button>
+  </div>
+
+  <div class="mb-3">
+    <div class="col-md-6">
+      <input type="text" 
+             class="form-control" 
+             placeholder="Ürün adına göre ara..." 
+             [(ngModel)]="searchTerm" 
+             (input)="onSearchChange()"
+             name="searchTerm">
+    </div>
+  </div>
+
+  <div class="card shadow-lg">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-dark">
+            <tr>
+              <th>ID</th>
+              <th>Ürün Adı</th>
+              <th>Açıklama</th>
+              <th>Fiyat</th>
+              <th>Stok</th>
+              <th>Kategori</th>
+              <th>Resim</th>
+              <th class="text-center">İşlemler</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let product of getPaginatedProducts()">
+              <td>{{ product.id }}</td>
+              <td class="fw-semibold">{{ product.name }}</td>
+              <td>{{ product.description }}</td>
+              <td>{{ product.price | turkishCurrency }}</td>
+              <td>{{ product.stock }}</td>
+              <td>{{ product.categoryName || 'Kategori Yok' }}</td>
+              <td>
+                <img [src]="product.imageUrl" alt="Resim" width="60" height="40" class="img-thumbnail">
+              </td>
+              <td class="text-center">
+                <button class="btn btn-sm btn-outline-primary me-2" 
+                        (click)="editProduct(product)"
+                        [disabled]="isEditing || isAdding">
+                  <i class="bi bi-pencil-square"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-danger"
+                        (click)="deleteProduct(product.id)"
+                        [disabled]="isEditing || isAdding">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination Controls -->
+  <div class="pagination-container" *ngIf="totalPages > 1">
+    <div class="pagination-info">
+      <span>{{ getStartItem() }} - {{ getEndItem() }} / {{ filteredProducts.length }} ürün</span>
+      <span>{{ currentPage }} / {{ totalPages }} sayfa</span>
+    </div>
+    
+    <div class="pagination-controls">
+      <button class="pagination-btn" 
+              (click)="goToPage(currentPage - 1)" 
+              [disabled]="!hasPreviousPage()">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      
+      <div class="page-numbers">
+        <button *ngFor="let page of getPageNumbers()" 
+                class="page-btn" 
+                [class.active]="page === currentPage"
+                (click)="goToPage(page)">
+          {{ page }}
+        </button>
+      </div>
+      
+      <button class="pagination-btn" 
+              (click)="goToPage(currentPage + 1)" 
+              [disabled]="!hasNextPage()">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Düzenleme Modal/Form -->
+  <div *ngIf="isEditing && selectedProduct && !isAdding" class="mt-4">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="mb-0">Ürün Düzenle</h5>
+      </div>
+      <div class="card-body">
+        <form (ngSubmit)="updateProduct()">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Ürün Adı</label>
+              <input type="text" class="form-control" [(ngModel)]="selectedProduct.name" name="name" required>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Fiyat</label>
+              <input type="number" class="form-control" [(ngModel)]="selectedProduct.price" name="price" required>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Stok</label>
+              <input type="number" class="form-control" [(ngModel)]="selectedProduct.stock" name="stock" required>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Kategori</label>
+              <select class="form-select" [(ngModel)]="selectedProduct.categoryId" name="categoryId" required>
+                <option value="">Kategori Seçin</option>
+                <option *ngFor="let category of categories" [value]="category.id">
+                  {{ category.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Açıklama</label>
+            <textarea class="form-control" [(ngModel)]="selectedProduct.description" name="description" rows="3"></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Resim URL</label>
+            <input type="text" class="form-control" [(ngModel)]="selectedProduct.imageUrl" name="imageUrl">
+          </div>
+          <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-success">Güncelle</button>
+            <button type="button" class="btn btn-secondary" (click)="cancelEdit()">İptal</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Yeni Ürün Ekleme Modal/Form -->
+  <div *ngIf="isAdding" class="mt-4">
+    <div class="card">
+      <div class="card-header bg-success text-white">
+        <h5 class="mb-0">
+          <i class="bi bi-plus-circle me-2"></i>Yeni Ürün Ekle
+        </h5>
+      </div>
+      <div class="card-body">
+        <form (ngSubmit)="addProduct()">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Ürün Adı *</label>
+              <input type="text" class="form-control" [(ngModel)]="newProduct.name" name="newName" required>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Fiyat *</label>
+              <input type="number" step="0.01" min="0" class="form-control" [(ngModel)]="newProduct.price" name="newPrice" required>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Stok *</label>
+              <input type="number" min="0" class="form-control" [(ngModel)]="newProduct.stock" name="newStock" required>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Kategori *</label>
+              <select class="form-select" [(ngModel)]="newProduct.categoryId" name="newCategoryId" required>
+                <option value="0">Kategori Seçin</option>
+                <option *ngFor="let category of categories" [value]="category.id">
+                  {{ category.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Açıklama</label>
+            <textarea class="form-control" [(ngModel)]="newProduct.description" name="newDescription" rows="3" placeholder="Ürün açıklaması..."></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Resim URL</label>
+            <input type="url" class="form-control" [(ngModel)]="newProduct.imageUrl" name="newImageUrl" placeholder="https://example.com/image.jpg">
+            <div class="form-text">Ürün resminin URL'sini girin</div>
+          </div>
+          <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-success">
+              <i class="bi bi-check-circle me-2"></i>Ekle
+            </button>
+            <button type="button" class="btn btn-secondary" (click)="cancelAdd()">
+              <i class="bi bi-x-circle me-2"></i>İptal
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,193 @@
+<div class="admin-orders-container">
+  <div class="page-header">
+    <h1>Sipariş Yönetimi</h1>
+    <button class="refresh-btn" (click)="loadOrders()" [disabled]="loading">
+      <i class="fas fa-sync-alt" [class.spinning]="loading"></i>
+      Yenile
+    </button>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Siparişler yükleniyor...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="error-container">
+    <div class="error-message">
+      <i class="fas fa-exclamation-triangle"></i>
+      {{ error }}
+    </div>
+    <button class="retry-btn" (click)="loadOrders()">Tekrar Dene</button>
+  </div>
+
+  <!-- Orders List -->
+  <div *ngIf="!loading && !error" class="orders-section">
+    <div class="orders-stats">
+      <div class="stat-card">
+        <span class="stat-number">{{ orders.length }}</span>
+        <span class="stat-label">Toplam Sipariş</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">{{ getPendingOrdersCount() }}</span>
+        <span class="stat-label">Bekleyen</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">{{ getShippedOrdersCount() }}</span>
+        <span class="stat-label">Gönderilen</span>
+      </div>
+    </div>
+
+    <div class="orders-table-container">
+      <table class="orders-table">
+        <thead>
+          <tr>
+            <th>Sipariş No</th>
+            <th>Müşteri ID</th>
+            <th>Tarih</th>
+            <th>Durum</th>
+            <th>Toplam Tutar</th>
+            <th>Ürün Sayısı</th>
+            <th>İşlemler</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let order of getPaginatedOrders(); trackBy: trackByOrderId" class="order-row">
+            <td class="order-id">#{{ order.id }}</td>
+            <td>{{ order.userId }}</td>
+            <td>{{ formatDate(order.orderDate) }}</td>
+            <td>
+              <span class="status-badge" [ngClass]="getStatusClass(order.status)">
+                {{ getStatusText(order.status) }}
+              </span>
+            </td>
+            <td class="amount">{{ formatCurrency(order.totalAmount) }}</td>
+            <td class="item-count">{{ order.orderItems.length }} ürün</td>
+            <td class="actions-cell">
+              <div class="action-buttons">
+                <button class="details-btn" (click)="toggleOrderDetails(order.id)" title="Sipariş detaylarını görüntüle">
+                  <i class="fas fa-eye"></i>
+                  Detaylar
+                </button>
+                
+                <div class="status-change-group">
+                  <select class="status-select" 
+                          [value]="order.status" 
+                          (change)="onStatusChange(order.id, $event)"
+                          title="Sipariş durumunu değiştir">
+                    <option *ngFor="let status of getAvailableStatuses()" 
+                            [value]="status.value" 
+                            [selected]="order.status === status.value">
+                      {{ status.label }}
+                    </option>
+                  </select>
+                  <i class="fas fa-edit status-edit-icon"></i>
+                </div>
+              </div>
+            </td>
+          </tr>
+          
+          <!-- Order Details Row -->
+          <tr *ngFor="let order of getPaginatedOrders(); trackBy: trackByOrderId" 
+              class="order-details-row" 
+              [class.expanded]="expandedOrderId === order.id">
+            <td colspan="7">
+              <div class="order-details" *ngIf="expandedOrderId === order.id">
+                <h4>Sipariş Detayları</h4>
+                
+                <!-- Loading state for order details -->
+                <div *ngIf="isLoadingDetails(order.id)" class="order-details-loading">
+                  <div class="small-spinner"></div>
+                  <span>Sipariş detayları yükleniyor...</span>
+                </div>
+
+                <!-- Order details content -->
+                <div *ngIf="!isLoadingDetails(order.id) && getOrderDetails(order.id).length > 0">
+                  <!-- Customer Info -->
+                  <div class="customer-info">
+                    <h5><i class="fas fa-user"></i> Müşteri Bilgileri</h5>
+                    <p><strong>Müşteri Adı:</strong> {{ getUserName(order.id) }}</p>
+                    <p><strong>Müşteri ID:</strong> {{ order.userId }}</p>
+                  </div>
+
+                  <!-- Order Items -->
+                  <div class="order-items">
+                    <h5><i class="fas fa-shopping-bag"></i> Sipariş Ürünleri</h5>
+                    <div class="item-header">
+                      <span>Ürün Adı</span>
+                      <span>Adet</span>
+                      <span>Birim Fiyat</span>
+                      <span>Toplam</span>
+                    </div>
+                    <div *ngFor="let detail of getOrderDetails(order.id)" class="order-item">
+                      <span class="item-product-name">
+                       <strong class="flex items-center gap-1"><span>🏷️ </span>{{ detail.productName }}</strong>
+                      </span>
+                      <span class="item-quantity">{{ detail.quantity }}</span>
+                      <span class="item-price">{{ formatCurrency(detail.productPrice) }}</span>
+                      <span class="item-total">{{ formatCurrency(detail.totalAmount) }}</span>
+                    </div>
+                  </div>
+
+                  <!-- Order Summary -->
+                  <div class="order-summary">
+                    <div class="summary-row">
+                      <span><i class="fas fa-calculator"></i> Toplam Tutar:</span>
+                      <span class="total-amount">{{ formatCurrency(order.totalAmount) }}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- No details message -->
+                <div *ngIf="!isLoadingDetails(order.id) && getOrderDetails(order.id).length === 0" class="no-details">
+                  <i class="fas fa-info-circle"></i>
+                  <span>Bu sipariş için detay bulunamadı.</span>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="pagination-container" *ngIf="orders.length > 0">
+      <div class="pagination-info">
+        <span>{{ getStartItem() }}-{{ getEndItem() }} / {{ orders.length }} sipariş gösteriliyor</span>
+      </div>
+      
+      <div class="pagination-controls">
+        <button class="pagination-btn" 
+                [disabled]="!hasPreviousPage()" 
+                (click)="goToPage(currentPage - 1)"
+                title="Önceki sayfa">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        
+        <div class="page-numbers">
+          <button *ngFor="let page of getPageNumbers()" 
+                  class="page-btn" 
+                  [class.active]="page === currentPage"
+                  (click)="goToPage(page)">
+            {{ page }}
+          </button>
+        </div>
+        
+        <button class="pagination-btn" 
+                [disabled]="!hasNextPage()" 
+                (click)="goToPage(currentPage + 1)"
+                title="Sonraki sayfa">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="orders.length === 0" class="empty-state">
+      <i class="fas fa-shopping-cart"></i>
+      <h3>Henüz sipariş bulunmuyor</h3>
+      <p>Sistemde kayıtlı sipariş bulunamadı.</p>
+    </div>
+  </div>
+</div>

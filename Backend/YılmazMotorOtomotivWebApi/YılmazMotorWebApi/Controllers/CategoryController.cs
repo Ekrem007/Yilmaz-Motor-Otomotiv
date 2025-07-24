@@ -37,10 +37,10 @@ namespace YılmazMotorWebApi.Controllers
 			});
 		}
 		[HttpPut]
-		[Route("api/[controller]/update")]
-		public IActionResult Update([FromBody] Category category)
+		[Route("api/[controller]/update/{categoryId}")]
+		public IActionResult Update([FromBody] Category category,int categoryId)
 		{
-			var result = _categoryService.Update(category);
+			var result = _categoryService.Update(category,categoryId);
 			return Ok(new
 			{
 				success = result.Success,

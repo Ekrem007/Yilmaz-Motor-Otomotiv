@@ -1,0 +1,486 @@
+<div class="user-profile-container">
+  <!-- Header Section -->
+  <div class="profile-header">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="page-title">Kullanıcı Profili</h1>
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/">Ana Sayfa</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Profil</li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Profile Content -->
+  <div class="profile-content">
+    <div class="container">
+      <div class="row">
+        <!-- Sidebar Menu -->
+        <div class="col-lg-3 col-md-4">
+          <div class="profile-sidebar">
+            <div class="profile-avatar">
+              <h4 class="user-name">{{ currentUser?.name }} {{ currentUser?.surName }}</h4>
+            </div>
+            
+            <nav class="profile-nav">
+              <ul class="nav nav-pills flex-column">
+                <li class="nav-item">
+                  <a class="nav-link" 
+                     [class.active]="activeTab === 'profile-info'"
+                     (click)="switchTab('profile-info')"
+                     href="javascript:void(0)">
+                    <i class="fas fa-user"></i> Profil Bilgileri
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" 
+                     [class.active]="activeTab === 'orders'"
+                     (click)="switchTab('orders')"
+                     href="javascript:void(0)">
+                    <i class="fas fa-shopping-bag"></i> Siparişlerim
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" 
+                     [class.active]="activeTab === 'password'"
+                     (click)="switchTab('password')"
+                     href="javascript:void(0)">
+                    <i class="fas fa-lock"></i> Şifre Değiştir
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-lg-9 col-md-8">
+          <div class="tab-content profile-tab-content">
+            
+            <!-- Profile Information Tab -->
+            <div class="tab-pane fade" 
+                 [class.show]="activeTab === 'profile-info'" 
+                 [class.active]="activeTab === 'profile-info'" 
+                 id="profile-info">
+              <!-- Loading Spinner -->
+              <div *ngIf="isLoading" class="text-center p-4">
+                <div class="spinner-border" role="status">
+                  <span class="visually-hidden">Yükleniyor...</span>
+                </div>
+              </div>
+
+              <!-- Error Message -->
+              <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ errorMessage }}
+                <button type="button" class="btn-close" (click)="errorMessage = ''"></button>
+              </div>
+
+              <!-- Success Message -->
+              <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ successMessage }}
+                <button type="button" class="btn-close" (click)="successMessage = ''"></button>
+              </div>
+
+              <div class="profile-card" *ngIf="!isLoading && currentUser">
+                <div class="card-header">
+                  <h3>Profil Bilgileri</h3>
+                  <button 
+                    class="btn btn-primary btn-sm" 
+                    (click)="toggleEditMode()"
+                    [disabled]="isLoading">
+                    <i class="fas fa-edit"></i> 
+                    {{ isEditMode ? 'İptal' : 'Düzenle' }}
+                  </button>
+                </div>
+                <div class="card-body">
+                  <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="profile-form">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="firstName">Ad *</label>
+                          <input 
+                            type="text" 
+                            class="form-control" 
+                            id="firstName"
+                            formControlName="name"
+                            [readonly]="!isEditMode"
+                            [class.is-invalid]="isFieldInvalid('name')">
+                          <div *ngIf="isFieldInvalid('name')" class="invalid-feedback">
+                            {{ getFieldError('name') }}
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="lastName">Soyad *</label>
+                          <input 
+                            type="text" 
+                            class="form-control" 
+                            id="lastName"
+                            formControlName="surName"
+                            [readonly]="!isEditMode"
+                            [class.is-invalid]="isFieldInvalid('surName')">
+                          <div *ngIf="isFieldInvalid('surName')" class="invalid-feedback">
+                            {{ getFieldError('surName') }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="email">E-posta *</label>
+                          <input 
+                            type="email" 
+                            class="form-control" 
+                            id="email"
+                            formControlName="email"
+                            [readonly]="!isEditMode"
+                            [class.is-invalid]="isFieldInvalid('email')">
+                          <div *ngIf="isFieldInvalid('email')" class="invalid-feedback">
+                            {{ getFieldError('email') }}
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="phone">Telefon *</label>
+                          <input 
+                            type="tel" 
+                            class="form-control" 
+                            id="phone"
+                            formControlName="phoneNumber"
+                            [readonly]="!isEditMode"
+                            [class.is-invalid]="isFieldInvalid('phoneNumber')">
+                          <div *ngIf="isFieldInvalid('phoneNumber')" class="invalid-feedback">
+                            {{ getFieldError('phoneNumber') }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12">
+                        <div class="form-group">
+                          <label for="address">Adres *</label>
+                          <textarea 
+                            class="form-control" 
+                            id="address"
+                            formControlName="address"
+                            rows="3"
+                            [readonly]="!isEditMode"
+                            [class.is-invalid]="isFieldInvalid('address')"></textarea>
+                          <div *ngIf="isFieldInvalid('address')" class="invalid-feedback">
+                            {{ getFieldError('address') }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-actions" *ngIf="isEditMode">
+                      <button 
+                        type="submit" 
+                        class="btn btn-success"
+                        [disabled]="isLoading || !userForm.valid">
+                        <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
+                        {{ isLoading ? 'Kaydediliyor...' : 'Kaydet' }}
+                      </button>
+                      <button 
+                        type="button" 
+                        class="btn btn-secondary ms-2" 
+                        (click)="toggleEditMode()"
+                        [disabled]="isLoading">
+                        İptal
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            <!-- Orders Tab -->
+            <div class="tab-pane fade" 
+                 [class.show]="activeTab === 'orders'" 
+                 [class.active]="activeTab === 'orders'" 
+                 id="orders">
+              <div class="profile-card">
+                <div class="card-header">
+                  <h3>Siparişlerim</h3>
+                </div>
+                <div class="card-body">
+                  <!-- Loading Spinner for Orders -->
+                  <div *ngIf="isOrdersLoading" class="text-center p-4">
+                    <div class="spinner-border" role="status">
+                      <span class="visually-hidden">Siparişler yükleniyor...</span>
+                    </div>
+                  </div>
+
+                  <!-- Orders Error Message -->
+                  <div *ngIf="ordersErrorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ ordersErrorMessage }}
+                    <button type="button" class="btn-close" (click)="ordersErrorMessage = ''"></button>
+                  </div>
+
+                  <!-- Orders List -->
+                  <div *ngIf="!isOrdersLoading && !ordersErrorMessage" class="orders-list">
+                    <!-- Order Item -->
+                    <div *ngFor="let orderId of getPaginatedOrderKeys()" class="order-item">
+                      <div class="order-header">
+                        <div class="order-info">
+                          <div class="order-number">Sipariş #{{orderId}}</div>
+                          <div class="order-date">Sipariş Tarihi: {{getOrderDate(orderId)}}</div>
+                        </div>
+                        <div class="order-status">
+                          <span class="badge" [ngClass]="getOrderStatusClass(orderId)">{{getOrderStatusText(orderId)}}</span>
+                        </div>
+                      </div>
+                      
+                      <div class="order-products">
+                        <div *ngFor="let orderItem of groupedOrders[orderId]" class="product-item">
+                          <div class="product-details">
+                            <h5>{{orderItem.productName}}</h5>
+                            <p>Adet: {{orderItem.quantity}}</p>
+                            <p class="price">{{orderItem.productPrice | turkishCurrency}} / adet</p>
+                            <p class="price"><strong>Toplam: {{orderItem.totalAmount | turkishCurrency}}</strong></p>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div class="order-summary">
+                        <div class="order-total">
+                          <strong>Sipariş Toplamı: {{getOrderTotal(orderId) | turkishCurrency}}</strong>
+                        </div>
+                      </div>
+                      
+                      <div class="order-actions">
+                        <button class="btn btn-outline-primary btn-sm">Sipariş Detayı</button>
+                        <button class="btn btn-outline-secondary btn-sm">Fatura İndir</button>
+                      </div>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div *ngIf="!isOrdersLoading && !ordersErrorMessage && totalOrders > itemsPerPage" class="pagination-container mt-4">
+                      <nav aria-label="Sipariş sayfaları">
+                        <ul class="pagination justify-content-center">
+                          <!-- Önceki sayfa butonu -->
+                          <li class="page-item" [class.disabled]="!hasPreviousPage()">
+                            <a class="page-link" 
+                               (click)="changePage(currentPage - 1)" 
+                               href="javascript:void(0)"
+                               [attr.aria-disabled]="!hasPreviousPage()">
+                              <i class="fas fa-chevron-left"></i>
+                              Önceki
+                            </a>
+                          </li>
+                          
+                          <!-- Sayfa numaraları -->
+                          <li *ngFor="let page of getPageNumbers()" 
+                              class="page-item" 
+                              [class.active]="page === currentPage">
+                            <a class="page-link" 
+                               (click)="changePage(page)" 
+                               href="javascript:void(0)">
+                              {{ page }}
+                            </a>
+                          </li>
+                          
+                          <!-- Sonraki sayfa butonu -->
+                          <li class="page-item" [class.disabled]="!hasNextPage()">
+                            <a class="page-link" 
+                               (click)="changePage(currentPage + 1)" 
+                               href="javascript:void(0)"
+                               [attr.aria-disabled]="!hasNextPage()">
+                              Sonraki
+                              <i class="fas fa-chevron-right"></i>
+                            </a>
+                          </li>
+                        </ul>
+                      </nav>
+                      
+                      <!-- Sayfa bilgisi -->
+                      <div class="pagination-info text-center mt-2">
+                        <small class="text-muted">
+                          {{ (currentPage - 1) * itemsPerPage + 1 }} - 
+                          {{ Math.min(currentPage * itemsPerPage, totalOrders) }} 
+                          / {{ totalOrders }} sipariş gösteriliyor
+                        </small>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Empty State -->
+                  <div *ngIf="!isOrdersLoading && !ordersErrorMessage && totalOrders === 0" class="empty-state">
+                    <i class="fas fa-shopping-bag empty-icon"></i>
+                    <h4>Henüz sipariş vermediniz</h4>
+                    <p>İlk siparişinizi vermek için ürünlerimizi keşfedin</p>
+                    <a href="/customer-product-page" class="btn btn-primary">Ürünleri İncele</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+           
+            <!-- Change Password Tab -->
+            <div class="tab-pane fade" 
+                 [class.show]="activeTab === 'password'" 
+                 [class.active]="activeTab === 'password'" 
+                 id="password">
+              <div class="profile-card">
+                <div class="card-header">
+                  <h3>Şifre Değiştir</h3>
+                </div>
+                <div class="card-body">
+                  <form class="password-form">
+                    <div class="form-group">
+                      <label for="currentPassword">Mevcut Şifre</label>
+                      <input type="password" class="form-control" id="currentPassword" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="newPassword">Yeni Şifre</label>
+                      <input type="password" class="form-control" id="newPassword" required>
+                      <small class="form-text text-muted">
+                        Şifreniz en az 8 karakter olmalı ve büyük harf, küçük harf, rakam içermelidir.
+                      </small>
+                    </div>
+                    <div class="form-group">
+                      <label for="confirmPassword">Yeni Şifre Tekrar</label>
+                      <input type="password" class="form-control" id="confirmPassword" required>
+                    </div>
+                    <div class="form-actions">
+                      <button type="submit" class="btn btn-primary">Şifreyi Güncelle</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            <!-- Favorites Tab -->
+            <div class="tab-pane fade" id="favorites">
+              <div class="profile-card">
+                <div class="card-header">
+                  <h3>Favorilerim</h3>
+                </div>
+                <div class="card-body">
+                  <div class="favorites-grid">
+                    <!-- Favorite Product -->
+                    <div class="favorite-item">
+                      <div class="product-img-container">
+                        <img src="assets/images/product-placeholder.jpg" alt="Ürün" class="product-img">
+                        <button class="btn btn-remove-favorite">
+                          <i class="fas fa-times"></i>
+                        </button>
+                      </div>
+                      <div class="product-info">
+                        <h5>Motor Yağı 5W-30</h5>
+                        <p class="product-price">₺89,99</p>
+                        <p class="product-status text-success">Stokta</p>
+                        <button class="btn btn-primary btn-sm w-100">Sepete Ekle</button>
+                      </div>
+                    </div>
+
+                    <!-- Another Favorite Product -->
+                    <div class="favorite-item">
+                      <div class="product-img-container">
+                        <img src="assets/images/product-placeholder.jpg" alt="Ürün" class="product-img">
+                        <button class="btn btn-remove-favorite">
+                          <i class="fas fa-times"></i>
+                        </button>
+                      </div>
+                      <div class="product-info">
+                        <h5>Fren Balata Takımı</h5>
+                        <p class="product-price">₺149,99</p>
+                        <p class="product-status text-danger">Stokta Yok</p>
+                        <button class="btn btn-secondary btn-sm w-100" disabled>Stokta Yok</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Empty State -->
+                  <div class="empty-state" style="display: none;">
+                    <i class="fas fa-heart empty-icon"></i>
+                    <h4>Henüz favori ürününüz yok</h4>
+                    <p>Beğendiğiniz ürünleri favorilere ekleyerek kolayca bulabilirsiniz</p>
+                    <a href="/products" class="btn btn-primary">Ürünleri İncele</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add Address Modal -->
+<div class="modal fade" id="addAddressModal" tabindex="-1" aria-labelledby="addAddressModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addAddressModalLabel">Yeni Adres Ekle</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="address-form">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="addressTitle">Adres Başlığı</label>
+                <input type="text" class="form-control" id="addressTitle" placeholder="Örn: Ev, İş" required>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="recipientName">Alıcı Adı Soyadı</label>
+                <input type="text" class="form-control" id="recipientName" required>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="city">İl</label>
+                <select class="form-control" id="city" required>
+                  <option value="">İl Seçin</option>
+                  <option value="istanbul">İstanbul</option>
+                  <option value="ankara">Ankara</option>
+                  <option value="izmir">İzmir</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="district">İlçe</label>
+                <select class="form-control" id="district" required>
+                  <option value="">İlçe Seçin</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="fullAddress">Detay Adres</label>
+            <textarea class="form-control" id="fullAddress" rows="3" placeholder="Mahalle, sokak, bina no, daire no" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="addressPhone">Telefon</label>
+            <input type="tel" class="form-control" id="addressPhone" required>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="setAsDefault">
+            <label class="form-check-label" for="setAsDefault">
+              Bu adresi varsayılan adres olarak ayarla
+            </label>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+        <button type="button" class="btn btn-primary">Adresi Kaydet</button>
+      </div>
+    </div>
+  </div>
+</div>

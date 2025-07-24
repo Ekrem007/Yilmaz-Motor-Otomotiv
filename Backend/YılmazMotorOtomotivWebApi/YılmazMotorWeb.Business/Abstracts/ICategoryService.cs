@@ -15,7 +15,7 @@ namespace YılmazMotorWeb.Business.Abstracts
 		IDataResult<Category> GetById(int id);
 
 		IDataResult<Category> Add(Category category);
-		IResult Update(Category category);
+		IResult Update(Category category, int categoryId);
 		IResult Delete(int categoryId);
 	}
 }

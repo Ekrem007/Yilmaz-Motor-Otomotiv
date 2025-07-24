@@ -12,7 +12,7 @@ namespace YılmazMotorWeb.Dal.Abstracts
 		void Add(Category category);
 		Category GetById(int id);
 		List<Category> GetAll();
-		void Update(Category category);
+		void Update(Category category, int categoryId);
 		void Delete(int categoryId);
 	}
 }
