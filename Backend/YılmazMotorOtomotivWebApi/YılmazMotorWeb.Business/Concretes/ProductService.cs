@@ -40,14 +40,14 @@ namespace YılmazMotorWeb.Business.Concretes
 			return new SuccessDataResult<List<ProductWithCategoryNameDto>>(products, "Products retrieved successfully");
 		}
 
-		public IDataResult<Product> GetById(int id)
+		public IDataResult<ProductWithCategoryNameDto> GetById(int id)
 		{
 			var product = _productDal.GetProductById(id);
 			if (product == null)
 			{
-				return new ErrorDataResult<Product>("Product not found");
+				return new ErrorDataResult<ProductWithCategoryNameDto>("Product not found");
 			}
-			return new SuccessDataResult<Product>(product, "Product retrieved successfully");
+			return new SuccessDataResult<ProductWithCategoryNameDto>(product, "Product retrieved successfully");
 		}
 
 		public IDataResult<List<ProductWithCategoryNameDto>> GetProductsByCategoryId(int categoryId)

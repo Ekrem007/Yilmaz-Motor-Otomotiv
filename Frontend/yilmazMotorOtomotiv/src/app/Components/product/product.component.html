@@ -1,0 +1,342 @@
+<!-- Navbar -->
+<app-navbar></app-navbar>
+
+<div class="bg-light min-vh-100">
+  <div class="container py-5">
+    <!-- Loading -->
+    <div *ngIf="isLoading" class="text-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Yükleniyor...</span>
+      </div>
+      <p class="mt-3 text-muted">Ürün detayları yükleniyor...</p>
+    </div>
+
+    <!-- Product Not Found -->
+    <div *ngIf="productNotFound && !isLoading" class="text-center py-5">
+      <div class="bg-white rounded-4 shadow-sm p-5">
+        <div class="mb-4">
+          <div class="icon-wrapper bg-light rounded-circle p-4 d-inline-flex">
+            <i class="bi bi-exclamation-triangle text-warning" style="font-size: 3rem;"></i>
+          </div>
+        </div>
+        <h3 class="text-muted mb-3">Ürün Bulunamadı</h3>
+        <p class="text-muted mb-4">Aradığınız ürün mevcut değil veya kaldırılmış olabilir.</p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+          <button class="btn btn-primary" (click)="goBack()">
+            <i class="bi bi-arrow-left me-2"></i>Ürünlere Dön
+          </button>
+          <a routerLink="/" class="btn btn-outline-secondary">
+            <i class="bi bi-house me-2"></i>Anasayfaya Dön
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product Details -->
+    <div *ngIf="product && !isLoading" class="row">
+      <!-- Breadcrumb -->
+      <div class="col-12 mb-4">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a routerLink="/" class="text-decoration-none">
+                <i class="bi bi-house-door me-1"></i>Anasayfa
+              </a>
+            </li>
+            <li class="breadcrumb-item">
+              <a routerLink="/products" class="text-decoration-none">Ürünler</a>
+            </li>
+            <li class="breadcrumb-item">
+              <span class="text-decoration-none">{{ product.categoryName }}</span>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+              {{ product.name }}
+            </li>
+          </ol>
+        </nav>
+      </div>
+
+      <!-- Product Image -->
+      <div class="col-lg-6 mb-4">
+        <div class="bg-white rounded-4 shadow-sm p-4 " style="top: 2rem;">
+          <div class="position-relative">
+            <img [src]="product.imageUrl" [alt]="product.name" 
+                 class="img-fluid rounded-3 w-100" 
+                 style="max-height: 300px; object-fit: cover;">
+            <div class="position-absolute top-0 end-0 m-3">
+              <span class="badge bg-success shadow-sm fs-6" *ngIf="product.stock > 0">
+                <i class="bi bi-check-circle me-1"></i>Stokta
+              </span>
+              <span class="badge bg-danger shadow-sm fs-6" *ngIf="product.stock === 0">
+                <i class="bi bi-x-circle me-1"></i>Tükendi
+              </span>
+            </div>
+            <div class="position-absolute top-0 start-0 m-3">
+              <span class="badge bg-dark shadow-sm fs-6">
+                <i class="bi bi-tag me-1"></i>{{ product.categoryName }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Info -->
+      <div class="col-lg-6">
+        <div class="bg-white rounded-4 shadow-sm p-3">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <h1 class="fw-bold text-dark mb-0 fs-3">{{ product.name }}</h1>
+            <button class="btn btn-outline-secondary btn-sm" (click)="goBack()">
+              <i class="bi bi-arrow-left me-1"></i>Geri
+            </button>
+          </div>
+          
+          <div class="mb-3">
+            <span class="badge bg-light text-dark me-2">
+              <i class="bi bi-tag me-1"></i>{{ product.categoryName }}
+            </span>
+            <span class="badge bg-light text-dark">
+              <i class="bi bi-box me-1"></i>Stok: {{ product.stock }}
+            </span>
+          </div>
+
+          <div class="mb-3">
+            <h2 class="h2 text-primary fw-bold mb-0">{{ product.price | turkishCurrency }}</h2>
+            <small class="text-muted">KDV Dahil</small>
+          </div>
+
+          <div class="mb-3">
+            <h5 class="fw-bold text-dark mb-2">Ürün Açıklaması</h5>
+            <p class="text-muted lh-base mb-0">{{ product.description }}</p>
+          </div>
+
+          <div class="mb-3">
+            <h6 class="fw-bold text-dark mb-2">Ürün Özellikleri</h6>
+            <div class="row g-2">
+              <div class="col-6">
+                <div class="bg-light rounded-3 p-2 text-center">
+                  <i class="bi bi-shield-check text-primary fs-5 mb-1 d-block"></i>
+                  <small class="text-muted">Garantili</small>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="bg-light rounded-3 p-2 text-center">
+                  <i class="bi bi-truck text-primary fs-5 mb-1 d-block"></i>
+                  <small class="text-muted">Hızlı Teslimat</small>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="bg-light rounded-3 p-2 text-center">
+                  <i class="bi bi-tools text-primary fs-5 mb-1 d-block"></i>
+                  <small class="text-muted">Montaj Hizmeti</small>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="bg-light rounded-3 p-2 text-center">
+                  <i class="bi bi-headset text-primary fs-5 mb-1 d-block"></i>
+                  <small class="text-muted">7/24 Destek</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="border-top pt-3">
+            <div class="d-grid gap-2">
+              <button class="btn btn-primary rounded-3" 
+                      [disabled]="product.stock === 0"
+                      (click)="addToCart(product)">
+                <i class="bi bi-cart-plus me-2"></i>
+                {{ product.stock > 0 ? 'Sepete Ekle' : 'Stokta Yok' }}
+                <span *ngIf="isInCart(product.id)" class="badge bg-light text-dark ms-2">
+                  {{ getProductQuantityInCart(product.id) }}
+                </span>
+              </button>
+              
+              <div class="row g-2">
+                <div class="col-6">
+                  <a routerLink="/cart" class="btn btn-outline-primary w-100">
+                    <i class="bi bi-cart me-2"></i>Sepeti Görüntüle
+                  </a>
+                </div>
+                <div class="col-6">
+                  <a routerLink="/communication" class="btn btn-outline-secondary w-100">
+                    <i class="bi bi-chat-dots me-2"></i>İletişim
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-3 pt-3 border-top">
+            <div class="d-flex align-items-center justify-content-between text-muted small">
+              <span><i class="bi bi-truck me-1"></i>Ücretsiz kargo 500₺ üzeri</span>
+              <span><i class="bi bi-arrow-clockwise me-1"></i>14 gün iade garantisi</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Customer Reviews Section -->
+<div *ngIf="product && !isLoading" class="row mt-4">
+  <div class="col-12">
+    <div class="bg-white rounded-4 shadow-sm p-4">
+      <h3 class="fw-bold mb-4 border-bottom pb-2">Müşteri Yorumları</h3>
+      
+      <!-- Loading Reviews -->
+      <div *ngIf="isLoadingReviews" class="text-center py-4">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Yorumlar yükleniyor...</span>
+        </div>
+      </div>
+
+      <!-- Review Stats -->
+      <div *ngIf="!isLoadingReviews" class="row mb-4">
+        <div class="col-md-4 text-center mb-3 mb-md-0">
+          <div class="display-4 fw-bold text-primary">{{ averageRating.toFixed(1) }}</div>
+          <div class="mb-2">
+            <ng-container *ngFor="let filled of getStarArray(Math.round(averageRating))">
+              <i class="bi bi-star-fill text-warning" *ngIf="filled"></i>
+              <i class="bi bi-star text-warning" *ngIf="!filled"></i>
+            </ng-container>
+          </div>
+          <small class="text-muted">{{ totalReviews }} değerlendirme</small>
+        </div>
+        <div class="col-md-8">
+          <div class="d-flex align-items-center mb-2">
+            <small class="me-2" style="width: 30px;">5★</small>
+            <div class="progress flex-grow-1" style="height: 8px;">
+              <div class="progress-bar bg-warning" role="progressbar" 
+                   [style.width.%]="getRatingPercentage(5)"></div>
+            </div>
+            <small class="text-muted ms-2">{{ ratingDistribution[5] }}</small>
+          </div>
+          <div class="d-flex align-items-center mb-2">
+            <small class="me-2" style="width: 30px;">4★</small>
+            <div class="progress flex-grow-1" style="height: 8px;">
+              <div class="progress-bar bg-warning" role="progressbar" 
+                   [style.width.%]="getRatingPercentage(4)"></div>
+            </div>
+            <small class="text-muted ms-2">{{ ratingDistribution[4] }}</small>
+          </div>
+          <div class="d-flex align-items-center mb-2">
+            <small class="me-2" style="width: 30px;">3★</small>
+            <div class="progress flex-grow-1" style="height: 8px;">
+              <div class="progress-bar bg-warning" role="progressbar" 
+                   [style.width.%]="getRatingPercentage(3)"></div>
+            </div>
+            <small class="text-muted ms-2">{{ ratingDistribution[3] }}</small>
+          </div>
+          <div class="d-flex align-items-center mb-2">
+            <small class="me-2" style="width: 30px;">2★</small>
+            <div class="progress flex-grow-1" style="height: 8px;">
+              <div class="progress-bar bg-warning" role="progressbar" 
+                   [style.width.%]="getRatingPercentage(2)"></div>
+            </div>
+            <small class="text-muted ms-2">{{ ratingDistribution[2] }}</small>
+          </div>
+          <div class="d-flex align-items-center">
+            <small class="me-2" style="width: 30px;">1★</small>
+            <div class="progress flex-grow-1" style="height: 8px;">
+              <div class="progress-bar bg-warning" role="progressbar" 
+                   [style.width.%]="getRatingPercentage(1)"></div>
+            </div>
+            <small class="text-muted ms-2">{{ ratingDistribution[1] }}</small>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Add Review Button -->
+      <div *ngIf="!isLoadingReviews" class="mb-4">
+        <button *ngIf="isLoggedIn()" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#reviewModal">
+          <i class="bi bi-pencil-square me-2"></i>Yorum Yap
+        </button>
+        <div *ngIf="!isLoggedIn()" class="alert alert-info">
+          <i class="bi bi-info-circle me-2"></i>Yorum yapabilmek için <a routerLink="/login" class="alert-link">giriş yapın</a>.
+        </div>
+      </div>
+      
+      <!-- Reviews List -->
+      <div class="review-list" *ngIf="!isLoadingReviews">
+        <!-- No Reviews Message -->
+        <div *ngIf="productReviews.length === 0" class="text-center py-4">
+          <div class="text-muted">
+            <i class="bi bi-chat-left-text fs-1"></i>
+            <p class="mt-2">Bu ürün için henüz yorum yapılmamış.</p>
+            <p>İlk yorumu siz yapın!</p>
+          </div>
+        </div>
+
+        <!-- Dynamic Review Items -->
+        <div *ngFor="let review of productReviews" class="border-bottom pb-3 mb-3">
+          <div class="d-flex justify-content-between mb-2">
+            <div>
+              <span class="fw-bold">{{ review.userName }}</span>
+              <span class="text-muted small ms-2">{{ formatDate(review.createdAt) }}</span>
+            </div>
+            <div>
+              <ng-container *ngFor="let filled of getStarArray(review.rating)">
+                <i class="bi bi-star-fill text-warning" *ngIf="filled"></i>
+                <i class="bi bi-star text-warning" *ngIf="!filled"></i>
+              </ng-container>
+            </div>
+          </div>
+          <p class="mb-2">{{ review.reviewText }}</p>
+        </div>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+<!-- Review Modal -->
+<div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="reviewModalLabel">Yorum Yap</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label class="form-label">Değerlendirme</label>
+            <div class="rating-stars">
+              <ng-container *ngFor="let star of [1,2,3,4,5]; let i = index">
+                <i class="bi fs-3 me-1 text-warning" 
+                   [class.bi-star-fill]="newReview.rating > i"
+                   [class.bi-star]="newReview.rating <= i"
+                   (click)="setRating(i + 1)"
+                   style="cursor: pointer;"></i>
+              </ng-container>
+            </div>
+            <small class="text-muted">{{ newReview.rating }} yıldız</small>
+          </div>
+          <div class="mb-3">
+            <label for="reviewText" class="form-label">Yorumunuz *</label>
+            <textarea class="form-control" 
+                      id="reviewText" 
+                      rows="4" 
+                      placeholder="Ürün hakkındaki düşünceleriniz..."
+                      [(ngModel)]="newReview.reviewText"
+                      name="reviewText"
+                      required></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" [disabled]="isSubmittingReview">
+          Kapat
+        </button>
+        <button type="button" 
+                class="btn btn-primary" 
+                (click)="submitReview()"
+                [disabled]="isSubmittingReview || !newReview.reviewText.trim()">
+          <span *ngIf="isSubmittingReview" class="spinner-border spinner-border-sm me-2" role="status"></span>
+          {{ isSubmittingReview ? 'Gönderiliyor...' : 'Gönder' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</div>

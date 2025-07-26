@@ -242,4 +242,8 @@ export class CustomerProductPageComponent implements OnInit {
   getCategoryName(product: Product | ProductWithCategoryNameDto): string {
     return 'categoryName' in product ? product.categoryName : '';
   }
+
+  navigateToProduct(productId: number): void {
+    this.router.navigate(['/product', productId]);
+  }
 }

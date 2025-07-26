@@ -12,7 +12,7 @@ namespace YılmazMotorWeb.Business.Abstracts
 	public interface IProductService
 	{
 		IDataResult<List<ProductWithCategoryNameDto>> GetAll();
-		IDataResult<Product> GetById(int id);
+		IDataResult<ProductWithCategoryNameDto> GetById(int id);
 		IDataResult<Product> Add(Product product);
 		IResult Update(Product product, int productId);
 		IResult Delete(int productId);

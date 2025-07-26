@@ -37,6 +37,9 @@ export class ProductService {
   getProductsByName(name: string): Observable<ListResponseModel<ProductWithCategoryNameDto>> {
     return this.httpClient.get<ListResponseModel<ProductWithCategoryNameDto>>(this.apiUrl + '/getProductsByName/' + encodeURIComponent(name));
   }
+  getProductById(productId: number): Observable<any> {
+    return this.httpClient.get<any>(this.apiUrl + '/getbyid/' + productId);
+  }
 }
 
 

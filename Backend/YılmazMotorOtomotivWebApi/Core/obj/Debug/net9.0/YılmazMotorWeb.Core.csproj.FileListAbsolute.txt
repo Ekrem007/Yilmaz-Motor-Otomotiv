@@ -16,6 +16,7 @@ C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWe
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\Core\obj\Debug\net9.0\YılmazMotorWeb.Core.AssemblyInfoInputs.cache
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\Core\obj\Debug\net9.0\YılmazMotorWeb.Core.AssemblyInfo.cs
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\Core\obj\Debug\net9.0\YılmazMotorWeb.Core.csproj.CoreCompileInputs.cache
+C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\Core\obj\Debug\net9.0\YılmazMotorWeb.Core.sourcelink.json
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\Core\obj\Debug\net9.0\YılmazMotorWeb.Core.dll
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\Core\obj\Debug\net9.0\refint\YılmazMotorWeb.Core.dll
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\Core\obj\Debug\net9.0\YılmazMotorWeb.Core.pdb

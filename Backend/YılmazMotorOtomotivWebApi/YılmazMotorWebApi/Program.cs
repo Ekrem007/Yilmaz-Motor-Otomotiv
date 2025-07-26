@@ -40,14 +40,19 @@ builder.Services.AddScoped<IProductDal, EFProductDal>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICategoryDal, EFCategoryDal>();
 
-builder.Services.AddScoped<IContactMessageService, ContactMessageService>();
-builder.Services.AddScoped<IContactMessageDal, EFContactMessageDal>();
-
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IOrderDal, EFOrderDal>();
 
 builder.Services.AddScoped<IProductReviewService, ProductReviewService>();
 builder.Services.AddScoped<IProductReviewDal, EFProductReviewDal>();
+
+builder.Services.AddScoped<ITicketService, TicketService>();
+builder.Services.AddScoped<ITicketDal, EFTicketDal>();
+
+builder.Services.AddScoped<ITicketReplyService, TicketReplyService>();
+builder.Services.AddScoped<ITicketReplyDal, EFTicketReplyDal>();
+
+
 
 //Identity
 builder.Services.AddIdentity<AppUser, AppRole>(options =>

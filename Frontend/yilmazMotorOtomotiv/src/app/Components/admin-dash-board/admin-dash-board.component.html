@@ -1,69 +1,83 @@
-<div class="container py-4">
-  <div class="dashboard-header text-center mb-2">
-  <h2><i class="bi bi-speedometer2 me-2"></i>Yönetim Paneli</h2>
-</div>
-  <div class="row g-4 justify-content-center">
-
-    <!-- Ürünler -->
-    <div class="col-md-6 col-lg-4">
-      <div class="admin-card bg-gradient-primary">
-        <div class="icon-wrapper">
-          <i class="bi bi-box-seam"></i>
-        </div>
-        <h5>Ürün Yönetimi</h5>
-        <p>Ürünleri ekleyebilir, düzenleyebilir ve silebilirsiniz.</p>
-        <a routerLink="/admin/products" class="btn btn-outline-light">Git</a>
-      </div>
-    </div>
-
-    <!-- Siparişler -->
-    <div class="col-md-6 col-lg-4">
-      <div class="admin-card bg-gradient-success">
-        <div class="icon-wrapper">
-          <i class="bi bi-bag-check"></i>
-        </div>
-        <h5>Sipariş Yönetimi</h5>
-        <p>Siparişleri görüntüleyebilir ve yönetebilirsiniz.</p>
-        <a routerLink="/admin/orders" class="btn btn-outline-light">Git</a>
-      </div>
-    </div>
-
-    <!-- Kullanıcılar -->
-    <div class="col-md-6 col-lg-4">
-      <div class="admin-card bg-gradient-info">
-        <div class="icon-wrapper">
-          <i class="bi bi-people"></i>
-        </div>
-        <h5>Kullanıcı Yönetimi</h5>
-        <p>Kullanıcıları yönetebilir ve bilgilerini güncelleyebilirsiniz.</p>
-        <a routerLink="/admin/users" class="btn btn-outline-light">Git</a>
-      </div>
+<div class="admin-dashboard">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h3><i class="bi bi-speedometer2 me-2"></i>Yönetim Paneli</h3>
     </div>
     
-    <!-- Kategoriler -->
-    <div class="col-md-6 col-lg-4">
-      <div class="admin-card bg-gradient-warning">
-        <div class="icon-wrapper">
+    <nav class="sidebar-nav">
+      <!-- Ürünler -->
+      <a routerLink="/admin/products" class="sidebar-item">
+        <div class="sidebar-icon bg-gradient-primary">
+          <i class="bi bi-box-seam"></i>
+        </div>
+        <div class="sidebar-content">
+          <h5>Ürün Yönetimi</h5>
+          <p>Ürünleri ekleyebilir, düzenleyebilir ve silebilirsiniz.</p>
+        </div>
+        <i class="bi bi-chevron-right sidebar-arrow"></i>
+      </a>
+
+      <!-- Siparişler -->
+      <a routerLink="/admin/orders" class="sidebar-item">
+        <div class="sidebar-icon bg-gradient-success">
+          <i class="bi bi-bag-check"></i>
+        </div>
+        <div class="sidebar-content">
+          <h5>Sipariş Yönetimi</h5>
+          <p>Siparişleri görüntüleyebilir ve yönetebilirsiniz.</p>
+        </div>
+        <i class="bi bi-chevron-right sidebar-arrow"></i>
+      </a>
+
+      <!-- Kullanıcılar -->
+      <a routerLink="/admin/users" class="sidebar-item">
+        <div class="sidebar-icon bg-gradient-info">
+          <i class="bi bi-people"></i>
+        </div>
+        <div class="sidebar-content">
+          <h5>Kullanıcı Yönetimi</h5>
+          <p>Kullanıcıları yönetebilir ve bilgilerini güncelleyebilirsiniz.</p>
+        </div>
+        <i class="bi bi-chevron-right sidebar-arrow"></i>
+      </a>
+      
+      <!-- Kategoriler -->
+      <a routerLink="/admin/categories" class="sidebar-item">
+        <div class="sidebar-icon bg-gradient-warning">
           <i class="bi bi-tags"></i>
         </div>
-        <h5>Kategori Yönetimi</h5>
-        <p>Kategorileri ekleyebilir, düzenleyebilir ve silebilirsiniz.</p>
-        <a routerLink="/admin/categories" class="btn btn-outline-light">Git</a>
-      </div>
-    </div>
+        <div class="sidebar-content">
+          <h5>Kategori Yönetimi</h5>
+          <p>Kategorileri ekleyebilir, düzenleyebilir ve silebilirsiniz.</p>
+        </div>
+        <i class="bi bi-chevron-right sidebar-arrow"></i>
+      </a>
 
-
-
-    <!-- İletişim -->
-    <div class="col-md-6 col-lg-4">
-      <div class="admin-card bg-gradient-dark">
-        <div class="icon-wrapper">
+      <!-- İletişim -->
+      <a routerLink="/admin/communication" class="sidebar-item">
+        <div class="sidebar-icon bg-gradient-dark">
           <i class="bi bi-chat-dots"></i>
         </div>
-        <h5>İletişim Yönetimi</h5>
-        <p>Müşteri iletişim taleplerini yönetebilirsiniz.</p>
-        <a routerLink="/admin/communication" class="btn btn-outline-light">Git</a>
-      </div>
-    </div>
+        <div class="sidebar-content">
+          <h5>İletişim Yönetimi</h5>
+          <p>Müşteri iletişim taleplerini yönetebilirsiniz.</p>
+        </div>
+        <i class="bi bi-chevron-right sidebar-arrow"></i>
+      </a>
+
+      <!-- Destek Talepleri -->
+      <a routerLink="/admin/tickets" class="sidebar-item">
+        <div class="sidebar-icon bg-gradient-danger">
+          <i class="bi bi-headset"></i>
+        </div>
+        <div class="sidebar-content">
+          <h5>Destek Talepleri</h5>
+          <p>Kullanıcı destek taleplerini görüntüleyebilir ve yanıtlayabilirsiniz.</p>
+        </div>
+        <i class="bi bi-chevron-right sidebar-arrow"></i>
+      </a>
+    </nav>
   </div>
+  <!-- Main Content buraya widgetler gelecek -->
 </div>

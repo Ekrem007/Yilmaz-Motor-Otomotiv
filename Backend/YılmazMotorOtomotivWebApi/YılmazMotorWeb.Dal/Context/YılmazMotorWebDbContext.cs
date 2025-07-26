@@ -13,11 +13,15 @@ namespace YılmazMotorWeb.Dal.Context
 	public class YılmazMotorWebDbContext : IdentityDbContext<AppUser, AppRole, int>
 	{
 		protected override void OnConfiguring(DbContextOptionsBuilder options)
-		{
-			options.UseSqlServer("Server=DESKTOP-66LKAVD;Database=YılmazOtomotiv;Trusted_Connection=True;TrustServerCertificate=True;");
-		}
+    {
+        if (!options.IsConfigured)
+        {
+            options.UseSqlServer("Server=DESKTOP-66LKAVD;Database=YılmazOtomotiv;Trusted_Connection=True;TrustServerCertificate=True;");
+        }
+    }
+
 		public YılmazMotorWebDbContext(DbContextOptions<YılmazMotorWebDbContext> options)
-			: base(options)
+		: base(options)
 		{
 		}
 		public DbSet<Category> Categories { get; set; }
@@ -25,7 +29,30 @@ namespace YılmazMotorWeb.Dal.Context
 		public DbSet<ProductReview> ProductReviews { get; set; }
 		public DbSet<OrderItem> OrderItems { get; set; }
 		public DbSet<Order> Orders { get; set; }
-		public DbSet<ContactMessage> ContactMessages { get; set; }
+		public DbSet<Ticket> Tickets { get; set; }
+		public DbSet<TicketReply> TicketReplies { get; set; }
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			base.OnModelCreating(modelBuilder);
+
+			modelBuilder.Entity<TicketReply>()
+				.HasOne(tr => tr.Ticket)
+				.WithMany(t => t.Replies)
+				.HasForeignKey(tr => tr.TicketId)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			modelBuilder.Entity<Ticket>()
+				.HasOne(t => t.User)
+				.WithMany()
+				.HasForeignKey(t => t.UserId)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			modelBuilder.Entity<TicketReply>()
+				.HasOne(tr => tr.User)
+				.WithMany()
+				.HasForeignKey(tr => tr.UserId)
+				.OnDelete(DeleteBehavior.Restrict);
+		}
 
 	}
 }

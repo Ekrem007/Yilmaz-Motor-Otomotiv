@@ -60,9 +60,21 @@ namespace YılmazMotorWeb.Dal.Concretes
 
 		}
 
-		public Product GetProductById(int id)
+		public ProductWithCategoryNameDto GetProductById(int id)
 		{
-			var product = _context.Products.FirstOrDefault(p => p.Id == id);
+			var product = _context.Products
+				.Include(p => p.Category)
+				.Where(p => p.Id == id)
+				.Select(p => new ProductWithCategoryNameDto
+				{
+					Id = p.Id,
+					CategoryName = p.Category.Name,
+					Name = p.Name,
+					Description = p.Description,
+					Price = p.Price,
+					ImageUrl = p.ImageUrl,
+					Stock = p.Stock
+				}).FirstOrDefault();
 			if (product == null)
 			{
 				throw new Exception("Product not found");

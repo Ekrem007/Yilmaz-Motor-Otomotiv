@@ -99,7 +99,7 @@ namespace YılmazMotorWeb.Dal.Concretes
 		{
 			var order = _context.Orders
 				.Include(o => o.OrderItems)
-					.ThenInclude(oi => oi.Product)
+				.ThenInclude(oi => oi.Product)
 				.Include(o => o.User)
 				.FirstOrDefault(o => o.Id == orderId);
 

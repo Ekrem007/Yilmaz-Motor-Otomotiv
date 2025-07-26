@@ -145,6 +145,7 @@ C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWe
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWebApi\obj\Debug\net9.0\YılmazMotorWebApi.csproj.CoreCompileInputs.cache
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWebApi\obj\Debug\net9.0\YılmazMotorWebApi.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWebApi\obj\Debug\net9.0\YılmazMotorWebApi.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWebApi\obj\Debug\net9.0\YılmazMotorWebApi.sourcelink.json
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWebApi\obj\Debug\net9.0\scopedcss\bundle\YılmazMotorWebApi.styles.css
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWebApi\obj\Debug\net9.0\staticwebassets.build.json
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWebApi\obj\Debug\net9.0\staticwebassets.development.json
@@ -155,11 +156,10 @@ C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWe
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWebApi\obj\Debug\net9.0\staticwebassets\msbuild.buildMultiTargeting.YılmazMotorWebApi.props
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWebApi\obj\Debug\net9.0\staticwebassets\msbuild.buildTransitive.YılmazMotorWebApi.props
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWebApi\obj\Debug\net9.0\staticwebassets.pack.json
-C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWebApi\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWebApi\obj\Debug\net9.0\Y_lmazMo.7A977C9E.Up2Date
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWebApi\obj\Debug\net9.0\YılmazMotorWebApi.dll
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWebApi\obj\Debug\net9.0\refint\YılmazMotorWebApi.dll
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWebApi\obj\Debug\net9.0\YılmazMotorWebApi.pdb
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWebApi\obj\Debug\net9.0\YılmazMotorWebApi.genruntimeconfig.cache
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWebApi\obj\Debug\net9.0\ref\YılmazMotorWebApi.dll
-C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWebApi\obj\Debug\net9.0\YılmazMotorWebApi.sourcelink.json
+C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWebApi\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt

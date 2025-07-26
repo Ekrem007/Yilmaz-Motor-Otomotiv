@@ -1,0 +1,128 @@
+<app-navbar></app-navbar>
+
+<div class="bg-light min-vh-100">
+  <div class="container py-5">
+    <!-- Header -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <div class="bg-white rounded-4 shadow-sm p-4">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h1 class="h3 mb-1 text-dark fw-bold">
+                <i class="bi bi-plus-circle text-primary me-3"></i>Yeni Destek Talebi
+              </h1>
+              <p class="text-muted mb-0">Yaşadığınız sorunu detaylı olarak açıklayın</p>
+            </div>
+            <button class="btn btn-outline-secondary" (click)="goBack()">
+              <i class="bi bi-arrow-left me-2"></i>Geri Dön
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Create Ticket Form -->
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="bg-white rounded-4 shadow-sm p-4">
+          <!-- Success Message -->
+          <div *ngIf="submitMessage" class="alert alert-success border-0 rounded-3 mb-4">
+            <div class="d-flex align-items-center">
+              <i class="bi bi-check-circle me-3 fs-5"></i>
+              <span>{{ submitMessage }}</span>
+            </div>
+          </div>
+
+          <!-- Error Message -->
+          <div *ngIf="submitError" class="alert alert-danger border-0 rounded-3 mb-4">
+            <div class="d-flex align-items-center">
+              <i class="bi bi-exclamation-triangle me-3 fs-5"></i>
+              <span>{{ submitError }}</span>
+            </div>
+          </div>
+
+          <!-- Form -->
+          <form [formGroup]="ticketForm" (ngSubmit)="onSubmit()">
+            <!-- Subject Field -->
+            <div class="mb-4">
+              <label for="subject" class="form-label fw-semibold">
+                <i class="bi bi-tag me-2"></i>Konu
+                <span class="text-danger">*</span>
+              </label>
+              <input type="text" 
+                     class="form-control rounded-3 py-3"
+                     [class.is-invalid]="isFieldInvalid('subject')"
+                     id="subject" 
+                     formControlName="subject"
+                     placeholder="Sorununuzu özetleyen bir konu başlığı yazın"
+                     maxlength="200">
+              <div class="invalid-feedback">
+                {{ getFieldError('subject') }}
+              </div>
+              <div class="form-text">
+                <small class="text-muted">
+                  {{ ticketForm.get('subject')?.value?.length || 0 }}/200 karakter
+                </small>
+              </div>
+            </div>
+
+            <!-- Message Field -->
+            <div class="mb-4">
+              <label for="message" class="form-label fw-semibold">
+                <i class="bi bi-chat-text me-2"></i>Mesaj
+                <span class="text-danger">*</span>
+              </label>
+              <textarea class="form-control rounded-3"
+                        [class.is-invalid]="isFieldInvalid('message')"
+                        id="message"
+                        formControlName="message"
+                        rows="8"
+                        placeholder="Yaşadığınız sorunu detaylı olarak açıklayın. Ne zaman başladı, hangi adımları takip ettiniz, beklediğiniz sonuç neydi?"
+                        maxlength="1000"></textarea>
+              <div class="invalid-feedback">
+                {{ getFieldError('message') }}
+              </div>
+              <div class="form-text">
+                <small class="text-muted">
+                  {{ ticketForm.get('message')?.value?.length || 0 }}/1000 karakter
+                </small>
+              </div>
+            </div>
+
+            <!-- Tips -->
+            <div class="bg-light rounded-3 p-3 mb-4">
+              <h6 class="fw-semibold text-dark mb-2">
+                <i class="bi bi-lightbulb text-warning me-2"></i>İpuçları
+              </h6>
+              <ul class="mb-0 text-muted small">
+                <li>Sorununuzu olabildiğince detaylı açıklayın</li>
+                <li>Hangi sayfada/özellikte sorun yaşadığınızı belirtin</li>
+                <li>Hata mesajları varsa aynen yazın</li>
+                <li>Sorunu çözmek için neler denediğinizi belirtin</li>
+              </ul>
+            </div>
+
+            <!-- Submit Buttons -->
+            <div class="d-flex gap-3 justify-content-end">
+              <button type="button" 
+                      class="btn btn-outline-secondary rounded-3"
+                      (click)="goBack()"
+                      [disabled]="isSubmitting">
+                <i class="bi bi-x-circle me-2"></i>İptal
+              </button>
+              <button type="submit" 
+                      class="btn btn-primary rounded-3"
+                      [disabled]="!ticketForm.valid || isSubmitting">
+                <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-2" role="status">
+                  <span class="visually-hidden">Gönderiliyor...</span>
+                </span>
+                <i *ngIf="!isSubmitting" class="bi bi-send me-2"></i>
+                {{ isSubmitting ? 'Gönderiliyor...' : 'Talep Oluştur' }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

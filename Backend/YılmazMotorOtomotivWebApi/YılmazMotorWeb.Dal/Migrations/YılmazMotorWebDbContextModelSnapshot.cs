@@ -146,34 +146,6 @@ namespace YılmazMotorWeb.Dal.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("YılmazMotorWeb.Entities.Concretes.ContactMessage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("SentDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ContactMessages");
-                });
-
             modelBuilder.Entity("YılmazMotorWeb.Entities.Concretes.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -300,6 +272,68 @@ namespace YılmazMotorWeb.Dal.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("ProductReviews");
+                });
+
+            modelBuilder.Entity("YılmazMotorWeb.Entities.Concretes.Ticket", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Tickets");
+                });
+
+            modelBuilder.Entity("YılmazMotorWeb.Entities.Concretes.TicketReply", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("RepliedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ReplyMessage")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TicketId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TicketId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TicketReplies");
                 });
 
             modelBuilder.Entity("YılmazMotorWeb.Entities.Identity.AppRole", b =>
@@ -522,6 +556,36 @@ namespace YılmazMotorWeb.Dal.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("YılmazMotorWeb.Entities.Concretes.Ticket", b =>
+                {
+                    b.HasOne("YılmazMotorWeb.Entities.Identity.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("YılmazMotorWeb.Entities.Concretes.TicketReply", b =>
+                {
+                    b.HasOne("YılmazMotorWeb.Entities.Concretes.Ticket", "Ticket")
+                        .WithMany("Replies")
+                        .HasForeignKey("TicketId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("YılmazMotorWeb.Entities.Identity.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Ticket");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("YılmazMotorWeb.Entities.Concretes.Category", b =>
                 {
                     b.Navigation("Products");
@@ -535,6 +599,11 @@ namespace YılmazMotorWeb.Dal.Migrations
             modelBuilder.Entity("YılmazMotorWeb.Entities.Concretes.Product", b =>
                 {
                     b.Navigation("Reviews");
+                });
+
+            modelBuilder.Entity("YılmazMotorWeb.Entities.Concretes.Ticket", b =>
+                {
+                    b.Navigation("Replies");
                 });
 
             modelBuilder.Entity("YılmazMotorWeb.Entities.Identity.AppUser", b =>

@@ -18,8 +18,8 @@ C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWe
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWeb.Entities\obj\Debug\net9.0\YılmazMotorWeb.Entities.AssemblyInfoInputs.cache
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWeb.Entities\obj\Debug\net9.0\YılmazMotorWeb.Entities.AssemblyInfo.cs
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWeb.Entities\obj\Debug\net9.0\YılmazMotorWeb.Entities.csproj.CoreCompileInputs.cache
+C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWeb.Entities\obj\Debug\net9.0\YılmazMotorWeb.Entities.sourcelink.json
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWeb.Entities\obj\Debug\net9.0\YılmazMotorWeb.Entities.dll
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWeb.Entities\obj\Debug\net9.0\refint\YılmazMotorWeb.Entities.dll
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWeb.Entities\obj\Debug\net9.0\YılmazMotorWeb.Entities.pdb
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWeb.Entities\obj\Debug\net9.0\ref\YılmazMotorWeb.Entities.dll
-C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWeb.Entities\obj\Debug\net9.0\YılmazMotorWeb.Entities.sourcelink.json

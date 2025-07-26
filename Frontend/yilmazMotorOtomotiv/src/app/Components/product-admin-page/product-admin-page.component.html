@@ -48,16 +48,20 @@
                 <img [src]="product.imageUrl" alt="Resim" width="60" height="40" class="img-thumbnail">
               </td>
               <td class="text-center">
-                <button class="btn btn-sm btn-outline-primary me-2" 
-                        (click)="editProduct(product)"
-                        [disabled]="isEditing || isAdding">
-                  <i class="bi bi-pencil-square"></i>
-                </button>
-                <button class="btn btn-sm btn-outline-danger"
-                        (click)="deleteProduct(product.id)"
-                        [disabled]="isEditing || isAdding">
-                  <i class="bi bi-trash"></i>
-                </button>
+                <div class="action-buttons">
+                  <button class="btn btn-sm btn-outline-primary" 
+                          (click)="editProduct(product)"
+                          [disabled]="isEditing || isAdding"
+                          title="Düzenle">
+                    <i class="bi bi-pencil-square"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger"
+                          (click)="deleteProduct(product.id)"
+                          [disabled]="isEditing || isAdding"
+                          title="Sil">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>
               </td>
             </tr>
           </tbody>

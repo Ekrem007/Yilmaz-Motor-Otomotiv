@@ -13,7 +13,7 @@ namespace YılmazMotorWeb.Dal.Abstracts
 		void AddProduct(Product product);
 		void UpdateProduct(Product product,int productId);
 		void DeleteProduct(int id);
-		Product GetProductById(int id);
+		ProductWithCategoryNameDto GetProductById(int id);
 		List<ProductWithCategoryNameDto> GetAllProducts();
 		List<ProductWithCategoryNameDto> GetProductsByCategoryId(int categoryId);
 		List<ProductWithCategoryNameDto> GetProductsByName(string name);

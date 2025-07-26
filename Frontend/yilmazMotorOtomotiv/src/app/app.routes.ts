@@ -11,6 +11,11 @@ import { CustomerProductPageComponent } from './Components/customer-product-page
 import { CartComponent } from './Components/cart/cart.component';
 import { UserProfileComponent } from './Components/user-profile/user-profile.component';
 import { AdminOrdersPageComponent } from './Components/admin-orders-page/admin-orders-page.component';
+import { ProductComponent } from './Components/product/product.component';
+import { TicketsComponent } from './Components/tickets/tickets.component';
+import { CreateTicketComponent } from './Components/create-ticket/create-ticket.component';
+import { TicketDetailComponent } from './Components/ticket-detail/ticket-detail.component';
+import { AdminTicketsComponent } from './Components/admin-tickets/admin-tickets.component';
 
 
 export const routes: Routes = [
@@ -21,10 +26,15 @@ export const routes: Routes = [
   { path: 'communication', component: CommunicationComponent },
   { path: 'products/:categoryId', component: CustomerProductPageComponent },
   { path: 'products', component: CustomerProductPageComponent },
+  { path: 'product/:id', component: ProductComponent },
   {path: 'admin/products', component: ProductAdminPageComponent, canActivate: [AuthGuard] },
   {path: 'admin/categories', component: CategoryAdminPageComponent, canActivate: [AuthGuard] },
   {path: 'admin/orders', component: AdminOrdersPageComponent, canActivate: [AuthGuard] },
+  {path: 'admin/tickets', component: AdminTicketsComponent, canActivate: [AuthGuard] },
   {path: 'profile', component: UserProfileComponent, canActivate: [AuthGuard] },
   {path: 'cart', component: CartComponent },
+  {path: 'tickets', component: TicketsComponent, canActivate: [AuthGuard] },
+  {path: 'tickets/create', component: CreateTicketComponent, canActivate: [AuthGuard] },
+  {path: 'tickets/:id', component: TicketDetailComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '' }
 ];

@@ -26,10 +26,10 @@ C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWe
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWeb.Dal\obj\Debug\net9.0\YılmazMotorWeb.Dal.AssemblyInfoInputs.cache
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWeb.Dal\obj\Debug\net9.0\YılmazMotorWeb.Dal.AssemblyInfo.cs
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWeb.Dal\obj\Debug\net9.0\YılmazMotorWeb.Dal.csproj.CoreCompileInputs.cache
+C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWeb.Dal\obj\Debug\net9.0\YılmazMotorWeb.Dal.sourcelink.json
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWeb.Dal\obj\Debug\net9.0\Y_lmazMo.02AA6361.Up2Date
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWeb.Dal\obj\Debug\net9.0\YılmazMotorWeb.Dal.dll
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWeb.Dal\obj\Debug\net9.0\refint\YılmazMotorWeb.Dal.dll
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWeb.Dal\obj\Debug\net9.0\YılmazMotorWeb.Dal.pdb
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWeb.Dal\obj\Debug\net9.0\YılmazMotorWeb.Dal.genruntimeconfig.cache
 C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWeb.Dal\obj\Debug\net9.0\ref\YılmazMotorWeb.Dal.dll
-C:\Users\Ekrem\source\repos\YimazMotorOtomotivWeb\Backend\YılmazMotorOtomotivWebApi\YılmazMotorWeb.Dal\obj\Debug\net9.0\YılmazMotorWeb.Dal.sourcelink.json
