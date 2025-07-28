@@ -98,6 +98,10 @@ export class AdminOrdersPageComponent implements OnInit {
     const details = this.orderDetails[orderId];
     return details && details.length > 0 ? details[0].userName : '';
   }
+  getUserAddress(orderId: number): string {
+    const details = this.orderDetails[orderId];
+    return details && details.length > 0 ? details[0].address : '';
+  }
 
  changeOrderStatus(orderId: number, newStatus: string): void {
   this.orderService.changeOrderStatus(orderId, newStatus).subscribe({

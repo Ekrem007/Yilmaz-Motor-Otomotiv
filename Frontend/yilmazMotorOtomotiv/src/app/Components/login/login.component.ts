@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -13,7 +13,7 @@ import { LoginDto } from '../../Models/loginDto';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent {
+export class LoginComponent implements OnDestroy {
   loginData: LoginDto = {
     userName: '',
     password: ''
@@ -22,6 +22,7 @@ export class LoginComponent {
   isLoading = false;
   errorMessage = '';
   successMessage = '';
+  private errorTimeout: any;
 
   constructor(
     private authService: AuthService,
@@ -42,7 +43,7 @@ export class LoginComponent {
     this.authService.login(this.loginData).subscribe({
       next: (response) => {
         this.isLoading = false;
-        this.successMessage = response.message;
+        this.successMessage = response.message || 'Giriş başarılı! Yönlendiriliyorsunuz...';
         
         // Kullanıcı sepetini yükle
         this.cartService.loadUserCart(response.userId);
@@ -63,7 +64,18 @@ export class LoginComponent {
       },
       error: (error) => {
         this.isLoading = false;
-        this.errorMessage = error.message || 'Giriş yapılırken bir hata oluştu!';
+        console.log('Login component error:', error); // Debug için
+        
+        // AuthService'ten gelen hata mesajını kullan
+        this.errorMessage = error.message || 'Beklenmeyen bir hata oluştu! Lütfen tekrar deneyin.';
+        
+        // Formu temizle (güvenlik için)
+        this.loginData.password = '';
+        
+        // Hata mesajını 5 saniye sonra otomatik temizle
+        this.errorTimeout = setTimeout(() => {
+          this.errorMessage = '';
+        }, 5000);
       }
     });
   }
@@ -71,5 +83,18 @@ export class LoginComponent {
   clearMessages() {
     this.errorMessage = '';
     this.successMessage = '';
+    
+    // Timeout'u temizle
+    if (this.errorTimeout) {
+      clearTimeout(this.errorTimeout);
+      this.errorTimeout = null;
+    }
+  }
+
+  ngOnDestroy() {
+    // Component destroy edildiğinde timeout'u temizle
+    if (this.errorTimeout) {
+      clearTimeout(this.errorTimeout);
+    }
   }
 }

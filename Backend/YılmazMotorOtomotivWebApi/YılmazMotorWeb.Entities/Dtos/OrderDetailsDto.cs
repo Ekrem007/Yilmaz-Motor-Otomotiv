@@ -15,6 +15,7 @@ namespace YılmazMotorWeb.Entities.Dtos
 		public decimal ProductPrice { get; set; }
 		public int Quantity { get; set; }
 		public decimal TotalAmount { get; set; }
+		public string Address { get; set; }	
 		public string Status { get; set; }
 		public DateTime OrderDate { get; set; } 
 

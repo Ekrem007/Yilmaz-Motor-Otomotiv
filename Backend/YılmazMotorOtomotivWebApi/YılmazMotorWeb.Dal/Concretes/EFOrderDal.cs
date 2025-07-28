@@ -116,6 +116,7 @@ namespace YılmazMotorWeb.Dal.Concretes
 				ProductName = oi.Product != null ? oi.Product.Name : "Ürün yok",
 				Quantity = oi.Quantity,
 				ProductPrice = oi.Price,
+				Address = order.User != null ? order.User.Address : "Adres yok",
 				TotalAmount = oi.Price * oi.Quantity
 			}).ToList();
 
