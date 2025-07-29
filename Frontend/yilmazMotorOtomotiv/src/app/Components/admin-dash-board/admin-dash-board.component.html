@@ -1,3 +1,4 @@
+
 <div class="admin-dashboard">
   <!-- Modern Sidebar -->
   <div class="sidebar">
@@ -354,5 +355,74 @@
         </div>
       </div>
     </div>
-  </div>
+
+<!-- Grafikler Başlık -->
+<div class="section-header">
+        <h2 class="section-title">
+          <i class="bi bi-graph-up-arrow me-3"></i>
+          Satış Grafik Analizi
+        </h2>
 </div>
+
+
+<!-- Grafik Kartları Grid -->
+<div class="stats-grid" style="display: flex; gap: 2rem; padding-left: 2rem; flex-wrap: wrap; justify-content: center; align-items: flex-center;">
+  
+  <!-- Aylık Satışlar Kartı -->
+  <div class="stat-card" style="padding: 1.2rem; min-height: 160px; width: 600px; background: white; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
+    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+      <div class="card-icon bg-gradient-info" style="width:48px; height:48px; display: flex; justify-content: center; align-items: center; border-radius: 8px;">
+        <i class="bi bi-bar-chart-line" style="font-size:1.3rem;"></i>
+      </div>
+      <div>
+        <h3 class="card-title" style="font-size: 1.1rem; margin-bottom: 0;">Aylık Satışlar</h3>
+        <p class="card-subtitle" style="font-size: 0.95rem; color: #718096;">Son 12 ayın toplam satışları</p>
+      </div>
+    </div>
+    <ngx-charts-line-chart
+      [view]="[600,260]"
+      [scheme]="salesChartColorScheme"
+      [results]="[{ name: 'Satışlar', series: monthlySalesData }]"
+      [gradient]="false"
+      [xAxis]="true"
+      [yAxis]="true"
+      [legend]="false"
+      [showXAxisLabel]="true"
+      [showYAxisLabel]="true"
+      xAxisLabel="Ay"
+      yAxisLabel="Satış"
+      [animations]="false">
+    </ngx-charts-line-chart>
+  </div>
+
+  <!-- Haftalık Satışlar Kartı -->
+<div class="stat-card" style="padding: 1.2rem; min-height: 160px; width: 600px; background: white; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.05); margin-top: 2rem;">
+  <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+    <div class="card-icon bg-gradient-warning" style="width:48px; height:48px; display: flex; justify-content: center; align-items: center; border-radius: 8px;">
+      <i class="bi bi-calendar-week" style="font-size:1.3rem;"></i>
+    </div>
+    <div>
+      <h3 class="card-title" style="font-size: 1.1rem; margin-bottom: 0;">Haftalık Satışlar</h3>
+      <p class="card-subtitle" style="font-size: 0.95rem; color: #718096;">Son 7 günün satışları</p>
+    </div>
+  </div>
+  <ngx-charts-line-chart
+    [view]="[600,260]"
+    [scheme]="salesChartColorScheme"
+    [results]="weeklySalesData"
+    [gradient]="false"
+    [xAxis]="true"
+    [yAxis]="true"
+    [legend]="false"
+    [showXAxisLabel]="true"
+    [showYAxisLabel]="true"
+    xAxisLabel="Gün"
+    yAxisLabel="Satış"
+    [animations]="false">
+  </ngx-charts-line-chart>
+</div>
+
+  </div>
+
+
+

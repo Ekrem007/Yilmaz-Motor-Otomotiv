@@ -312,6 +312,96 @@ namespace YılmazMotorWebApi.Controllers
 				});
 			}
 		}
+		[HttpGet]
+		[Route("api/[controller]/getMonthlySalesForLastYear")]
+		public IActionResult GetMonthlySalesForLastYear()
+		{
+			var result = _orderService.GetAll();
+			if (result.Success && result.Data.Any())
+			{
+				var now = DateTime.Now;
+				// İçinde bulunduğumuz ay dahil son 12 ay
+				var startMonth = new DateTime(now.Year, now.Month, 1).AddMonths(-11);
+
+				var orders = result.Data
+					.Where(o => !string.Equals(o.Status, OrderStatus.Cancelled.ToString(), StringComparison.OrdinalIgnoreCase)&& o.OrderDate >= startMonth)
+					.ToList();
+
+				var monthlySales = Enumerable.Range(0, 12)
+					.Select(i =>
+					{
+						var month = startMonth.AddMonths(i);
+						var monthOrders = orders.Where(o => o.OrderDate.Year == month.Year && o.OrderDate.Month == month.Month);
+						return new
+						{
+							month = month.ToString("yyyy-MM"),
+							totalSales = monthOrders.Sum(o => o.TotalAmount)
+						};
+					})
+					.ToList();
+
+				return Ok(new
+				{
+					success = true,
+					message = "Monthly sales for last year (including current month) retrieved successfully.",
+					data = monthlySales
+				});
+			}
+			else
+			{
+				return Ok(new
+				{
+					success = true,
+					message = "No orders found.",
+					data = new List<object>()
+				});
+			}
+		}
+		[HttpGet]
+		[Route("api/[controller]/getDailySalesForLastWeek")]
+		public IActionResult GetDailySalesForLastWeek()
+		{
+			var result = _orderService.GetAll();
+			if (result.Success && result.Data.Any())
+			{
+				var today = DateTime.Today;
+				var startDay = today.AddDays(-6); 
+
+				var orders = result.Data
+					.Where(o => !string.Equals(o.Status, OrderStatus.Cancelled.ToString(), StringComparison.OrdinalIgnoreCase)
+								&& o.OrderDate.Date >= startDay)
+					.ToList();
+
+				var dailySales = Enumerable.Range(0, 7)
+					.Select(i =>
+					{
+						var day = startDay.AddDays(i);
+						var dayOrders = orders.Where(o => o.OrderDate.Date == day);
+						return new
+						{
+							day = day.ToString("yyyy-MM-dd"),
+							totalSales = dayOrders.Sum(o => o.TotalAmount)
+						};
+					})
+					.ToList();
+
+				return Ok(new
+				{
+					success = true,
+					message = "Daily sales for last week (including today) retrieved successfully.",
+					data = dailySales
+				});
+			}
+			else
+			{
+				return Ok(new
+				{
+					success = true,
+					message = "No orders found.",
+					data = new List<object>()
+				});
+			}
+		}
 
 	}
 }

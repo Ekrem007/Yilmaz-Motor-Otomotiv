@@ -1,0 +1,1364 @@
+{
+    "extension": "linecounter",
+    "version": "0.2.7",
+    "workspace": "c:\\Users\\Ekrem\\source\\repos\\YimazMotorOtomotivWeb\\Frontend",
+    "linecount": [
+        {
+            "version": "0.2.7",
+            "counttime": "2025-07-29 05:01:38",
+            "filesum": 217,
+            "codesum": 147072,
+            "commentsum": 13290,
+            "blanksum": 2294,
+            "statistics": {
+                ".json": {
+                    "code": 14140,
+                    "comment": 6,
+                    "blank": 223
+                },
+                ".html": {
+                    "code": 3073,
+                    "comment": 147,
+                    "blank": 189
+                },
+                "": {
+                    "code": 35,
+                    "comment": 21,
+                    "blank": 7
+                },
+                ".md": {
+                    "code": 36,
+                    "comment": 4,
+                    "blank": 23
+                },
+                ".ts": {
+                    "code": 3413,
+                    "comment": 188,
+                    "blank": 466
+                },
+                ".css": {
+                    "code": 3388,
+                    "comment": 107,
+                    "blank": 660
+                },
+                ".map": {
+                    "code": 343,
+                    "comment": 0,
+                    "blank": 0
+                },
+                ".js": {
+                    "code": 122644,
+                    "comment": 12817,
+                    "blank": 726
+                }
+            },
+            "filelist": [
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\.tsbuildinfo"
+                },
+                {
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\angular-compiler.db",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\angular-compiler.db-lock",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 0,
+                    "code": 204,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\@angular_common.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\@angular_common.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 88,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\@angular_common_http.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\@angular_common_http.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 1021,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\@angular_core.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\@angular_core.js.map"
+                },
+                {
+                    "blank": 18,
+                    "code": 4410,
+                    "comment": 2069,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\@angular_forms.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\@angular_forms.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 86,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\@angular_platform-browser.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\@angular_platform-browser.js.map"
+                },
+                {
+                    "blank": 2,
+                    "code": 692,
+                    "comment": 43,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\@angular_platform-browser_animations.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\@angular_platform-browser_animations.js.map"
+                },
+                {
+                    "blank": 4,
+                    "code": 5292,
+                    "comment": 654,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\@angular_router.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\@angular_router.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 100,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\_metadata.json"
+                },
+                {
+                    "blank": 1,
+                    "code": 294,
+                    "comment": 14,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\chunk-25A4EMPH.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\chunk-25A4EMPH.js.map"
+                },
+                {
+                    "blank": 3,
+                    "code": 34,
+                    "comment": 13,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\chunk-7AO4XJ2V.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\chunk-7AO4XJ2V.js.map"
+                },
+                {
+                    "blank": 35,
+                    "code": 839,
+                    "comment": 35,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\chunk-DUSJOH2Q.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\chunk-DUSJOH2Q.js.map"
+                },
+                {
+                    "blank": 3,
+                    "code": 1114,
+                    "comment": 118,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\chunk-FQVF52MY.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\chunk-FQVF52MY.js.map"
+                },
+                {
+                    "blank": 4,
+                    "code": 1434,
+                    "comment": 396,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\chunk-GMWLPFUM.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\chunk-GMWLPFUM.js.map"
+                },
+                {
+                    "blank": 3,
+                    "code": 24,
+                    "comment": 3,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\chunk-LQ2OTQQK.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\chunk-LQ2OTQQK.js.map"
+                },
+                {
+                    "blank": 7,
+                    "code": 664,
+                    "comment": 152,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\chunk-LV3P4F6L.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\chunk-LV3P4F6L.js.map"
+                },
+                {
+                    "blank": 30,
+                    "code": 17338,
+                    "comment": 1464,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\chunk-O4PISCJT.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\chunk-O4PISCJT.js.map"
+                },
+                {
+                    "blank": 5,
+                    "code": 4451,
+                    "comment": 595,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\chunk-O6FQHZYJ.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\chunk-O6FQHZYJ.js.map"
+                },
+                {
+                    "blank": 189,
+                    "code": 4438,
+                    "comment": 189,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\chunk-V67RZGAX.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\chunk-V67RZGAX.js.map"
+                },
+                {
+                    "blank": 2,
+                    "code": 1586,
+                    "comment": 133,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\ngx-toastr.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\ngx-toastr.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 3,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\package.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 352,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\rxjs.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\rxjs.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 232,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\rxjs_operators.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps\\rxjs_operators.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 206,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\@angular_common.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\@angular_common.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 90,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\@angular_common_http.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\@angular_common_http.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 1023,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\@angular_core.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\@angular_core.js.map"
+                },
+                {
+                    "blank": 18,
+                    "code": 4414,
+                    "comment": 2069,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\@angular_forms.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\@angular_forms.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 88,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\@angular_platform-browser.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\@angular_platform-browser.js.map"
+                },
+                {
+                    "blank": 1,
+                    "code": 122,
+                    "comment": 1,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\@angular_platform-browser_animations.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\@angular_platform-browser_animations.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 45,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\@angular_platform-server.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\@angular_platform-server.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 170,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\@angular_router.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\@angular_router.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 45,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\@angular_ssr.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\@angular_ssr.js.map"
+                },
+                {
+                    "blank": 1,
+                    "code": 171,
+                    "comment": 4,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\@angular_ssr_node.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\@angular_ssr_node.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 139,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\_metadata.json"
+                },
+                {
+                    "blank": 3,
+                    "code": 1115,
+                    "comment": 118,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\chunk-ESLTHEKQ.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\chunk-ESLTHEKQ.js.map"
+                },
+                {
+                    "blank": 2,
+                    "code": 295,
+                    "comment": 14,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\chunk-FHLD7D7B.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\chunk-FHLD7D7B.js.map"
+                },
+                {
+                    "blank": 4,
+                    "code": 1466,
+                    "comment": 396,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\chunk-HNBJOJ33.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\chunk-HNBJOJ33.js.map"
+                },
+                {
+                    "blank": 5,
+                    "code": 4371,
+                    "comment": 561,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\chunk-I6BJDCJD.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\chunk-I6BJDCJD.js.map"
+                },
+                {
+                    "blank": 5,
+                    "code": 5268,
+                    "comment": 654,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\chunk-IWUZB3JV.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\chunk-IWUZB3JV.js.map"
+                },
+                {
+                    "blank": 188,
+                    "code": 7501,
+                    "comment": 188,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\chunk-KOONMH45.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\chunk-KOONMH45.js.map"
+                },
+                {
+                    "blank": 31,
+                    "code": 16737,
+                    "comment": 1286,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\chunk-NLBR6JKS.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\chunk-NLBR6JKS.js.map"
+                },
+                {
+                    "blank": 6,
+                    "code": 9638,
+                    "comment": 37,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\chunk-OPPM2ORH.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\chunk-OPPM2ORH.js.map"
+                },
+                {
+                    "blank": 8,
+                    "code": 7706,
+                    "comment": 561,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\chunk-QBDK64A6.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\chunk-QBDK64A6.js.map"
+                },
+                {
+                    "blank": 4,
+                    "code": 982,
+                    "comment": 4,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\chunk-QITBFEOZ.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\chunk-QITBFEOZ.js.map"
+                },
+                {
+                    "blank": 7,
+                    "code": 665,
+                    "comment": 152,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\chunk-QRXOP6T4.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\chunk-QRXOP6T4.js.map"
+                },
+                {
+                    "blank": 37,
+                    "code": 2904,
+                    "comment": 37,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\chunk-TLFTQUMM.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\chunk-TLFTQUMM.js.map"
+                },
+                {
+                    "blank": 3,
+                    "code": 35,
+                    "comment": 13,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\chunk-VEU6FQVO.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\chunk-VEU6FQVO.js.map"
+                },
+                {
+                    "blank": 1,
+                    "code": 141,
+                    "comment": 4,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\chunk-YHCV7DAQ.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\chunk-YHCV7DAQ.js.map"
+                },
+                {
+                    "blank": 93,
+                    "code": 10504,
+                    "comment": 493,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\express.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\express.js.map"
+                },
+                {
+                    "blank": 2,
+                    "code": 1591,
+                    "comment": 133,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\ngx-toastr.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\ngx-toastr.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 3,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\package.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\rxjs.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\rxjs.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\rxjs_operators.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\rxjs_operators.js.map"
+                },
+                {
+                    "blank": 1,
+                    "code": 744,
+                    "comment": 214,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\xhr2-3JANGJDL.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr\\xhr2-3JANGJDL.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 3,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\.angular\\cache\\19.2.15\\yilmazMotorOtomotiv\\vite\\deps_ssr_temp_b8220555\\package.json"
+                },
+                {
+                    "blank": 3,
+                    "code": 14,
+                    "comment": 1,
+                    "filename": "yilmazMotorOtomotiv\\.editorconfig"
+                },
+                {
+                    "blank": 4,
+                    "code": 20,
+                    "comment": 20,
+                    "filename": "yilmazMotorOtomotiv\\.gitignore"
+                },
+                {
+                    "blank": 5,
+                    "code": 105,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\angular.json"
+                },
+                {
+                    "blank": 213,
+                    "code": 13680,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\package-lock.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 49,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\package.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 8,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\proxy.conf.json"
+                },
+                {
+                    "filename": "yilmazMotorOtomotiv\\public\\favicon.ico",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 23,
+                    "code": 36,
+                    "comment": 4,
+                    "filename": "yilmazMotorOtomotiv\\README.md"
+                },
+                {
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\app.component.css"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\app.component.html"
+                },
+                {
+                    "blank": 4,
+                    "code": 25,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\app.component.spec.ts"
+                },
+                {
+                    "blank": 5,
+                    "code": 28,
+                    "comment": 5,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\app.component.ts"
+                },
+                {
+                    "blank": 2,
+                    "code": 12,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\app.config.server.ts"
+                },
+                {
+                    "blank": 2,
+                    "code": 19,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\app.config.ts"
+                },
+                {
+                    "blank": 1,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\app.routes.server.ts"
+                },
+                {
+                    "blank": 2,
+                    "code": 38,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\app.routes.ts"
+                },
+                {
+                    "blank": 41,
+                    "code": 174,
+                    "comment": 6,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\about\\about.component.css"
+                },
+                {
+                    "blank": 13,
+                    "code": 222,
+                    "comment": 6,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\about\\about.component.html"
+                },
+                {
+                    "blank": 2,
+                    "code": 12,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\about\\about.component.ts"
+                },
+                {
+                    "blank": 112,
+                    "code": 571,
+                    "comment": 15,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\admin-dash-board\\admin-dash-board.component.css"
+                },
+                {
+                    "blank": 26,
+                    "code": 311,
+                    "comment": 21,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\admin-dash-board\\admin-dash-board.component.html"
+                },
+                {
+                    "blank": 10,
+                    "code": 277,
+                    "comment": 1,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\admin-dash-board\\admin-dash-board.component.ts"
+                },
+                {
+                    "blank": 110,
+                    "code": 627,
+                    "comment": 15,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\admin-orders-page\\admin-orders-page.component.css"
+                },
+                {
+                    "blank": 16,
+                    "code": 166,
+                    "comment": 12,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\admin-orders-page\\admin-orders-page.component.html"
+                },
+                {
+                    "blank": 31,
+                    "code": 203,
+                    "comment": 6,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\admin-orders-page\\admin-orders-page.component.ts"
+                },
+                {
+                    "blank": 18,
+                    "code": 72,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\admin-tickets\\admin-tickets.component.css"
+                },
+                {
+                    "blank": 6,
+                    "code": 148,
+                    "comment": 6,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\admin-tickets\\admin-tickets.component.html"
+                },
+                {
+                    "blank": 15,
+                    "code": 116,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\admin-tickets\\admin-tickets.component.ts"
+                },
+                {
+                    "blank": 15,
+                    "code": 64,
+                    "comment": 8,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\cart\\cart.component.css"
+                },
+                {
+                    "blank": 13,
+                    "code": 310,
+                    "comment": 12,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\cart\\cart.component.html"
+                },
+                {
+                    "blank": 40,
+                    "code": 242,
+                    "comment": 23,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\cart\\cart.component.ts"
+                },
+                {
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\category-admin-page\\category-admin-page.component.css"
+                },
+                {
+                    "blank": 1,
+                    "code": 94,
+                    "comment": 2,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\category-admin-page\\category-admin-page.component.html"
+                },
+                {
+                    "blank": 7,
+                    "code": 128,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\category-admin-page\\category-admin-page.component.ts"
+                },
+                {
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\communication\\communication.component.css"
+                },
+                {
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\communication\\communication.component.html"
+                },
+                {
+                    "blank": 2,
+                    "code": 9,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\communication\\communication.component.ts"
+                },
+                {
+                    "blank": 15,
+                    "code": 59,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\create-ticket\\create-ticket.component.css"
+                },
+                {
+                    "blank": 7,
+                    "code": 112,
+                    "comment": 9,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\create-ticket\\create-ticket.component.html"
+                },
+                {
+                    "blank": 12,
+                    "code": 109,
+                    "comment": 1,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\create-ticket\\create-ticket.component.ts"
+                },
+                {
+                    "blank": 63,
+                    "code": 318,
+                    "comment": 19,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\customer-product-page\\customer-product-page.component.css"
+                },
+                {
+                    "blank": 11,
+                    "code": 220,
+                    "comment": 2,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\customer-product-page\\customer-product-page.component.html"
+                },
+                {
+                    "blank": 25,
+                    "code": 214,
+                    "comment": 13,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\customer-product-page\\customer-product-page.component.ts"
+                },
+                {
+                    "blank": 4,
+                    "code": 50,
+                    "comment": 1,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\home\\home.component.css"
+                },
+                {
+                    "blank": 7,
+                    "code": 83,
+                    "comment": 4,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\home\\home.component.html"
+                },
+                {
+                    "blank": 4,
+                    "code": 27,
+                    "comment": 1,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\home\\home.component.ts"
+                },
+                {
+                    "blank": 22,
+                    "code": 123,
+                    "comment": 2,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\login\\login.component.css"
+                },
+                {
+                    "blank": 6,
+                    "code": 73,
+                    "comment": 2,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\login\\login.component.html"
+                },
+                {
+                    "blank": 14,
+                    "code": 76,
+                    "comment": 11,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\login\\login.component.ts"
+                },
+                {
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\navbar\\navbar.component.css"
+                },
+                {
+                    "blank": 7,
+                    "code": 109,
+                    "comment": 7,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\navbar\\navbar.component.html"
+                },
+                {
+                    "blank": 8,
+                    "code": 54,
+                    "comment": 5,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\navbar\\navbar.component.ts"
+                },
+                {
+                    "blank": 56,
+                    "code": 336,
+                    "comment": 5,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\product-admin-page\\product-admin-page.component.css"
+                },
+                {
+                    "blank": 9,
+                    "code": 184,
+                    "comment": 3,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\product-admin-page\\product-admin-page.component.html"
+                },
+                {
+                    "blank": 32,
+                    "code": 226,
+                    "comment": 20,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\product-admin-page\\product-admin-page.component.ts"
+                },
+                {
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\product-detail\\product-detail.component.css"
+                },
+                {
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\product-detail\\product-detail.component.html"
+                },
+                {
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\product-detail\\product-detail.component.ts"
+                },
+                {
+                    "blank": 13,
+                    "code": 59,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\product\\product.component.css"
+                },
+                {
+                    "blank": 20,
+                    "code": 307,
+                    "comment": 15,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\product\\product.component.html"
+                },
+                {
+                    "blank": 26,
+                    "code": 181,
+                    "comment": 10,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\product\\product.component.ts"
+                },
+                {
+                    "blank": 28,
+                    "code": 134,
+                    "comment": 6,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\ticket-detail\\ticket-detail.component.css"
+                },
+                {
+                    "blank": 13,
+                    "code": 180,
+                    "comment": 11,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\ticket-detail\\ticket-detail.component.html"
+                },
+                {
+                    "blank": 18,
+                    "code": 182,
+                    "comment": 2,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\ticket-detail\\ticket-detail.component.ts"
+                },
+                {
+                    "blank": 10,
+                    "code": 46,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\tickets\\tickets.component.css"
+                },
+                {
+                    "blank": 9,
+                    "code": 103,
+                    "comment": 10,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\tickets\\tickets.component.html"
+                },
+                {
+                    "blank": 10,
+                    "code": 91,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\tickets\\tickets.component.ts"
+                },
+                {
+                    "blank": 138,
+                    "code": 685,
+                    "comment": 21,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\user-profile\\user-profile.component.css"
+                },
+                {
+                    "blank": 25,
+                    "code": 436,
+                    "comment": 25,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\user-profile\\user-profile.component.html"
+                },
+                {
+                    "blank": 51,
+                    "code": 327,
+                    "comment": 26,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Components\\user-profile\\user-profile.component.ts"
+                },
+                {
+                    "blank": 4,
+                    "code": 25,
+                    "comment": 1,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Guards\\auth.guard.ts"
+                },
+                {
+                    "blank": 0,
+                    "code": 5,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Models\\category.ts"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Models\\communication.ts"
+                },
+                {
+                    "blank": 1,
+                    "code": 6,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Models\\createOrderDto.ts"
+                },
+                {
+                    "blank": 0,
+                    "code": 5,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Models\\createOrderItemDto.ts"
+                },
+                {
+                    "blank": 3,
+                    "code": 4,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Models\\listResponseModel.ts"
+                },
+                {
+                    "blank": 1,
+                    "code": 9,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Models\\loginDto.ts"
+                },
+                {
+                    "blank": 0,
+                    "code": 4,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Models\\mostSellingProductDto.ts"
+                },
+                {
+                    "blank": 0,
+                    "code": 10,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Models\\orderDetailDto.ts"
+                },
+                {
+                    "blank": 0,
+                    "code": 11,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Models\\OrderDetailsDto.ts"
+                },
+                {
+                    "blank": 1,
+                    "code": 9,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Models\\orderDto.ts"
+                },
+                {
+                    "blank": 0,
+                    "code": 6,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Models\\OrderItemDto.ts"
+                },
+                {
+                    "blank": 0,
+                    "code": 5,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Models\\orderStatus.ts"
+                },
+                {
+                    "blank": 1,
+                    "code": 9,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Models\\product.ts"
+                },
+                {
+                    "blank": 1,
+                    "code": 16,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Models\\productReview.ts"
+                },
+                {
+                    "blank": 0,
+                    "code": 9,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Models\\productWithCategoryNameDto.ts"
+                },
+                {
+                    "blank": 0,
+                    "code": 5,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Models\\responseModel.ts"
+                },
+                {
+                    "blank": 5,
+                    "code": 35,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Models\\ticket.ts"
+                },
+                {
+                    "blank": 0,
+                    "code": 5,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Models\\topRatedProductDto.ts"
+                },
+                {
+                    "blank": 1,
+                    "code": 16,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Models\\userDto.ts"
+                },
+                {
+                    "blank": 8,
+                    "code": 22,
+                    "comment": 4,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\pipes\\turkish-currency.pipe.ts"
+                },
+                {
+                    "blank": 24,
+                    "code": 137,
+                    "comment": 13,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Services\\auth.service.ts"
+                },
+                {
+                    "blank": 23,
+                    "code": 101,
+                    "comment": 16,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Services\\cart.service.ts"
+                },
+                {
+                    "blank": 4,
+                    "code": 25,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Services\\category.service.ts"
+                },
+                {
+                    "blank": 6,
+                    "code": 24,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Services\\contact-message.service.ts"
+                },
+                {
+                    "blank": 6,
+                    "code": 22,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Services\\login.service.ts"
+                },
+                {
+                    "blank": 2,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Services\\order-review.service.ts"
+                },
+                {
+                    "blank": 9,
+                    "code": 63,
+                    "comment": 1,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Services\\order.service.ts"
+                },
+                {
+                    "blank": 7,
+                    "code": 32,
+                    "comment": 1,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Services\\product-review.service.ts"
+                },
+                {
+                    "blank": 9,
+                    "code": 42,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Services\\product.service.ts"
+                },
+                {
+                    "blank": 10,
+                    "code": 47,
+                    "comment": 2,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Services\\ticket.service.ts"
+                },
+                {
+                    "blank": 6,
+                    "code": 42,
+                    "comment": 1,
+                    "filename": "yilmazMotorOtomotiv\\src\\app\\Services\\user.service.ts"
+                },
+                {
+                    "blank": 0,
+                    "code": 14,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\index.html"
+                },
+                {
+                    "blank": 2,
+                    "code": 5,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\main.server.ts"
+                },
+                {
+                    "blank": 1,
+                    "code": 5,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\src\\main.ts"
+                },
+                {
+                    "blank": 8,
+                    "code": 35,
+                    "comment": 25,
+                    "filename": "yilmazMotorOtomotiv\\src\\server.ts"
+                },
+                {
+                    "blank": 15,
+                    "code": 70,
+                    "comment": 9,
+                    "filename": "yilmazMotorOtomotiv\\src\\styles.css"
+                },
+                {
+                    "blank": 3,
+                    "code": 14,
+                    "comment": 2,
+                    "filename": "yilmazMotorOtomotiv\\tsconfig.app.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 25,
+                    "comment": 2,
+                    "filename": "yilmazMotorOtomotiv\\tsconfig.json"
+                },
+                {
+                    "blank": 2,
+                    "code": 11,
+                    "comment": 2,
+                    "filename": "yilmazMotorOtomotiv\\tsconfig.spec.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0,
+                    "filename": "yilmazMotorOtomotiv\\widget-test.html"
+                }
+            ]
+        }
+    ]
+}

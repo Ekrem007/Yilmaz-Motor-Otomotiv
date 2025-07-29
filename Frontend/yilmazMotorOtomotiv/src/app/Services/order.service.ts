@@ -70,4 +70,10 @@ export class OrderServiceService {
     getLastWeekEarnings(): Observable<ResponseModel<number>> {
       return this.httpClient.get<ResponseModel<number>>(this.apiUrl + "/getLastWeekEarnings");
     }
+    getMonthlySalesForLastYear() {
+      return this.httpClient.get<any>('https://localhost:7062/api/Order/getMonthlySalesForLastYear');
+    }
+    getWeeklySalesForLastWeek() {
+      return this.httpClient.get<any>('https://localhost:7062/api/Order/getDailySalesForLastWeek');
+    }
 }

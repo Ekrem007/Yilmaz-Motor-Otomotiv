@@ -1,5 +1,5 @@
 import { Product } from './../../Models/product';
-import { Component, OnInit } from '@angular/core';
+import { Component, EnvironmentInjector, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { OrderServiceService } from '../../Services/order.service';
 import { MostSellingProductDto } from '../../Models/mostSellingProductDto';
@@ -10,12 +10,15 @@ import { ProductReviewService } from '../../Services/product-review.service';
 import { TicketService } from '../../Services/ticket.service';
 import { ProductService } from '../../Services/product.service';
 import { TurkishCurrencyPipe } from '../../pipes/turkish-currency.pipe';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { PortalModule } from '@angular/cdk/portal';
 
 @Component({
   selector: 'app-admin-dash-board',
-  imports: [RouterModule, CommonModule, TurkishCurrencyPipe],
+  imports: [RouterModule, CommonModule, TurkishCurrencyPipe, NgxChartsModule,PortalModule],
   templateUrl: './admin-dash-board.component.html',
-  styleUrl: './admin-dash-board.component.css'
+  styleUrls: ['./admin-dash-board.component.css'],
+  
 })
 export class AdminDashBoardComponent implements OnInit {
   mostSellingProduct: MostSellingProductDto | null = null;
@@ -34,15 +37,75 @@ export class AdminDashBoardComponent implements OnInit {
   totalProductStocks: number = 0;
   lastWeekEarnings: number = 0;
 
+  // Aylık satış verisi (ngx-charts için)
+  monthlySalesData: any[] = [];
+  salesChartColorScheme = 'vivid';
+  weeklySalesData: any[] = [];
+  weeklySalesDataChart: any[] = [];
+
+
+  // Y ekseni için sayı formatlama fonksiyonu (ngx-charts)
+  yAxisTickFormat = (value: any) => value.toLocaleString('tr-TR');
+
 
  
 
   constructor(private orderService: OrderServiceService, private authService : AuthService,
     private productReviewService: ProductReviewService, private ticketService : TicketService,
-    private productService: ProductService) {}
+    private productService: ProductService,private environmentInjector: EnvironmentInjector) {}
 
   ngOnInit(): void {
     this.refreshDashboard();
+    this.getMonthlySalesForLastYear();
+    this.loadWeeklySalesData();
+  }
+  loadWeeklySalesData(): void {
+  this.orderService.getWeeklySalesForLastWeek().subscribe({
+    next: (response) => {
+      if (response.success && Array.isArray(response.data)) {
+        // Gün adını almak için opsiyonel fonksiyon
+        const getDayName = (dateStr: string) => {
+          const days = ['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt'];
+          const d = new Date(dateStr);
+          return days[d.getDay()];
+        };
+        this.weeklySalesData = [
+          {
+            name: 'Haftalık Satış',
+            series: response.data.map((item: any) => ({
+              name: getDayName(item.day),
+              value: item.totalSales
+            }))
+          }
+        ];
+      } else {
+        console.error('Haftalık satış verisi alınamadı:', response.message);
+      }
+    },
+    error: (error) => {
+      console.error('Haftalık satış verisi alınırken hata oluştu:', error);
+    }
+  });
+}
+
+
+  // Aylık satış verisini çek ve ngx-charts formatına dönüştür
+  getMonthlySalesForLastYear(): void {
+    this.orderService.getMonthlySalesForLastYear().subscribe({
+      next: (response) => {
+        if (response.success && Array.isArray(response.data)) {
+          this.monthlySalesData = response.data.map((item: any) => ({
+            name: item.month,
+            value: item.totalSales
+          }));
+        } else {
+          console.error('Aylık satış verisi alınamadı:', response.message);
+        }
+      },
+      error: (error) => {
+        console.error('Aylık satış verisi alınırken hata oluştu:', error);
+      }
+    });
   }
 
   refreshDashboard(): void {

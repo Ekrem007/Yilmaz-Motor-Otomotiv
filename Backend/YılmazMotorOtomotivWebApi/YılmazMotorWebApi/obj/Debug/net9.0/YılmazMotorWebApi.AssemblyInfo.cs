@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("YılmazMotorWebApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cd7d439cf7e93bdfedfc04a27889a19380743ec3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4bdc8435cee56e02257fc022d7d284911868caca")]
 [assembly: System.Reflection.AssemblyProductAttribute("YılmazMotorWebApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("YılmazMotorWebApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
