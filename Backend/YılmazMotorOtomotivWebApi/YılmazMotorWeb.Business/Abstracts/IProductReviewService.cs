@@ -18,5 +18,6 @@ namespace YılmazMotorWeb.Business.Abstracts
 		IDataResult<ProductReview> Add(ProductReview productReview);
 		IResult Update(ProductReview productReview, int productReviewId);
 		IResult Delete(int productReviewId);
+		IDataResult<TopRatedProductDto> GetTopRatedProduct();
 	}
 }

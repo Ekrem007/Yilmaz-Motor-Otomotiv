@@ -59,5 +59,14 @@ namespace YılmazMotorWeb.Business.Concretes
 			_productReviewDal.UpdateReview(productReview, productReviewId);
 			return new SuccessResult("Product review updated successfully");
 		}
+		public IDataResult<TopRatedProductDto> GetTopRatedProduct()
+		{
+			var topRatedProduct = _productReviewDal.GetTopRatedProduct();
+			if (topRatedProduct == null)
+			{
+				return new ErrorDataResult<TopRatedProductDto>("No top-rated product found");
+			}
+			return new SuccessDataResult<TopRatedProductDto>(topRatedProduct, "Top-rated product retrieved successfully");
+		}
 	}
 }

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("YılmazMotorWeb.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cea473dff0b958f2f90315504d14f15fc0814d7f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cd7d439cf7e93bdfedfc04a27889a19380743ec3")]
 [assembly: System.Reflection.AssemblyProductAttribute("YılmazMotorWeb.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("YılmazMotorWeb.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

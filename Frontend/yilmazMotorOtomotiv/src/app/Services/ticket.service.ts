@@ -47,4 +47,13 @@ export class TicketService {
   addReply(reply: CreateTicketReplyDto): Observable<ResponseModel<any>> {
     return this.httpClient.post<ResponseModel<any>>(`${this.replyApiUrl}/add`, reply);
   }
+  getOpenedTickets(): Observable<ResponseModel<number>> {
+    return this.httpClient.get<ResponseModel<number>>(`${this.apiUrl}/getOpenTicketCount`);
+  }
+  getClosedTickets(): Observable<ResponseModel<number>> {
+    return this.httpClient.get<ResponseModel<number>>(`${this.apiUrl}/getClosedTicketCount`);
+  }
+  getAnsweredTickets(): Observable<ResponseModel<number>> {
+    return this.httpClient.get<ResponseModel<number>>(`${this.apiUrl}/getAnsweredTicketCount`);
+  }
 }

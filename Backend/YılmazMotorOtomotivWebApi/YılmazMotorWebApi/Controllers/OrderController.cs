@@ -113,5 +113,205 @@ namespace YılmazMotorWebApi.Controllers
 				});
 			}
 		}
+		[HttpGet]
+		[Route("api/[controller]/getMostSellingProduct")]
+		public IActionResult GetMostSellingProduct()
+		{
+			var result = _orderService.GetMostSellingProduct();
+			if (result.Success)
+			{
+				return Ok(new
+				{
+					success = result.Success,
+					message = result.Message,
+					data = result.Data
+				});
+			}
+			else
+			{
+				return NotFound(new
+				{
+					success = result.Success,
+					message = result.Message
+				});
+			}
+		}
+		[HttpGet]
+		[Route("api/[controller]/getTotalCompletedOrdersCount")]
+		public IActionResult GetMostBuyingProduct()
+		{
+			var result = _orderService.GetAll();
+			if (result.Success)
+			{
+				return Ok(new
+				{
+					success = true,
+					message = "Total completed orders count retrieved successfully.",
+					data = result.Data
+				});
+			}
+			else
+			{
+				return NotFound(new
+				{
+					success = false,
+					message = result.Message
+				});
+			}
+		}
+		[HttpGet]
+		[Route("api/[controller]/getTotalGainedMoney")]
+		public IActionResult GetTotalGainedMoney()
+		{
+			var result = _orderService.GetTotalGainedMoney();
+			if (result.Success)
+			{
+				return Ok(new
+				{
+					success = true,
+					message = "Total gained money retrieved successfully.",
+					data = result.Data
+				});
+			}
+			else
+			{
+				return NotFound(new
+				{
+					success = false,
+					message = result.Message
+				});
+			}
+		}
+		[HttpGet]
+		[Route("api/[controller]/getPendigOrdersCount")]
+		public IActionResult GetPendingOrders()
+		{
+			var result = _orderService.GetAll();
+			if (result.Success)
+			{
+				var pendingOrders = result.Data.Where(o => o.Status == OrderStatus.Pending.ToString()).Count();
+				return Ok(new
+				{
+					success = true,
+					message = "Pending orders retrieved successfully.",
+					data = pendingOrders
+				});
+			}
+			else
+			{
+				return NotFound(new
+				{
+					success = false,
+					message = result.Message
+				});
+			}
+		}
+		[HttpGet]
+		[Route("api/[controller]/getAllOrdersCount")]
+		public IActionResult GetAllOrdersCount()
+		{
+			var result = _orderService.GetAll();
+			if (result.Success)
+			{
+				return Ok(new
+				{
+					success = true,
+					message = "All orders count retrieved successfully.",
+					data = result.Data.Count
+				});
+			}
+			else
+			{
+				return NotFound(new
+				{
+					success = false,
+					message = result.Message
+				});
+			}
+		}
+		[HttpGet]
+		[Route("api/[controller]/getLastMonthEarnings")]
+		public IActionResult GetLastMonthEarnings()
+		{
+			var result = _orderService.GetAll();
+			if (result.Success)
+			{
+				var lastMonth = DateTime.Now.AddMonths(-1);
+				var total = result.Data
+					.Where(o => o.Status != OrderStatus.Cancelled.ToString() && o.OrderDate >= lastMonth)
+					.Sum(o => o.TotalAmount);
+
+				return Ok(new
+				{
+					success = true,
+					message = "Last month's earnings calculated successfully.",
+					data = total
+				});
+			}
+			else
+			{
+				return NotFound(new
+				{
+					success = false,
+					message = result.Message
+				});
+			}
+		}
+		[HttpGet]
+		[Route("api/[controller]/getAverageOrderAmount")]
+		public IActionResult GetAverageOrderAmount()
+		{
+			var result = _orderService.GetAll();
+			if (result.Success && result.Data.Any())
+			{
+				var validOrders = result.Data.Where(o => o.Status != OrderStatus.Cancelled.ToString());
+				var average = validOrders.Average(o => o.TotalAmount);
+				return Ok(new
+				{
+					success = true,
+					message = "Average order amount calculated successfully.",
+					data = average
+				});
+			}
+			else
+			{
+				return Ok(new
+				{
+					success = true,
+					message = "No orders found.",
+					data = 0
+				});
+			}
+		}
+		[HttpGet]
+		[Route("api/[controller]/getLastWeekEarnings")]
+		public IActionResult GetLastWeekEarnings()
+		{
+			var result = _orderService.GetAll();
+			if (result.Success && result.Data.Any())
+			{
+				var oneWeekAgo = DateTime.Now.AddDays(-7);
+				var lastWeekEarnings = result.Data
+					.Where(o => o.Status != OrderStatus.Cancelled.ToString() && o.OrderDate >= oneWeekAgo)
+					.Sum(o => o.TotalAmount);
+
+				return Ok(new
+				{
+					success = true,
+					message = "Last week's earnings calculated successfully.",
+					data = lastWeekEarnings
+				});
+			}
+			else
+			{
+				return Ok(new
+				{
+					success = true,
+					message = "No orders found.",
+					data = 0
+				});
+			}
+		}
+
 	}
 }

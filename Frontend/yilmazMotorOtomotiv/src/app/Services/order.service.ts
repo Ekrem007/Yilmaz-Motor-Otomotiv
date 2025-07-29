@@ -7,6 +7,7 @@ import { OrderDetailsDto } from '../Models/OrderDetailsDto';
 import { Observable } from 'rxjs';
 import { ResponseModel } from '../Models/responseModel';
 import { ListResponseModel } from '../Models/listResponseModel';
+import { MostSellingProductDto } from '../Models/mostSellingProductDto';
 
 @Injectable({
   providedIn: 'root'
@@ -47,4 +48,26 @@ export class OrderServiceService {
    getOrdersByUserId(userId: number): Observable<ListResponseModel<OrderDetailsDto>> {
      return this.httpClient.get<ListResponseModel<OrderDetailsDto>>(this.apiUrl + "/getOrdersByUserId/" + userId);
    }
+
+   getMostSellingProduct(): Observable<{ success: boolean; message: string; data: MostSellingProductDto }> {
+     return this.httpClient.get<{ success: boolean; message: string; data: MostSellingProductDto }>(this.apiUrl + "/getMostSellingProduct");
+   }
+   getTotalGainedMoney(): Observable<ResponseModel<number>> {
+     return this.httpClient.get<ResponseModel<number>>(this.apiUrl + "/getTotalGainedMoney");
+   }
+   getAllOrdersCount(): Observable<ResponseModel<number>> {
+     return this.httpClient.get<ResponseModel<number>>(this.apiUrl + "/getAllOrdersCount");
+   }
+    getPendingOrdersCount(): Observable<ResponseModel<number>> {
+      return this.httpClient.get<ResponseModel<number>>(this.apiUrl + "/getPendigOrdersCount");
+    }
+    getLastMonthEarnings(): Observable<ResponseModel<number>> {
+      return this.httpClient.get<ResponseModel<number>>(this.apiUrl + "/getLastMonthEarnings");
+    }
+    getAverageOrderAmount(): Observable<ResponseModel<number>> {
+      return this.httpClient.get<ResponseModel<number>>(this.apiUrl + "/getAverageOrderAmount");
+    }
+    getLastWeekEarnings(): Observable<ResponseModel<number>> {
+      return this.httpClient.get<ResponseModel<number>>(this.apiUrl + "/getLastWeekEarnings");
+    }
 }

@@ -83,5 +83,28 @@ namespace YılmazMotorWeb.Dal.Concretes
 			existingReview.ReviewText = review.ReviewText;
 			_context.SaveChanges();
 		}
+		public TopRatedProductDto GetTopRatedProduct()
+		{
+			var topRatedProduct = _context.ProductReviews
+				.GroupBy(r => r.ProductId)
+				.Select(g => new
+				{
+					ProductId = g.Key,
+					AverageRating = g.Average(r => r.Rating),
+					ProductName = g.Select(r => r.Product.Name).FirstOrDefault()
+				})
+				.OrderByDescending(x => x.AverageRating)
+				.FirstOrDefault();
+			if (topRatedProduct == null)
+			{
+				return null;
+			}
+			return new TopRatedProductDto
+			{
+				ProductName = topRatedProduct.ProductName,
+				AverageRating = topRatedProduct.AverageRating,
+				ReviewCount = _context.ProductReviews.Count(r => r.ProductId == topRatedProduct.ProductId)
+			};
 		}
+	}
 }

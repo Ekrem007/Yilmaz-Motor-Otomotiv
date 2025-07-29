@@ -97,5 +97,48 @@ namespace YılmazMotorWebApi.Controllers
 				data = result.Data
 			});
 		}
+		[HttpGet]
+		[Route("api/[controller]/getTtoalProducStocks")]
+		public IActionResult GetTotalProductStocks()
+		{
+			var result = _productService.GetAll();
+			if (result.Success)
+			{
+				var totalStock = result.Data.Sum(p => p.Stock);
+				return Ok(new
+				{
+					success = true,
+					message = "Total product stocks retrieved successfully",
+					data = totalStock
+				});
+			}
+			return BadRequest(new
+			{
+				success = false,
+				message = result.Message
+			});
+
+		}
+		[HttpGet]
+		[Route("api/[controller]/getTotalProductCount")]
+		public IActionResult GetTotalProductCount()
+		{
+			var result = _productService.GetAll();
+			if (result.Success)
+			{
+				var totalCount = result.Data.Count;
+				return Ok(new
+				{
+					success = true,
+					message = "Total product count retrieved successfully",
+					data = totalCount
+				});
+			}
+			return BadRequest(new
+			{
+				success = false,
+				message = result.Message
+			});
+		}
 	}
 }

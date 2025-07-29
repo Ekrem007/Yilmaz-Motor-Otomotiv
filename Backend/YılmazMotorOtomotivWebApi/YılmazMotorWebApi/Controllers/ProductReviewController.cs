@@ -61,6 +61,18 @@ namespace YılmazMotorWebApi.Controllers
 				message = result.Message
 			});
 		}
+		[HttpGet]
+		[Route("api/[controller]/getTopRatedProduct")]
+		public IActionResult GetTopRatedProduct()
+		{
+			var result = _productReviewService.GetTopRatedProduct();
+			return Ok(new
+			{
+				success = result.Success,
+				message = result.Message,
+				data = result.Data
+			});
+		}
 
 	}
 }

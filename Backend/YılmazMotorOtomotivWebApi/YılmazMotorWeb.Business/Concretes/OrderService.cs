@@ -96,6 +96,25 @@ namespace YılmazMotorWeb.Business.Concretes
 			}
 			return new SuccessDataResult<List<OrderDetailsDto>>(orders, "Orders retrieved successfully");
 		}
+		public IDataResult<MostSellingProductDto> GetMostSellingProduct()
+		{
+			var mostSellingProduct = _orderDal.GetMostSellingProduct();
+			if (mostSellingProduct == null)
+			{
+				return new ErrorDataResult<MostSellingProductDto>("No sales data found");
+			}
+			return new SuccessDataResult<MostSellingProductDto>(mostSellingProduct, "Most selling product retrieved successfully");
+		}
+		public IDataResult<int> GetTotalCompletedOrdersCount()
+		{
+			var count = _orderDal.GetTotalCompletedOrdersCount();
+			return new SuccessDataResult<int>(count, "Total completed orders count retrieved successfully");
+		}
+		public IDataResult<int> GetTotalGainedMoney()
+		{
+			var totalMoney = _orderDal.GetTotalGainedMoney();
+			return new SuccessDataResult<int>(totalMoney, "Total gained money retrieved successfully");
+		}
 
 	}
 }

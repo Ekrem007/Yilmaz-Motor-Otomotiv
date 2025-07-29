@@ -154,5 +154,40 @@ namespace YılmazMotorWeb.Dal.Concretes
 				})).ToList();
 
 		}
+		public MostSellingProductDto GetMostSellingProduct()
+		{
+			var mostSellingProduct = _context.OrderItems
+				.GroupBy(oi => oi.ProductId)
+				.Select(g => new
+				{
+					ProductId = g.Key,
+					TotalQuantity = g.Sum(oi => oi.Quantity)
+				})
+				.OrderByDescending(g => g.TotalQuantity)
+				.FirstOrDefault();
+			if (mostSellingProduct == null)
+			{
+				return null;
+			}
+			var product = _context.Products.Find(mostSellingProduct.ProductId);
+			if (product == null)
+			{
+				return null;
+			}
+			return new MostSellingProductDto
+			{
+				ProductName = product.Name,
+				TotalSold = mostSellingProduct.TotalQuantity
+			};
+		}
+		public int GetTotalCompletedOrdersCount()
+		{
+			return _context.Orders.Count(o => o.Status == OrderStatus.Shipped);
+		}
+		public int GetTotalGainedMoney()
+		{
+			return (int)_context.Orders.Where(o => o.Status !=OrderStatus.Cancelled).Sum(o => o.TotalAmount);
+		}
+		
 	}
 }

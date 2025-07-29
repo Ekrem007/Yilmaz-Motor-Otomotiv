@@ -11,6 +11,16 @@
   },
   {
     "ContainingType": "Y\u0131lmazMotorWebApi.Controllers.AuthController",
+    "Method": "GetTotalUsers",
+    "RelativePath": "api/Auth/getTotalUsers",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Y\u0131lmazMotorWebApi.Controllers.AuthController",
     "Method": "GetUserById",
     "RelativePath": "api/Auth/getUserById/{id}",
     "HttpMethod": "GET",

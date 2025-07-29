@@ -40,6 +40,12 @@ export class ProductService {
   getProductById(productId: number): Observable<any> {
     return this.httpClient.get<any>(this.apiUrl + '/getbyid/' + productId);
   }
+  getTotalProductsCount(): Observable<ResponseModel<number>> {
+    return this.httpClient.get<ResponseModel<number>>(this.apiUrl + '/getTotalProductCount');
+  }
+  getTotalProductStocks(): Observable<ResponseModel<number>> {
+    return this.httpClient.get<ResponseModel<number>>(this.apiUrl + '/getTtoalProducStocks');
+  }
 }
 
 

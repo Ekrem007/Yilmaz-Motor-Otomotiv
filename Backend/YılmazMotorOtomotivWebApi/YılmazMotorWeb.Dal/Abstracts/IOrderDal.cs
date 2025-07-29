@@ -18,6 +18,10 @@ namespace YılmazMotorWeb.Dal.Abstracts
 		List<OrderDetailsDto> GetOrderDetailsByOrderId(int orderId);
 		void ChangeOrderStatus(int orderId, OrderStatus status);
 		List<OrderDetailsDto> GetOrdersByUserId(int userId);
+		MostSellingProductDto GetMostSellingProduct();
+		int GetTotalCompletedOrdersCount();
+		int GetTotalGainedMoney();
+
 
 	}
 }

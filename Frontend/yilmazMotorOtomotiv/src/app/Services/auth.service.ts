@@ -164,4 +164,9 @@ export class AuthService {
   isUser(): boolean {
     return this.getUserRole() === 2;
   }
+  
+  getTotalUsersCount(): Observable<number> {
+  return this.http.get<number>(`${this.apiUrl}/getTotalUsers`);
+}
+
 }

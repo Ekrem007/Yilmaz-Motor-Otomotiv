@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using YılmazMotorWeb.Business.Abstracts;
+using YılmazMotorWeb.Core.Utilities;
 using YılmazMotorWeb.Entities.Concretes;
 
 namespace YılmazMotorWebApi.Controllers
@@ -83,6 +84,58 @@ namespace YılmazMotorWebApi.Controllers
 			if (result.Success)
 				return Ok(result);
 			return NotFound(result);
+		}
+		[HttpGet]
+		[Route("api/[controller]/getOpenTicketCount")]
+		public IActionResult GetOpenTicketCount()
+		{
+			var result = _ticketService.GetAllTickets();
+			if (result.Success)
+			{
+				var openTicketsCount = result.Data.Count(t => t.Status == TicketStatus.Open);
+				return Ok(new
+				{
+					Success = true,
+					Message = "Open ticket count retrieved successfully.",
+					Data = openTicketsCount
+				});
+			}
+			return BadRequest(result);
+		}
+		[HttpGet]
+		[Route("api/[controller]/getClosedTicketCount")]
+		public IActionResult GetClosedTicketCount()
+		{
+			var result = _ticketService.GetAllTickets();
+			if (result.Success)
+			{
+				var closedTicketsCount = result.Data.Count(t => t.Status == TicketStatus.Closed);
+				return Ok(new
+				{
+					Success = true,
+					Message = "Closed ticket count retrieved successfully.",
+					Data = closedTicketsCount
+				});
+			}
+			return BadRequest(result);
+		}
+		[HttpGet]
+		[Route("api/[controller]/getAnsweredTicketCount")]
+		public IActionResult GetAnsweredTicketCount()
+		{
+			var result = _ticketService.GetAllTickets();
+			if (result.Success)
+			{
+				var answeredTicketsCount = result.Data.Count(t => t.Status == TicketStatus.Answered);
+				return Ok(new
+				{
+					Success = true,
+					Message = "Answered ticket count retrieved successfully.",
+					Data = answeredTicketsCount
+				});
+			}
+			return BadRequest(result);
+
 		}
 	}
 }

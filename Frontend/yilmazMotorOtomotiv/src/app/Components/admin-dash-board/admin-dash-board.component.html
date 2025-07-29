@@ -1,84 +1,358 @@
 <div class="admin-dashboard">
-  <!-- Sidebar -->
+  <!-- Modern Sidebar -->
   <div class="sidebar">
     <div class="sidebar-header">
-      <h3><i class="bi bi-speedometer2 me-2"></i>Yönetim Paneli</h3>
+      <div class="logo-container">
+        <div class="logo-icon">
+          <i class="bi bi-lightning-charge"></i>
+        </div>
+        <h3>Yılmaz Motor</h3>
+        <span class="subtitle">Admin Panel</span>
+      </div>
     </div>
     
     <nav class="sidebar-nav">
+      <!-- Dashboard -->
+      <a routerLink="/admin/dashboard" class="sidebar-item active">
+        <div class="sidebar-icon">
+          <i class="bi bi-speedometer2"></i>
+        </div>
+        <div class="sidebar-content">
+          <h5>Dashboard</h5>
+          <p>Genel istatistikler</p>
+        </div>
+        <div class="item-indicator"></div>
+      </a>
+
       <!-- Ürünler -->
       <a routerLink="/admin/products" class="sidebar-item">
-        <div class="sidebar-icon bg-gradient-primary">
+        <div class="sidebar-icon">
           <i class="bi bi-box-seam"></i>
         </div>
         <div class="sidebar-content">
           <h5>Ürün Yönetimi</h5>
-          <p>Ürünleri ekleyebilir, düzenleyebilir ve silebilirsiniz.</p>
+          <p>Ürünleri yönetin</p>
         </div>
-        <i class="bi bi-chevron-right sidebar-arrow"></i>
+        <div class="item-indicator"></div>
       </a>
 
       <!-- Siparişler -->
       <a routerLink="/admin/orders" class="sidebar-item">
-        <div class="sidebar-icon bg-gradient-success">
+        <div class="sidebar-icon">
           <i class="bi bi-bag-check"></i>
         </div>
         <div class="sidebar-content">
           <h5>Sipariş Yönetimi</h5>
-          <p>Siparişleri görüntüleyebilir ve yönetebilirsiniz.</p>
+          <p>Siparişleri takip edin</p>
         </div>
-        <i class="bi bi-chevron-right sidebar-arrow"></i>
+        <div class="item-indicator"></div>
       </a>
 
       <!-- Kullanıcılar -->
       <a routerLink="/admin/users" class="sidebar-item">
-        <div class="sidebar-icon bg-gradient-info">
+        <div class="sidebar-icon">
           <i class="bi bi-people"></i>
         </div>
         <div class="sidebar-content">
           <h5>Kullanıcı Yönetimi</h5>
-          <p>Kullanıcıları yönetebilir ve bilgilerini güncelleyebilirsiniz.</p>
+          <p>Müşteri bilgileri</p>
         </div>
-        <i class="bi bi-chevron-right sidebar-arrow"></i>
+        <div class="item-indicator"></div>
       </a>
       
       <!-- Kategoriler -->
       <a routerLink="/admin/categories" class="sidebar-item">
-        <div class="sidebar-icon bg-gradient-warning">
+        <div class="sidebar-icon">
           <i class="bi bi-tags"></i>
         </div>
         <div class="sidebar-content">
           <h5>Kategori Yönetimi</h5>
-          <p>Kategorileri ekleyebilir, düzenleyebilir ve silebilirsiniz.</p>
+          <p>Kategorileri düzenleyin</p>
         </div>
-        <i class="bi bi-chevron-right sidebar-arrow"></i>
+        <div class="item-indicator"></div>
       </a>
 
       <!-- İletişim -->
       <a routerLink="/admin/communication" class="sidebar-item">
-        <div class="sidebar-icon bg-gradient-dark">
+        <div class="sidebar-icon">
           <i class="bi bi-chat-dots"></i>
         </div>
         <div class="sidebar-content">
-          <h5>İletişim Yönetimi</h5>
-          <p>Müşteri iletişim taleplerini yönetebilirsiniz.</p>
+          <h5>İletişim</h5>
+          <p>Müşteri mesajları</p>
         </div>
-        <i class="bi bi-chevron-right sidebar-arrow"></i>
+        <div class="item-indicator"></div>
       </a>
 
       <!-- Destek Talepleri -->
       <a routerLink="/admin/tickets" class="sidebar-item">
-        <div class="sidebar-icon bg-gradient-danger">
+        <div class="sidebar-icon">
           <i class="bi bi-headset"></i>
         </div>
         <div class="sidebar-content">
           <h5>Destek Talepleri</h5>
-          <p>Kullanıcı destek taleplerini görüntüleyebilir ve yanıtlayabilirsiniz.</p>
+          <p>Teknik destek</p>
         </div>
-        <i class="bi bi-chevron-right sidebar-arrow"></i>
+        <div class="item-indicator"></div>
       </a>
     </nav>
   </div>
-  <!-- Main Content buraya widgetler gelecek -->
+  
+  <!-- Modern Main Content -->
+  <div class="main-content">
+    <!-- Header Section -->
+    <div class="content-header">
+      <div class="header-info">
+        <h1 class="page-title">
+          <i class="bi bi-bar-chart-line me-3"></i>
+          Yönetim Paneli
+        </h1>
+      </div>
+    </div>
 
+    <div class="container-fluid">
+      <!-- Main Statistics Grid -->
+      <div class="section-header">
+        <h2 class="section-title">
+          <i class="bi bi-bar-chart-line "></i>
+          Genel İstatistikler
+        </h2>
+      </div>
+
+      <div class="stats-grid">
+        <!-- En Çok Satan Ürün -->
+        <div class="stat-card" *ngIf="!isLoading && mostSellingProduct">
+          <div class="card-icon bg-gradient-primary">
+            <i class="bi bi-trophy"></i>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">En Çok Satan Ürün</h3>
+            <h4 class="card-value">{{ mostSellingProduct.productName }}</h4>
+            <p class="card-subtitle">{{ mostSellingProduct.totalSold | number: '1.0-0' }} adet satıldı</p>
+          </div>
+          <div class="card-trend positive">
+            <i class="bi bi-arrow-up"></i>
+          </div>
+        </div>
+
+        <!-- Loading Card -->
+        <div *ngIf="isLoading" class="stat-card">
+          <div class="loading-content">
+            <div class="loading-spinner">
+              <div class="spinner"></div>
+            </div>
+            <p>Yükleniyor...</p>
+          </div>
+        </div>
+
+        <!-- En Yüksek Puanlı Ürün -->
+        <div class="stat-card">
+          <div class="card-icon bg-gradient-warning">
+            <i class="bi bi-star-fill"></i>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">En Yüksek Puanlı Ürün</h3>
+            <h4 class="card-value">{{ highestRatedProduct?.productName || 'Yükleniyor...' }}</h4>
+            <p class="card-subtitle">{{ highestRatedProduct?.averageRating | number: '1.1-1' }} ★ ({{ highestRatedProduct?.reviewCount | number: '1.0-0' }} değerlendirme)</p>
+          </div>
+          <div class="card-trend positive">
+            <i class="bi bi-star"></i>
+          </div>
+        </div>
+
+        <!-- Toplam Kullanıcı -->
+        <div class="stat-card">
+          <div class="card-icon bg-gradient-info">
+            <i class="bi bi-people-fill"></i>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Toplam Kullanıcı</h3>
+            <h4 class="card-value">{{ totalUsersCount | number: '1.0-0' }}</h4>
+            <p class="card-subtitle">Kayıtlı müşteri sayısı</p>
+          </div>
+          <div class="card-trend positive">
+            <i class="bi bi-arrow-up"></i>
+          </div>
+        </div>
+
+        <!-- Toplam Sipariş -->
+        <div class="stat-card">
+          <div class="card-icon bg-gradient-success">
+            <i class="bi bi-cart-check"></i>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Toplam Sipariş</h3>
+            <h4 class="card-value">{{ totalOrdersCount | number: '1.0-0' }}</h4>
+            <p class="card-subtitle">Tüm zamanların toplamı</p>
+          </div>
+          <div class="card-trend positive">
+            <i class="bi bi-graph-up"></i>
+          </div>
+        </div>
+
+        <!-- Bekleyen Siparişler -->
+        <div class="stat-card">
+          <div class="card-icon bg-gradient-orange">
+            <i class="bi bi-clock-history"></i>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Bekleyen Siparişler</h3>
+            <h4 class="card-value">{{ totalPendingOrdersCount | number: '1.0-0' }}</h4>
+            <p class="card-subtitle">İşlem bekleyen</p>
+          </div>
+          <div class="card-trend">
+            <i class="bi bi-hourglass-split"></i>
+          </div>
+        </div>
+
+        <!-- Toplam Ürün -->
+        <div class="stat-card">
+          <div class="card-icon bg-gradient-purple">
+            <i class="bi bi-box"></i>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Toplam Ürün</h3>
+            <h4 class="card-value">{{ totalProductsCount | number: '1.0-0' }}</h4>
+            <p class="card-subtitle">Katalogdaki ürün sayısı</p>
+          </div>
+          <div class="card-trend">
+            <i class="bi bi-boxes"></i>
+          </div>
+        </div>
+
+        <!-- Toplam Stok -->
+        <div class="stat-card">
+          <div class="card-icon bg-gradient-teal">
+            <i class="bi bi-archive"></i>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Toplam Stok</h3>
+            <h4 class="card-value">{{ totalProductStocks | number: '1.0-0' }}</h4>
+            <p class="card-subtitle">Mevcut stok adedi</p>
+          </div>
+          <div class="card-trend">
+            <i class="bi bi-stack"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Support Section -->
+      <div class="section-header">
+        <h2 class="section-title">
+          <i class="bi bi-headset me-3"></i>
+          Destek & Müşteri Hizmetleri
+        </h2>
+      </div>
+      
+      <div class="stats-grid support-grid">
+        <div class="stat-card">
+          <div class="card-icon bg-gradient-info">
+            <i class="bi bi-ticket-detailed"></i>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Açık Talepler</h3>
+            <h4 class="card-value">{{ openedTicketsCount | number: '1.0-0' }}</h4>
+            <p class="card-subtitle">Bekleyen destek talepleri</p>
+          </div>
+          <div class="card-trend negative">
+            <i class="bi bi-exclamation-triangle"></i>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="card-icon bg-gradient-success">
+            <i class="bi bi-check-circle"></i>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Kapalı Talepler</h3>
+            <h4 class="card-value">{{ closedTicketsCount | number: '1.0-0' }}</h4>
+            <p class="card-subtitle">Çözümlenmiş talepler</p>
+          </div>
+          <div class="card-trend positive">
+            <i class="bi bi-check-all"></i>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="card-icon bg-gradient-warning">
+            <i class="bi bi-chat-dots"></i>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">İşlemde</h3>
+            <h4 class="card-value">{{ answeredTicketsCount | number: '1.0-0' }}</h4>
+            <p class="card-subtitle">Çözüm sürecinde</p>
+          </div>
+          <div class="card-trend">
+            <i class="bi bi-arrow-repeat"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Financial Section -->
+      <div class="section-header">
+        <h2 class="section-title">
+          <i class="bi bi-graph-up-arrow me-3"></i>
+          Mali Durum
+        </h2>
+      </div>
+      
+      <div class="stats-grid financial-grid">
+        <div class="stat-card">
+          <div class="card-icon bg-gradient-success">
+            <i class="bi bi-wallet2"></i>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Toplam Kazanç</h3>
+            <h4 class="card-value">{{ totalGainedMoney | turkishCurrency }}</h4>
+            <p class="card-subtitle">Tüm zamanların geliri</p>
+          </div>
+          <div class="card-trend positive">
+            <i class="bi bi-trending-up"></i>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="card-icon bg-gradient-primary">
+            <i class="bi bi-calculator"></i>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Ortalama Sipariş</h3>
+            <h4 class="card-value">{{ averageOrderAmount | turkishCurrency }}</h4>
+            <p class="card-subtitle">Sipariş başı ortalama</p>
+          </div>
+          <div class="card-trend">
+            <i class="bi bi-bar-chart"></i>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="card-icon bg-gradient-info">
+            <i class="bi bi-calendar-month"></i>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Son Ay</h3>
+            <h4 class="card-value">{{ lastMonthEarnings | turkishCurrency }}</h4>
+            <p class="card-subtitle">Bu ayki gelir</p>
+          </div>
+          <div class="card-trend positive">
+            <i class="bi bi-arrow-up-right"></i>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="card-icon bg-gradient-purple">
+            <i class="bi bi-calendar-week"></i>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Son Hafta</h3>
+            <h4 class="card-value">{{ lastWeekEarnings | turkishCurrency }}</h4>
+            <p class="card-subtitle">Bu haftaki gelir</p>
+          </div>
+          <div class="card-trend positive">
+            <i class="bi bi-graph-up"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

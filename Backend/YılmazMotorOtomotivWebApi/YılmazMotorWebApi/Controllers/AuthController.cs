@@ -138,6 +138,13 @@ namespace YılmazMotorWebApi.Controllers
 
 			return BadRequest(new { message = "Update failed", errors = result.Errors });
 		}
+		[HttpGet("getTotalUsers")]
+		public IActionResult GetTotalUsers()
+		{
+			int count = _userManager.Users.Count(u => u.Id != 1);
+			return Ok(count);
+		}
+
 
 
 	}

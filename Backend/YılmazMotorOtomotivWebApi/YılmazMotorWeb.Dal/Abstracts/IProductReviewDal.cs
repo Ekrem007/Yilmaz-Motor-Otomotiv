@@ -15,5 +15,6 @@ namespace YılmazMotorWeb.Dal.Abstracts
 		void DeleteReview(int id);
 		ProductReview GetReviewById(int id);
 		List<ProductReviewDto> GetAllReviews();
+		TopRatedProductDto GetTopRatedProduct();
 	}
 }

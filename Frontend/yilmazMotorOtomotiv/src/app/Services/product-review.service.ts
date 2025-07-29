@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { ProductReview, CreateProductReviewDto } from '../Models/productReview';
 import { ResponseModel } from '../Models/responseModel';
 import { ListResponseModel } from '../Models/listResponseModel';
+import { TopRatedProductDto } from '../Models/topRatedProductDto';
 
 @Injectable({
   providedIn: 'root'
@@ -32,5 +33,8 @@ export class ProductReviewService {
 
   update(productReview: ProductReview, productReviewId: number): Observable<ResponseModel<ProductReview>> {
     return this.http.put<ResponseModel<ProductReview>>(`${this.apiUrl}/update/${productReviewId}`, productReview);
+  }
+  getTopRatingProducts(): Observable<ResponseModel<TopRatedProductDto>> {
+    return this.http.get<ResponseModel<TopRatedProductDto>>(`${this.apiUrl}/getTopRatedProduct`);
   }
 }

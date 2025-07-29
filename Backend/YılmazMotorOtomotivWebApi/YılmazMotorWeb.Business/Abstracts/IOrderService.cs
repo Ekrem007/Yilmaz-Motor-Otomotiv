@@ -19,6 +19,9 @@ namespace YılmazMotorWeb.Business.Abstracts
 		IDataResult<List<OrderDetailsDto>> GetOrderDetailsByOrderId(int orderId);
 		IResult ChangeOrderStatus(int orderId, OrderStatus status);
 		IDataResult<List<OrderDetailsDto>> GetOrdersByUserId(int userId);
+		IDataResult<MostSellingProductDto> GetMostSellingProduct();
+		IDataResult<int> GetTotalCompletedOrdersCount();
+		IDataResult<int> GetTotalGainedMoney();
 
 	}
 }
