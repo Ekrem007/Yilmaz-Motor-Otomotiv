@@ -32,14 +32,25 @@ namespace YılmazMotorWebApi.Controllers
 				Email = dto.Email,
 				Name = dto.Name,
 				SurName = dto.SurName,
-				PhoneNumber = dto.PhoneNumber.ToString(),
+				PhoneNumber = dto.PhoneNumber,
 				Address = dto.Address
 			};
 
 			var result = await _userManager.CreateAsync(user, dto.Password);
 
 			if (result.Succeeded)
+			{
+				var role = _roleManager.Roles.FirstOrDefault(r => r.Id == 2);
+				if (role != null)
+				{
+					await _userManager.AddToRoleAsync(user, role.Name);
+				}
+				else
+				{
+					return BadRequest("Role with ID 2 not found.");
+				}
 				return Ok("User registered successfully");
+			}
 
 			return BadRequest(result.Errors);
 		}

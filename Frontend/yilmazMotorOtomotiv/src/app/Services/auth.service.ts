@@ -4,6 +4,8 @@ import { Observable, BehaviorSubject, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
 import { LoginDto, LoginResponse } from '../Models/loginDto';
+import { RegisterDto } from '../Models/registerDto';
+import { ResponseModel } from '../Models/responseModel';
 
 @Injectable({
   providedIn: 'root'
@@ -166,7 +168,13 @@ export class AuthService {
   }
   
   getTotalUsersCount(): Observable<number> {
-  return this.http.get<number>(`${this.apiUrl}/getTotalUsers`);
+    return this.http.get<number>(`${this.apiUrl}/getTotalUsers`);
 }
+  register(registerDto: RegisterDto): Observable<any> {
+    // Backend düz metin döndürüyorsa responseType: 'text' olarak ayarlanmalı
+    return this.http.post(`${this.apiUrl}/register`, registerDto, { responseType: 'text' });
+  }
 
 }
+
+

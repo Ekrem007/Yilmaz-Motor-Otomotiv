@@ -1,3 +1,4 @@
+import { Component } from '@angular/core';
 import { Routes } from '@angular/router';
 import { LoginComponent } from './Components/login/login.component';
 import { HomeComponent } from './Components/home/home.component';
@@ -16,6 +17,7 @@ import { TicketsComponent } from './Components/tickets/tickets.component';
 import { CreateTicketComponent } from './Components/create-ticket/create-ticket.component';
 import { TicketDetailComponent } from './Components/ticket-detail/ticket-detail.component';
 import { AdminTicketsComponent } from './Components/admin-tickets/admin-tickets.component';
+import { RegisterComponent } from './Components/register/register.component';
 
 
 export const routes: Routes = [
@@ -36,5 +38,6 @@ export const routes: Routes = [
   {path: 'tickets', component: TicketsComponent, canActivate: [AuthGuard] },
   {path: 'tickets/create', component: CreateTicketComponent, canActivate: [AuthGuard] },
   {path: 'tickets/:id', component: TicketDetailComponent, canActivate: [AuthGuard] },
+  {path: 'register', component: RegisterComponent },
   { path: '**', redirectTo: '' }
 ];
