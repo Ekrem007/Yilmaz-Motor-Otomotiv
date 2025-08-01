@@ -368,8 +368,7 @@ namespace YılmazMotorWebApi.Controllers
 				var startDay = today.AddDays(-6); 
 
 				var orders = result.Data
-					.Where(o => !string.Equals(o.Status, OrderStatus.Cancelled.ToString(), StringComparison.OrdinalIgnoreCase)
-								&& o.OrderDate.Date >= startDay)
+					.Where(o => !string.Equals(o.Status, OrderStatus.Cancelled.ToString(), StringComparison.OrdinalIgnoreCase)&& o.OrderDate.Date >= startDay)
 					.ToList();
 
 				var dailySales = Enumerable.Range(0, 7)

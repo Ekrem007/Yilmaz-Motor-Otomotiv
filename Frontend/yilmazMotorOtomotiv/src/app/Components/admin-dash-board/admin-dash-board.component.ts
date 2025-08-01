@@ -1,5 +1,5 @@
 import { Product } from './../../Models/product';
-import { Component, EnvironmentInjector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { OrderServiceService } from '../../Services/order.service';
 import { MostSellingProductDto } from '../../Models/mostSellingProductDto';
@@ -15,10 +15,10 @@ import { PortalModule } from '@angular/cdk/portal';
 
 @Component({
   selector: 'app-admin-dash-board',
-  imports: [RouterModule, CommonModule, TurkishCurrencyPipe, NgxChartsModule,PortalModule],
+  imports: [RouterModule, CommonModule, TurkishCurrencyPipe, NgxChartsModule, PortalModule],
   templateUrl: './admin-dash-board.component.html',
   styleUrls: ['./admin-dash-board.component.css'],
-  
+  providers: []
 })
 export class AdminDashBoardComponent implements OnInit {
   mostSellingProduct: MostSellingProductDto | null = null;
@@ -52,7 +52,7 @@ export class AdminDashBoardComponent implements OnInit {
 
   constructor(private orderService: OrderServiceService, private authService : AuthService,
     private productReviewService: ProductReviewService, private ticketService : TicketService,
-    private productService: ProductService,private environmentInjector: EnvironmentInjector) {}
+    private productService: ProductService) {}
 
   ngOnInit(): void {
     this.refreshDashboard();

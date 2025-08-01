@@ -4,6 +4,8 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { PortalModule } from '@angular/cdk/portal';
+import { Overlay } from '@angular/cdk/overlay';
 
 import { routes } from './app.routes';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
@@ -20,7 +22,9 @@ export const appConfig: ApplicationConfig = {
       preventDuplicates: true
     }),
     importProvidersFrom(NgxChartsModule),
-    importProvidersFrom(MatTooltipModule)
+    importProvidersFrom(MatTooltipModule),
+    importProvidersFrom(PortalModule),
+    Overlay
   ]
   
 };

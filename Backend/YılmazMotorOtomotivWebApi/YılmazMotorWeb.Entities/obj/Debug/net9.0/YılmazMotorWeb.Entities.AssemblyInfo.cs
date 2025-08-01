@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("YılmazMotorWeb.Entities")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2c48ad6d7a143f129888980b86f7a4443fcd5ac7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0f42df3c730acc344dbef19aa7257d76396d84ce")]
 [assembly: System.Reflection.AssemblyProductAttribute("YılmazMotorWeb.Entities")]
 [assembly: System.Reflection.AssemblyTitleAttribute("YılmazMotorWeb.Entities")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
