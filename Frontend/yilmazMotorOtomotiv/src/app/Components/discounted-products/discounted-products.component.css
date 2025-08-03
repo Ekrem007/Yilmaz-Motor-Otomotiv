@@ -43,3 +43,28 @@
     height: 160px !important;
   }
 }
+
+/* Countdown timer stili */
+.countdown-timer {
+  display: inline-flex;
+  align-items: center;
+  font-family: 'Courier New', monospace;
+  font-weight: 600;
+}
+
+.countdown-timer span {
+  display: inline-block;
+  font-size: 0.85rem;
+}
+
+/* Saniye değişiminde animasyon efekti */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.countdown-timer span:last-child {
+  color: #dc3545;
+  animation: pulse 1s infinite;
+}

@@ -1,0 +1,176 @@
+<!-- Admin Dashboard Header -->
+<div class="container-fluid bg-white shadow-sm py-3 mb-4">
+  <div class="row align-items-center">
+    <div class="col text-center">
+      <h2 class="mb-0 fw-bold text-primary">İndirim Yönetimi</h2>
+      <p class="text-muted small mb-0">Ürünlere özel indirim tanımlayın ve yönetin</p>
+    </div>
+  </div>
+</div>
+
+<div class="container py-3">
+  <div class="row">
+    <!-- İndirim Ekleme Formu -->
+    <div class="col-md-4 mb-4">
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white py-3">
+          <h5 class="card-title mb-0 fw-bold"><i class="bi bi-tag-fill text-primary me-2"></i>Yeni İndirim Ekle</h5>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="discountForm" (ngSubmit)="onSubmit()">
+            <!-- Ürün Seçimi -->
+            <div class="mb-3">
+              <label for="productId" class="form-label fw-bold">Ürün Seçin</label>
+              <select
+                id="productId"
+                class="form-select"
+                formControlName="productId"
+                (change)="onProductChange()"
+                [class.is-invalid]="discountForm.get('productId')?.invalid && discountForm.get('productId')?.touched"
+              >
+                <option [ngValue]="null" selected>Ürün seçin</option>
+                <optgroup *ngFor="let category of products | groupProductsByCategory" [label]="category.categoryName">
+                  <option *ngFor="let product of category.products" [value]="product.id">
+                    {{ product.name }} - Stok: {{ product.stock }}
+                  </option>
+                </optgroup>
+              </select>
+              <div class="invalid-feedback">
+                Lütfen bir ürün seçin.
+              </div>
+            </div>
+
+            <!-- Seçilen Ürün Bilgisi -->
+            <div *ngIf="selectedProduct" class="mb-3 border-top pt-3">
+              <div class="d-flex align-items-start">
+                <div class="flex-grow-1">
+                  <h6 class="mb-1">{{ selectedProduct.name }}</h6>
+                  <p class="mb-1 small text-muted">{{ selectedProduct.categoryName }}</p>
+                  <p class="mb-0 text-primary fw-bold">{{ selectedProduct.price | turkishCurrency }}</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- İndirim Oranı -->
+            <div class="mb-3">
+              <label for="discountRate" class="form-label fw-bold">İndirim Oranı (%)</label>
+              <div class="input-group">
+                <input
+                  type="number"
+                  id="discountRate"
+                  class="form-control"
+                  formControlName="rate"
+                  min="1"
+                  max="99"
+                  [class.is-invalid]="discountForm.get('rate')?.invalid && discountForm.get('rate')?.touched"
+                >
+                <span class="input-group-text">%</span>
+                <div class="invalid-feedback">
+                  İndirim oranı %1 ile %99 arasında olmalıdır.
+                </div>
+              </div>
+            </div>
+
+            <!-- İndirim Hesaplama -->
+            <div *ngIf="selectedProduct && discountForm.get('rate')?.valid && discountForm.get('rate')?.value" class="mb-3 bg-light rounded p-3">
+              <p class="mb-1"><strong>Ürün Fiyatı:</strong> {{ selectedProduct.price | turkishCurrency }}</p>
+              <p class="mb-1"><strong>İndirim Oranı:</strong> %{{ discountForm.get('rate')?.value }}</p>
+              <p class="mb-0"><strong>İndirimli Fiyat:</strong> 
+                <span class="text-success fw-bold">
+                  {{ calculateDiscountedPrice(selectedProduct.price, discountForm.get('rate')?.value) | turkishCurrency }}
+                </span>
+              </p>
+            </div>
+
+            <!-- İndirim Bitiş Tarihi -->
+            <div class="mb-3">
+              <label for="endDate" class="form-label fw-bold">İndirim Bitiş Tarihi</label>
+              <input
+                type="date"
+                id="endDate"
+                class="form-control"
+                formControlName="endDate"
+                [min]="minEndDate"
+                [class.is-invalid]="discountForm.get('endDate')?.invalid && discountForm.get('endDate')?.touched"
+              >
+              <div class="invalid-feedback">
+                Lütfen geçerli bir tarih seçin.
+              </div>
+            </div>
+
+            <!-- Bildirimler -->
+            <div *ngIf="successMessage" class="alert alert-success">
+              <i class="bi bi-check-circle-fill me-2"></i>{{ successMessage }}
+            </div>
+            <div *ngIf="errorMessage" class="alert alert-danger">
+              <i class="bi bi-exclamation-circle-fill me-2"></i>{{ errorMessage }}
+            </div>
+
+            <!-- Submit Button -->
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary" [disabled]="discountForm.invalid || isLoading">
+                <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" role="status"></span>
+                <i *ngIf="!isLoading" class="bi bi-plus-lg me-2"></i>İndirim Ekle
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mevcut İndirimler Tablosu -->
+    <div class="col-md-8">
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white py-3">
+          <h5 class="card-title mb-0 fw-bold"><i class="bi bi-tags-fill text-primary me-2"></i>Mevcut İndirimler</h5>
+        </div>
+        <div class="card-body p-0">
+          <!-- Loading -->
+          <div *ngIf="isLoading" class="text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Yükleniyor...</span>
+            </div>
+            <p class="mt-3 text-muted">İndirimli ürünler yükleniyor...</p>
+          </div>
+
+          <!-- No Discounts -->
+          <div *ngIf="!isLoading && discounts.length === 0" class="text-center py-5">
+            <i class="bi bi-tag-fill text-muted display-5 mb-3"></i>
+            <h6 class="text-muted">İndirimli Ürün Bulunamadı</h6>
+            <p class="text-muted small">Henüz hiçbir ürüne indirim tanımlanmamış.</p>
+          </div>
+
+          <!-- Discounts Table -->
+          <div class="table-responsive" *ngIf="!isLoading && discounts.length > 0">
+            <table class="table align-middle">
+              <thead class="bg-light">
+                <tr>
+                  <th class="py-3">Ürün</th>
+                  <th class="py-3">Kategori</th>
+                  <th class="py-3">Fiyat</th>
+                  <th class="py-3">İndirim</th>
+                  <th class="py-3">İndirimli Fiyat</th>
+                  <th class="py-3">Bitiş Tarihi</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let discount of discounts">
+                  <td>
+                    <span class="fw-medium">{{ discount.productName }}</span>
+                  </td>
+                  <td>{{ discount.categoryName }}</td>
+                  <td>{{ discount.originalPrice | turkishCurrency }}</td>
+                  <td>
+                    <span class="badge bg-danger">%{{ discount.discountRate }}</span>
+                  </td>
+                  <td class="text-success fw-bold">{{ discount.discountedPrice | turkishCurrency }}</td>
+                  <td>{{ formatEndDate(discount.discountEndDate) }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

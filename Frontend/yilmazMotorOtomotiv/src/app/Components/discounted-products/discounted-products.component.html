@@ -24,7 +24,7 @@
     </div>
 
     <!-- No Products Found -->
-    <div *ngIf="discountedProducts.length === 0 && !isLoading && !errorMessage" class="text-center py-5">
+    <div *ngIf="shouldShowNoProductsMessage() && !isLoading && !errorMessage" class="text-center py-5">
       <div class="bg-white rounded-4 shadow-sm p-5">
         <div class="mb-4">
           <div class="icon-wrapper bg-light rounded-circle p-4 d-inline-flex">
@@ -40,8 +40,8 @@
     </div>
 
     <!-- Products Grid -->
-    <div *ngIf="discountedProducts.length > 0 && !isLoading" class="row g-4">
-      <div *ngFor="let product of discountedProducts" class="col-12 col-md-6 col-lg-4">
+    <div *ngIf="!shouldShowNoProductsMessage() && !isLoading" class="row g-4">
+      <div *ngFor="let product of discountedProducts" class="col-12 col-md-6 col-lg-4" [hidden]="!isProductVisible(product)">
         <div class="card product-card h-100 shadow-sm border-0" (click)="navigateToProductDetail(product.productId)">
           <div class="position-relative">
             <!-- Ürün resmi -->
@@ -53,10 +53,15 @@
               </div>
             </div>
             
-            <!-- Kalan gün etiketi -->
+            <!-- Kalan zaman etiketi -->
             <div *ngIf="isDiscountActive(product.discountEndDate)" class="position-absolute top-0 end-0 m-3">
               <div class="badge bg-warning text-dark p-2">
-                Son {{ calculateRemainingDays(product.discountEndDate) }} Gün
+                <div class="countdown-timer">
+                  <span *ngIf="product.remainingTime?.days">{{ product.remainingTime?.days }} Gün &nbsp;</span>
+                  <span>{{ product.remainingTime?.hours | number:'2.0-0' }}:</span>
+                  <span>{{ product.remainingTime?.minutes | number:'2.0-0' }}:</span>
+                  <span>{{ product.remainingTime?.seconds | number:'2.0-0' }}</span>
+                </div>
               </div>
             </div>
           </div>

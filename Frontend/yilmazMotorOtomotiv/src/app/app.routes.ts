@@ -19,6 +19,7 @@ import { TicketDetailComponent } from './Components/ticket-detail/ticket-detail.
 import { AdminTicketsComponent } from './Components/admin-tickets/admin-tickets.component';
 import { RegisterComponent } from './Components/register/register.component';
 import { DiscountedProductsComponent } from './Components/discounted-products/discounted-products.component';
+import { DiscountAdminPageComponent } from './Components/discount-admin-page/discount-admin-page.component';
 
 
 export const routes: Routes = [
@@ -34,6 +35,7 @@ export const routes: Routes = [
   {path: 'admin/categories', component: CategoryAdminPageComponent, canActivate: [AuthGuard] },
   {path: 'admin/orders', component: AdminOrdersPageComponent, canActivate: [AuthGuard] },
   {path: 'admin/tickets', component: AdminTicketsComponent, canActivate: [AuthGuard] },
+  {path: 'admin/discounts', component: DiscountAdminPageComponent, canActivate: [AuthGuard] },
   {path: 'profile', component: UserProfileComponent, canActivate: [AuthGuard] },
   {path: 'cart', component: CartComponent },
   {path: 'tickets', component: TicketsComponent, canActivate: [AuthGuard] },
