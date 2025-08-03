@@ -29,7 +29,18 @@ namespace YılmazMotorWeb.Dal.Concretes
 				if (product == null)
 					throw new Exception($"Product with ID {item.ProductId} not found.");
 
-				item.Price = product.Price; 
+				var activeDiscount = _context.Discounts
+					.FirstOrDefault(d => d.ProductId == item.ProductId && DateTime.Now >= d.StartDate && DateTime.Now <= d.EndDate);
+
+				if (activeDiscount != null)
+				{
+					item.Price = product.Price - (product.Price * activeDiscount.Rate / 100);
+				}
+				else
+				{
+					item.Price = product.Price;
+				}
+
 			}
 
 			order.TotalAmount = order.OrderItems?.Sum(item => item.Price * item.Quantity) ?? 0;

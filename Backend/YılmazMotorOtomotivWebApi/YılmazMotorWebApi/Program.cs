@@ -52,6 +52,9 @@ builder.Services.AddScoped<ITicketDal, EFTicketDal>();
 builder.Services.AddScoped<ITicketReplyService, TicketReplyService>();
 builder.Services.AddScoped<ITicketReplyDal, EFTicketReplyDal>();
 
+builder.Services.AddScoped<IDiscountService, DiscountService>();
+builder.Services.AddScoped<IDiscountDal, EFDiscountDal>();
+
 
 
 //Identity

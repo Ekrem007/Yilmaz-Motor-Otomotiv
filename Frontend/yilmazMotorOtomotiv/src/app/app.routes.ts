@@ -18,6 +18,7 @@ import { CreateTicketComponent } from './Components/create-ticket/create-ticket.
 import { TicketDetailComponent } from './Components/ticket-detail/ticket-detail.component';
 import { AdminTicketsComponent } from './Components/admin-tickets/admin-tickets.component';
 import { RegisterComponent } from './Components/register/register.component';
+import { DiscountedProductsComponent } from './Components/discounted-products/discounted-products.component';
 
 
 export const routes: Routes = [
@@ -38,6 +39,7 @@ export const routes: Routes = [
   {path: 'tickets', component: TicketsComponent, canActivate: [AuthGuard] },
   {path: 'tickets/create', component: CreateTicketComponent, canActivate: [AuthGuard] },
   {path: 'tickets/:id', component: TicketDetailComponent, canActivate: [AuthGuard] },
+  {path: 'discountedProducts', component: DiscountedProductsComponent},
   {path: 'register', component: RegisterComponent },
   { path: '**', redirectTo: '' }
 ];

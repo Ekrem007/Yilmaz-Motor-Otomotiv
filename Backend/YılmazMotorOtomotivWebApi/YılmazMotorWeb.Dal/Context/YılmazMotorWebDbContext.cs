@@ -31,8 +31,10 @@ namespace YılmazMotorWeb.Dal.Context
 		public DbSet<Order> Orders { get; set; }
 		public DbSet<Ticket> Tickets { get; set; }
 		public DbSet<TicketReply> TicketReplies { get; set; }
+		public DbSet<Discount> Discounts { get; set; }
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
+
 			base.OnModelCreating(modelBuilder);
 
 			modelBuilder.Entity<TicketReply>()
@@ -52,7 +54,13 @@ namespace YılmazMotorWeb.Dal.Context
 				.WithMany()
 				.HasForeignKey(tr => tr.UserId)
 				.OnDelete(DeleteBehavior.Restrict);
+
+			modelBuilder.Entity<Discount>()
+				.Property(d => d.IsActive)
+				.HasComputedColumnSql("CAST(CASE WHEN GETDATE() BETWEEN StartDate AND EndDate THEN 1 ELSE 0 END AS bit)");
+
 		}
+		public YılmazMotorWebDbContext() { }
 
 	}
 }

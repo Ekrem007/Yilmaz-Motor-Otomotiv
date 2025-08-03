@@ -1,0 +1,90 @@
+<!-- Navbar -->
+<app-navbar></app-navbar>
+
+<div class="bg-light min-vh-100">
+  <div class="container py-5">
+    <div class="row mb-4">
+      <div class="col-12">
+        <h2 class="fw-bold text-primary mb-2">İndirimli Ürünler</h2>
+        <p class="text-muted">Kaçırılmayacak fırsatlar ve indirimli ürünler burada! </p>
+      </div>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="isLoading" class="text-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Yükleniyor...</span>
+      </div>
+      <p class="mt-3 text-muted">İndirimli ürünler yükleniyor...</p>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="errorMessage && !isLoading" class="alert alert-danger" role="alert">
+      <i class="bi bi-exclamation-triangle me-2"></i>{{ errorMessage }}
+    </div>
+
+    <!-- No Products Found -->
+    <div *ngIf="discountedProducts.length === 0 && !isLoading && !errorMessage" class="text-center py-5">
+      <div class="bg-white rounded-4 shadow-sm p-5">
+        <div class="mb-4">
+          <div class="icon-wrapper bg-light rounded-circle p-4 d-inline-flex">
+            <i class="bi bi-basket text-muted" style="font-size: 3rem;"></i>
+          </div>
+        </div>
+        <h3 class="text-muted mb-3">İndirimli Ürün Bulunamadı</h3>
+        <p class="text-muted mb-4">Şu anda aktif bir indirimli ürün bulunmamaktadır.</p>
+        <a routerLink="/" class="btn btn-primary">
+          <i class="bi bi-house me-2"></i>Anasayfaya Dön
+        </a>
+      </div>
+    </div>
+
+    <!-- Products Grid -->
+    <div *ngIf="discountedProducts.length > 0 && !isLoading" class="row g-4">
+      <div *ngFor="let product of discountedProducts" class="col-12 col-md-6 col-lg-4">
+        <div class="card product-card h-100 shadow-sm border-0" (click)="navigateToProductDetail(product.productId)">
+          <div class="position-relative">
+            <!-- Ürün resmi -->
+            <img [src]="product.imageUrl" class="card-img-top bg-light" alt="{{ product.productName }}" style="height: 200px; object-fit: cover;">
+            <!-- İndirim etiketi -->
+            <div class="position-absolute top-0 start-0 m-3">
+              <div class="badge bg-danger p-2">
+                %{{ product.discountRate }} İndirim
+              </div>
+            </div>
+            
+            <!-- Kalan gün etiketi -->
+            <div *ngIf="isDiscountActive(product.discountEndDate)" class="position-absolute top-0 end-0 m-3">
+              <div class="badge bg-warning text-dark p-2">
+                Son {{ calculateRemainingDays(product.discountEndDate) }} Gün
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title fw-bold mb-1">{{ product.productName }}</h5>
+            <p class="small text-muted mb-2">{{ product.categoryName }}</p>
+            
+            <div class="mb-2">
+              <div class="d-flex align-items-center">
+                <h5 class="text-primary fw-bold mb-0">{{ product.discountedPrice | turkishCurrency }}</h5>
+                <del class="ms-2 text-muted small">{{ product.originalPrice | turkishCurrency }}</del>
+              </div>
+              <small class="text-success">Kazancınız: {{ (product.originalPrice - product.discountedPrice) | turkishCurrency }}</small>
+            </div>
+            
+            <p class="card-text text-muted mb-0 small text-truncate">
+              {{ product.productDescription }}
+            </p>
+            <p class="card-text text-muted mb-0 small mt-2">
+              Stok: <span class="fw-bold">{{ product.stock }}</span>
+          </div>
+          <div class="card-footer bg-white border-0">
+            <button class="btn btn-outline-primary d-flex w-100 justify-content-center align-items-center">
+              <i class="bi bi-eye me-2"></i>Ürünü İncele
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

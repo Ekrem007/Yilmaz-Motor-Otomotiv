@@ -19,5 +19,6 @@ namespace YılmazMotorWeb.Entities.Concretes
 
 		public Category Category { get; set; }
 		public ICollection<ProductReview> Reviews { get; set; } = new List<ProductReview>();
+		public ICollection<Discount> Discounts { get; set; } = new List<Discount>();
 	}
 }

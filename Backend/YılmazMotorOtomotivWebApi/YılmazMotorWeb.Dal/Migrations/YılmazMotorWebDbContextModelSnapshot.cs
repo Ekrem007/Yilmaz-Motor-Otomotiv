@@ -146,6 +146,38 @@ namespace YılmazMotorWeb.Dal.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("YılmazMotorWeb.Entities.Concretes.Discount", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("bit")
+                        .HasComputedColumnSql("CAST(CASE WHEN GETDATE() BETWEEN StartDate AND EndDate THEN 1 ELSE 0 END AS bit)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Rate")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Discounts");
+                });
+
             modelBuilder.Entity("YılmazMotorWeb.Entities.Concretes.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -496,6 +528,17 @@ namespace YılmazMotorWeb.Dal.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("YılmazMotorWeb.Entities.Concretes.Discount", b =>
+                {
+                    b.HasOne("YılmazMotorWeb.Entities.Concretes.Product", "Product")
+                        .WithMany("Discounts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("YılmazMotorWeb.Entities.Concretes.Order", b =>
                 {
                     b.HasOne("YılmazMotorWeb.Entities.Identity.AppUser", "User")
@@ -598,6 +641,8 @@ namespace YılmazMotorWeb.Dal.Migrations
 
             modelBuilder.Entity("YılmazMotorWeb.Entities.Concretes.Product", b =>
                 {
+                    b.Navigation("Discounts");
+
                     b.Navigation("Reviews");
                 });
 
