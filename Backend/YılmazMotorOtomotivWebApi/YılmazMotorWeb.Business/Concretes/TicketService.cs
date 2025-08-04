@@ -75,5 +75,15 @@ namespace YılmazMotorWeb.Business.Concretes
 			_ticketDal.Update(ticket, ticketId);
 			return new SuccessResult("Ticket updated successfully");
 		}
+		public IResult ChangeTicketStatus(int ticketId, TicketStatus status)
+		{
+			var ticket = _ticketDal.GetById(ticketId);
+			if (ticket == null)
+			{
+				return new ErrorResult("Ticket not found");
+			}
+			_ticketDal.ChangeStatus(ticketId, status);
+			return new SuccessResult("Ticket status updated successfully");
+		}
 	}
 }

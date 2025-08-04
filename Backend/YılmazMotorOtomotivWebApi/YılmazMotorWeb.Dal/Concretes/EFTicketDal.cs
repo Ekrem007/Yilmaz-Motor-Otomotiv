@@ -179,5 +179,16 @@ namespace YılmazMotorWeb.Dal.Concretes
 			_context.Tickets.Update(existingTicket);
 			_context.SaveChanges();
 		}
+		public void ChangeStatus(int ticketId, TicketStatus status)
+		{
+			var ticket = _context.Tickets.Find(ticketId);
+			if (ticket == null)
+			{
+				throw new KeyNotFoundException($"Ticket with ID {ticketId} not found.");
+			}
+			ticket.Status = status;
+			_context.Tickets.Update(ticket);
+			_context.SaveChanges();
+		}
 	}
 }

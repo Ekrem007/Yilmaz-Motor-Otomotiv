@@ -17,6 +17,7 @@ namespace YılmazMotorWeb.Business.Abstracts
 		IDataResult<TicketDto> GetTicketById(int ticketId);
 		IDataResult<List<TicketDto>> GetTicketsByUserId(int userId);
 		IResult UpdateTicket(Ticket ticket, int ticketId);
+		IResult ChangeTicketStatus(int ticketId, TicketStatus status);
 
 	}
 }

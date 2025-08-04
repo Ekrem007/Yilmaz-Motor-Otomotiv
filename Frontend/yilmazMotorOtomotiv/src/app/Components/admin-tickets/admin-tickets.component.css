@@ -1,6 +1,10 @@
 .table {
   border: none;
 }
+.dropdown-menu {
+  z-index: 1055 !important;
+  position: absolute !important;
+}
 
 .table th {
   border-top: none;
@@ -18,6 +22,10 @@
   background-color: rgba(13, 110, 253, 0.05);
   transform: translateY(-1px);
   transition: all 0.2s ease;
+}
+.table-responsive,
+.card {
+  overflow: visible !important;
 }
 
 .border-start {

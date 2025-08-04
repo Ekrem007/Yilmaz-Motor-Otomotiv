@@ -50,8 +50,8 @@
                 <i class="bi bi-check-circle text-white fs-4"></i>
               </div>
             </div>
-            <h3 class="fw-bold text-success mb-1">{{ getResolvedTickets() }}</h3>
-            <p class="text-muted mb-0">Çözüldü</p>
+            <h3 class="fw-bold text-success mb-1">{{ getClosedTickets() }}</h3>
+            <p class="text-muted mb-0">Kapalı</p>
           </div>
         </div>
       </div>
@@ -130,9 +130,21 @@
                     </div>
                   </td>
                   <td>
-                    <span class="badge" [class]="getStatusClass(ticket.status)">
-                      {{ getStatusText(ticket.status) }}
-                    </span>
+                    <div class="dropdown dropup">
+                      <span class="badge dropdown-toggle" 
+                            [class]="getStatusClass(ticket.status)"
+                            id="statusDropdown{{ticket.id}}" 
+                            data-bs-toggle="dropdown" 
+                            aria-expanded="false"
+                            style="cursor: pointer;">
+                        {{ getStatusText(ticket.status) }}
+                      </span>
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" (click)="changeTicketStatus(ticket.id, 0)" [class.active]="ticket.status === 0">Açık</a></li>
+                        <li><a class="dropdown-item" (click)="changeTicketStatus(ticket.id, 1)" [class.active]="ticket.status === 1">Cevaplandı</a></li>
+                        <li><a class="dropdown-item" (click)="changeTicketStatus(ticket.id, 2)" [class.active]="ticket.status === 2">Kapalı</a></li>
+                      </ul>
+                    </div>
                   </td>
                   <td>
                     <small>{{ formatDate(ticket.createdAt) }}</small>

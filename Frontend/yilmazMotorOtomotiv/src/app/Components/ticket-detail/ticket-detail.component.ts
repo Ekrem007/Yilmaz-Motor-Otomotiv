@@ -143,12 +143,10 @@ export class TicketDetailComponent implements OnInit {
     switch (status) {
       case TicketStatus.Open:
         return 'Açık';
-      case TicketStatus.InProgress:
-        return 'İşlemde';
+      case TicketStatus.Answered:
+        return 'Cevaplandı';
       case TicketStatus.Closed:
         return 'Kapalı';
-      case TicketStatus.Resolved:
-        return 'Çözüldü';
       default:
         return 'Bilinmiyor';
     }
@@ -158,12 +156,10 @@ export class TicketDetailComponent implements OnInit {
     switch (status) {
       case TicketStatus.Open:
         return 'bg-info';
-      case TicketStatus.InProgress:
+      case TicketStatus.Answered:
         return 'bg-warning';
       case TicketStatus.Closed:
         return 'bg-danger';
-      case TicketStatus.Resolved:
-        return 'bg-success';
       default:
         return 'bg-secondary';
     }
@@ -197,6 +193,44 @@ export class TicketDetailComponent implements OnInit {
   }
 
   canReply(): boolean {
-    return this.ticket?.status !== TicketStatus.Closed && this.ticket?.status !== TicketStatus.Resolved;
+    return this.ticket?.status !== TicketStatus.Closed;
+  }
+  
+  changeStatus(status: number): void {
+    if (!this.ticket || !this.isAdmin) {
+      return;
+    }
+
+    this.isLoading = true;
+    this.ticketService.changeTicketStatus(this.ticket.id, status).subscribe({
+      next: (response) => {
+        if (response.success) {
+          // Güncellenmiş durumu yerel nesnede güncelle
+          if (this.ticket) {
+            this.ticket.status = status;
+          }
+          // Güncellenen durumu göster ve veriyi yeniden yükle
+          this.loadTicket();
+          this.submitMessage = 'Talep durumu başarıyla güncellendi.';
+          setTimeout(() => {
+            this.submitMessage = '';
+          }, 3000);
+        } else {
+          this.submitError = response.message || 'Talep durumu güncellenirken bir hata oluştu.';
+          setTimeout(() => {
+            this.submitError = '';
+          }, 3000);
+        }
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Durum değiştirme hatası:', error);
+        this.submitError = 'Talep durumu güncellenirken bir hata oluştu. Lütfen tekrar deneyin.';
+        setTimeout(() => {
+          this.submitError = '';
+        }, 3000);
+        this.isLoading = false;
+      }
+    });
   }
 }

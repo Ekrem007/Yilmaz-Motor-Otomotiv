@@ -69,12 +69,12 @@ export class TicketsComponent implements OnInit {
     switch (status) {
       case TicketStatus.Open:
         return 'Açık';
-      case TicketStatus.InProgress:
+      case TicketStatus.Open:
         return 'İşlemde';
       case TicketStatus.Closed:
         return 'Kapalı';
-      case TicketStatus.Resolved:
-        return 'Çözüldü';
+      case TicketStatus.Answered:
+        return 'Cevaplandı';
       default:
         return 'Bilinmiyor';
     }
@@ -84,11 +84,11 @@ export class TicketsComponent implements OnInit {
     switch (status) {
       case TicketStatus.Open:
         return 'bg-info';
-      case TicketStatus.InProgress:
+      case TicketStatus.Open:
         return 'bg-warning';
       case TicketStatus.Closed:
         return 'bg-danger';
-      case TicketStatus.Resolved:
+      case TicketStatus.Answered:
         return 'bg-success';
       default:
         return 'bg-secondary';

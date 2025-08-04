@@ -137,5 +137,14 @@ namespace YılmazMotorWebApi.Controllers
 			return BadRequest(result);
 
 		}
+		[HttpPut]
+		[Route("api/[controller]/changeStatus/{ticketId}")]
+		public IActionResult ChangeStatus(int ticketId, [FromBody] TicketStatus status)
+		{
+			var result = _ticketService.ChangeTicketStatus(ticketId, status);
+			if (result.Success)
+				return Ok(result);
+			return BadRequest(result);
+		}
 	}
 }

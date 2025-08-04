@@ -76,6 +76,24 @@
                 <i class="bi bi-tag me-1"></i>{{ product.categoryName }}
               </span>
             </div>
+            <!-- İndirim etiketi -->
+            <div class="position-absolute bottom-0 start-0 m-3" *ngIf="hasDiscount(product.id)">
+              <div class="badge bg-danger p-2 fs-6">
+                %{{ getDiscountRate(product.id) }} İndirim
+              </div>
+            </div>
+            <!-- Kalan zaman etiketi -->
+            <div *ngIf="hasDiscount(product.id) && getRemainingTime(product.id)" 
+                 class="position-absolute bottom-0 end-0 m-3">
+              <div class="badge bg-warning text-dark p-2">
+                <div class="countdown-timer">
+                  <span *ngIf="getRemainingTime(product.id)?.days">{{ getRemainingTime(product.id)?.days }} Gün &nbsp;</span>
+                  <span>{{ getRemainingTime(product.id)?.hours | number:'2.0-0' }}:</span>
+                  <span>{{ getRemainingTime(product.id)?.minutes | number:'2.0-0' }}:</span>
+                  <span>{{ getRemainingTime(product.id)?.seconds | number:'2.0-0' }}</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -100,8 +118,37 @@
           </div>
 
           <div class="mb-3">
-            <h2 class="h2 text-primary fw-bold mb-0">{{ product.price | turkishCurrency }}</h2>
-            <small class="text-muted">KDV Dahil</small>
+            <!-- İndirimli ve normal fiyat -->
+            <div *ngIf="!hasDiscount(product.id)">
+              <h2 class="h2 text-primary fw-bold mb-0">{{ product.price | turkishCurrency }}</h2>
+              <small class="text-muted">KDV Dahil</small>
+            </div>
+            <div *ngIf="hasDiscount(product.id)" class="d-flex flex-column">
+              <h2 class="h2 text-primary fw-bold mb-0">{{ getDiscountedPrice(product.id) | turkishCurrency }}</h2>
+              <div class="d-flex align-items-center">
+                <del class="text-muted me-2">{{ product.price | turkishCurrency }}</del>
+                <span class="badge bg-danger">%{{ getDiscountRate(product.id) }} İndirim</span>
+              </div>
+              <small class="text-success mt-1">Kazancınız: {{ (product.price - getDiscountedPrice(product.id)) | turkishCurrency }}</small>
+              <small class="text-muted">KDV Dahil</small>
+            </div>
+          </div>
+
+          <!-- İndirim kalan süre bilgilendirmesi -->
+          <div class="mb-3" *ngIf="hasDiscount(product.id) && getRemainingTime(product.id)">
+            <div class="alert alert-warning d-flex align-items-center">
+              <i class="bi bi-clock-history fs-4 me-2"></i>
+              <div>
+                <strong>İndirimin Bitmesine Kalan Süre:</strong>
+                <div class="fw-bold">
+                  <span *ngIf="getRemainingTime(product.id)?.days">{{ getRemainingTime(product.id)?.days }} Gün </span>
+                  <span>{{ getRemainingTime(product.id)?.hours | number:'2.0-0' }} Saat </span>
+                  <span>{{ getRemainingTime(product.id)?.minutes | number:'2.0-0' }} Dakika </span>
+                  <span>{{ getRemainingTime(product.id)?.seconds | number:'2.0-0' }} Saniye</span>
+                </div>
+                <small class="text-muted">Bu fiyattan satın almak için acele edin!</small>
+              </div>
+            </div>
           </div>
 
           <div class="mb-3">

@@ -1,3 +1,8 @@
+/* Dropdown Fix */
+.dropdown-menu {
+  z-index: 1060 !important;
+}
+
 /* Timeline Styles */
 .timeline {
   position: relative;
@@ -8,6 +13,7 @@
   display: flex;
   margin-bottom: 2rem;
   position: relative;
+  z-index: 1;
 }
 
 .timeline-item:not(:last-child)::after {
@@ -56,113 +62,60 @@
   padding: 1rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   transition: all 0.2s ease;
-}
-
-.timeline-content:hover {
-  border-color: #0d6efd;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-}
-
-.timeline-item-admin .timeline-content {
-  border-left: 4px solid #dc3545;
-}
-
-.timeline-item:not(.timeline-item-admin) .timeline-content {
-  border-left: 4px solid #0d6efd;
-}
-
-.timeline-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 0.75rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid #e9ecef;
-}
-
-.timeline-body {
-  color: #495057;
-  line-height: 1.6;
-}
-
-/* Form Styles */
-.form-control {
-  border: 2px solid #e9ecef;
-  transition: all 0.3s ease;
-}
-
-.form-control:focus {
-  border-color: #0d6efd;
-  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
-  transform: translateY(-1px);
-}
-
-.form-control.is-invalid {
-  border-color: #dc3545;
-}
-
-/* Button Styles */
-.btn {
-  transition: all 0.2s ease;
-}
-
-.btn:hover:not(:disabled) {
-  transform: translateY(-1px);
-}
-
-/* Alert Styles */
-.alert {
-  border-left: 4px solid;
-}
-
-.alert-success {
-  border-left-color: #198754;
-  background-color: #d1e7dd;
-}
-
-.alert-danger {
-  border-left-color: #dc3545;
-  background-color: #f8d7da;
-}
-
-/* Badge Styles */
-.badge {
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 1;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .container {
-    padding-left: 15px;
-    padding-right: 15px;
-  }
-  
-  .d-flex.justify-content-between {
-    flex-direction: column;
-    gap: 1rem;
+  .dropdown-menu {
+    position: fixed !important;
+    width: 90% !important;
+    left: 5% !important;
+    top: auto !important;
   }
   
   .timeline-item {
-    margin-bottom: 1.5rem;
+    flex-direction: column;
   }
   
-  .timeline-content {
-    margin-left: 0.5rem;
-  }
-  
-  .avatar {
-    width: 40px;
-    height: 40px;
-    font-size: 1rem;
+  .timeline-marker {
+    margin-bottom: 1rem;
+    margin-right: 0;
   }
   
   .timeline-item:not(:last-child)::after {
-    left: 20px;
+    left: 24px;
+    top: 100px;
+    height: calc(100% + 0.5rem);
+  }
+/* Dropdown konteyner için */
+.dropdown-container {
+  position: relative;
+  z-index: 1000;
+  isolation: isolate; /* Yeni bir stacking context oluşturur */
+}
+
+/* Dropdown menü için */
+.dropdown-menu {
+  z-index: 1100 !important;
+  position: absolute !important;
+  inset: auto auto auto 0 !important;
+  margin: 0 !important;
+  transform: none !important;
+  will-change: transform;
+  top: 100% !important; /* Aşağı açılmasını sağlar */
+  bottom: auto !important;
+}
+
+/* dropdown aşağı açılırken timeline ile çakışmayı önleme */
+  .timeline-item:not(:last-child)::after {
+    top: 48px; /* Çakışmayı önlemek için gerekli ayar */
+  }
+  .timeline-content {
+    width: 100%;
+    padding: 0.5rem;
   }
   
-  .timeline-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
+
 }

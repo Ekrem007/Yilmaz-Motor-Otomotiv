@@ -56,4 +56,9 @@ export class TicketService {
   getAnsweredTickets(): Observable<ResponseModel<number>> {
     return this.httpClient.get<ResponseModel<number>>(`${this.apiUrl}/getAnsweredTicketCount`);
   }
+
+  changeTicketStatus(ticketId: number, status: number): Observable<ResponseModel<any>> {
+    return this.httpClient.put<ResponseModel<any>>(`${this.apiUrl}/changeStatus/${ticketId}`, status);
+  }
+  
 }

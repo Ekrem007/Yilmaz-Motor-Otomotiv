@@ -14,7 +14,7 @@
     <div *ngIf="!isLoading && ticket" class="row">
       <!-- Header -->
       <div class="col-12 mb-4">
-        <div class="bg-white rounded-4 shadow-sm p-4">
+        <div class="bg-white rounded-4 shadow-sm p-4 position-relative">
           <div class="d-flex justify-content-between align-items-center mb-3">
             <div>
               <h1 class="h3 mb-1 text-dark fw-bold">
@@ -27,6 +27,23 @@
                     [class]="getStatusClass(ticket.status)">
                 {{ getStatusText(ticket.status) }}
               </span>
+              
+              <!-- Admin İşlemleri -->
+              <div class="dropdown" *ngIf="isAdmin">
+                <button class="btn btn-outline-primary dropdown-toggle" 
+                        type="button" 
+                        id="statusDropdown" 
+                        data-bs-toggle="dropdown" 
+                        aria-expanded="false">
+                  <i class="bi bi-gear me-1"></i>Durum Değiştir
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li><a class="dropdown-item" (click)="changeStatus(0)" [class.active]="ticket.status === 0">Açık</a></li>
+                  <li><a class="dropdown-item" (click)="changeStatus(1)" [class.active]="ticket.status === 1">Cevaplandı</a></li>
+                  <li><a class="dropdown-item" (click)="changeStatus(2)" [class.active]="ticket.status === 2">Kapalı</a></li>
+                </ul>
+              </div>
+              
               <button class="btn btn-outline-secondary" (click)="goBack()">
                 <i class="bi bi-arrow-left me-2"></i>Geri Dön
               </button>

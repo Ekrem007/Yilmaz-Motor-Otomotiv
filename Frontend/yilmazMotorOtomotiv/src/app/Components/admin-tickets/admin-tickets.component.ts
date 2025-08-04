@@ -6,6 +6,7 @@ import { TicketService } from '../../Services/ticket.service';
 import { AuthService } from '../../Services/auth.service';
 import { TicketDto, TicketStatus } from '../../Models/ticket';
 import { NavbarComponent } from '../navbar/navbar.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-admin-tickets',
@@ -23,7 +24,8 @@ export class AdminTicketsComponent implements OnInit {
   constructor(
     private ticketService: TicketService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private toastrService: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -64,12 +66,10 @@ export class AdminTicketsComponent implements OnInit {
     switch (status) {
       case TicketStatus.Open:
         return 'Açık';
-      case TicketStatus.InProgress:
-        return 'İşlemde';
+      case TicketStatus.Answered:
+        return 'Cevaplandı';
       case TicketStatus.Closed:
         return 'Kapalı';
-      case TicketStatus.Resolved:
-        return 'Çözüldü';
       default:
         return 'Bilinmiyor';
     }
@@ -79,12 +79,10 @@ export class AdminTicketsComponent implements OnInit {
     switch (status) {
       case TicketStatus.Open:
         return 'bg-info';
-      case TicketStatus.InProgress:
+      case TicketStatus.Answered:
         return 'bg-warning';
       case TicketStatus.Closed:
         return 'bg-danger';
-      case TicketStatus.Resolved:
-        return 'bg-success';
       default:
         return 'bg-secondary';
     }
@@ -94,12 +92,10 @@ export class AdminTicketsComponent implements OnInit {
     switch (status) {
       case TicketStatus.Open:
         return 'border-info';
-      case TicketStatus.InProgress:
+      case TicketStatus.Answered:
         return 'border-warning';
       case TicketStatus.Closed:
         return 'border-danger';
-      case TicketStatus.Resolved:
-        return 'border-success';
       default:
         return 'border-secondary';
     }
@@ -121,11 +117,41 @@ export class AdminTicketsComponent implements OnInit {
     return this.tickets.filter(t => t.status === TicketStatus.Open).length;
   }
 
-  getInProgressTickets(): number {
-    return this.tickets.filter(t => t.status === TicketStatus.InProgress).length;
+  getAnsweredTickets(): number {
+    return this.tickets.filter(t => t.status === TicketStatus.Answered).length;
   }
 
-  getResolvedTickets(): number {
-    return this.tickets.filter(t => t.status === TicketStatus.Resolved).length;
+  getClosedTickets(): number {
+    return this.tickets.filter(t => t.status === TicketStatus.Closed).length;
   }
+  
+  changeTicketStatus(ticketId: number, status: number): void {
+  const ticket = this.tickets.find(t => t.id === ticketId);
+  if (!ticket) return;
+  if (ticket.status === status) return;
+  this.isLoading = true;
+
+  this.ticketService.changeTicketStatus(ticketId, status).subscribe({
+    next: (response: any) => {
+      this.isLoading = false;
+      
+      // Yanıt yapısını kontrol et ve güvenli bir şekilde işle
+      if (response && response.success === true) {
+        // Başarılı yanıt - bileti güncelle ve bildir
+        ticket.status = status as TicketStatus;
+        this.toastrService.success(`Talep durumu başarıyla güncellendi: ${this.getStatusText(status as TicketStatus)}`);
+      } else {
+        // Sunucudan hata yanıtı
+        const errorMessage = response && response.message 
+          ? response.message 
+          : 'Talep durumu güncellenirken bir hata oluştu';
+        this.toastrService.error(errorMessage);
+      }
+    },
+    error: (error) => {
+      this.toastrService.error('Talep durumu güncellenemedi. Bir hata oluştu.');
+      this.isLoading = false;
+    }
+  });
+}
 }

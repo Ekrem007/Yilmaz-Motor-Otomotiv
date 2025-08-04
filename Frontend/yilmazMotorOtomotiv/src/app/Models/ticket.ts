@@ -34,7 +34,6 @@ export interface CreateTicketReplyDto {
 
 export enum TicketStatus {
   Open = 0,
-  InProgress = 1,
-  Closed = 2,
-  Resolved = 3
+  Answered = 1,
+  Closed = 2
 }

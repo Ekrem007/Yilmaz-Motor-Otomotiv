@@ -16,5 +16,6 @@ namespace YılmazMotorWeb.Dal.Abstracts
 		TicketDto GetById(int ticketId);
 		List<TicketDto> GetAll();
 		List<TicketDto> GetTicketsByUserId(int userId);
+		void ChangeStatus(int ticketId, TicketStatus status);
 	}
 }
