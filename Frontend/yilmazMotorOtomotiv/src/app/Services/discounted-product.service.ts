@@ -19,4 +19,7 @@ export class DiscountedProductService {
   addDiscountedProduct(discount: Discount): Observable<Discount> {
     return this.httpClient.post<Discount>(this.apiUrl + '/add', discount);
   }
+  getDiscountedProductById(id: number): Observable<DiscountedProductDto> {
+    return this.httpClient.get<DiscountedProductDto>(`${this.apiUrl}/getById/${id}`);
+  }
 }

@@ -75,10 +75,6 @@ namespace YılmazMotorWeb.Dal.Concretes
 		public Discount GetDiscountById(int discountId)
 		{
 			var discount = _context.Discounts.Find(discountId);
-			if (discount == null)
-			{
-				throw new KeyNotFoundException($"Discount with ID {discountId} not found");
-			}
 			return discount;
 		}
 
@@ -100,6 +96,32 @@ namespace YılmazMotorWeb.Dal.Concretes
 			existingDiscount.EndDate = discount.EndDate;
 			existingDiscount.Rate = discount.Rate;
 			_context.SaveChanges();
+		}
+		public DiscountedProdutDto GetDiscountedProdut(int discountId)
+		{
+			var discount = _context.Discounts
+				.Include(d => d.Product)
+				.Include(d => d.Product.Category)
+				.FirstOrDefault(d => d.Id == discountId && d.IsActive);
+			if (discount == null)
+			{
+				throw new KeyNotFoundException($"Discount with ID {discountId} not found or is not active");
+			}
+			return new DiscountedProdutDto
+			{
+				ProductId = discount.Product.Id,
+				ProductName = discount.Product.Name,
+				CategoryName = discount.Product.Category.Name,
+				ProductDescription = discount.Product.Description,
+				OriginalPrice = discount.Product.Price,
+				DiscountRate = discount.Rate,
+				ProductStock = discount.Product.Stock,
+				DiscountedPrice = discount.Product.Price - (discount.Product.Price * discount.Rate / 100),
+				ImageUrl = discount.Product.ImageUrl,
+				Stock = discount.Product.Stock,
+				DiscountStartDate = discount.StartDate,
+				DiscountEndDate = discount.EndDate
+			};
 		}
 	}
 }

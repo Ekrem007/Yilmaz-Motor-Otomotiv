@@ -36,5 +36,29 @@ namespace YılmazMotorWebApi.Controllers
 				data = result.Data
 			});
 		}
+		[HttpGet]
+		[Route("api/[controller]/getById/{id}")]
+		public IActionResult GetById(int id)
+		{
+			var result = _discountService.GetDiscountById(id);
+			if (result.Success)
+			{
+				return Ok(new
+				{
+					success = result.Success,
+					message = result.Message,
+					data = result.Data
+				});
+			}
+			return NotFound(new
+			{
+				success = result.Success,
+				message = result.Message
+			});
+		}
+
+
+
 	}
+
 }

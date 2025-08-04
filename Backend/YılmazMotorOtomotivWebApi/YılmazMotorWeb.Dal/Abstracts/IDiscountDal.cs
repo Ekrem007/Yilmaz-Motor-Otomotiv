@@ -15,5 +15,6 @@ namespace YılmazMotorWeb.Dal.Abstracts
 		void DeleteDiscount(int discountId);
 		Discount GetDiscountById(int discountId);
 		List<DiscountedProdutDto> GetAllDiscounts();
+		DiscountedProdutDto GetDiscountedProdut(int discountId);
 	}
 }

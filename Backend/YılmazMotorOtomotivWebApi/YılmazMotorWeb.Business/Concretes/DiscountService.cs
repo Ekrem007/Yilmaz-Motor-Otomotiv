@@ -90,5 +90,18 @@ namespace YılmazMotorWeb.Business.Concretes
 			_discountDal.UpdateDiscount(discount, discountId);
 			return new Result(true, "Discount updated successfully");
 		}
+		public IDataResult<DiscountedProdutDto> GetDiscountedProdut(int discountId)
+		{
+			if (discountId <= 0)
+			{
+				return new DataResult<DiscountedProdutDto>(null, false, "Invalid discount ID");
+			}
+			var discountedProduct = _discountDal.GetDiscountedProdut(discountId);
+			if (discountedProduct == null)
+			{
+				return new DataResult<DiscountedProdutDto>(null, false, "Discounted product not found");
+			}
+			return new DataResult<DiscountedProdutDto>(discountedProduct, true, "Discounted product retrieved successfully");
+		}
 	}
 }

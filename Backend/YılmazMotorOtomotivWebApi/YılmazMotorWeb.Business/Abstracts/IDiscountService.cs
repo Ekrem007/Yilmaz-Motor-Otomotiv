@@ -16,5 +16,6 @@ namespace YılmazMotorWeb.Business.Abstracts
 		IDataResult<Discount> AddDiscount(Discount discount);
 		IResult UpdateDiscount(Discount discount, int discountId);
 		IResult DeleteDiscount(int discountId);
+		IDataResult<DiscountedProdutDto> GetDiscountedProdut(int discountId);
 	}
 }

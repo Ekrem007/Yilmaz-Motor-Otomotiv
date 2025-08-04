@@ -1,16 +1,28 @@
 import { ToastrService } from 'ngx-toastr';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ProductService } from '../../Services/product.service';
 import { CategoryService } from '../../Services/category.service';
 import { CartService } from '../../Services/cart.service';
 import { AuthService } from '../../Services/auth.service';
+import { DiscountedProductService } from '../../Services/discounted-product.service';
 import { Product } from '../../Models/product';
 import { ProductWithCategoryNameDto } from '../../Models/productWithCategoryNameDto';
 import { Category } from '../../Models/category';
+import { DiscountedProductDto } from '../../Models/discountedProductDto';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { TurkishCurrencyPipe } from '../../pipes/turkish-currency.pipe';
+import { interval, Subscription } from 'rxjs';
+
+interface ExtendedDiscountedProductDto extends DiscountedProductDto {
+  remainingTime?: {
+    days: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
+  };
+}
 
 @Component({
   selector: 'app-customer-product-page',
@@ -18,7 +30,7 @@ import { TurkishCurrencyPipe } from '../../pipes/turkish-currency.pipe';
   templateUrl: './customer-product-page.component.html',
   styleUrl: './customer-product-page.component.css'
 })
-export class CustomerProductPageComponent implements OnInit {
+export class CustomerProductPageComponent implements OnInit, OnDestroy {
   products: Product[] = [];
   allProducts: ProductWithCategoryNameDto[] = [];
   categories: Category[] = [];
@@ -27,6 +39,11 @@ export class CustomerProductPageComponent implements OnInit {
   isLoading: boolean = true;
   searchTerm: string = '';
   isSearchMode: boolean = false;
+  
+  // İndirimli ürün özellikleri
+  discountedProducts: ExtendedDiscountedProductDto[] = [];
+  discountedProductsMap: Map<number, ExtendedDiscountedProductDto> = new Map();
+  timerSubscription: Subscription | null = null;
 
   // Pagination properties
   currentPage: number = 1;
@@ -40,11 +57,13 @@ export class CustomerProductPageComponent implements OnInit {
     private categoryService: CategoryService,
     private cartService: CartService,
     private authService: AuthService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private discountedProductService: DiscountedProductService
   ) {}
 
   ngOnInit() {
     this.getCategories();
+    this.getDiscountedProducts();
     
     // Route params ve query params'i dinle
     this.route.params.subscribe(params => {
@@ -67,6 +86,12 @@ export class CustomerProductPageComponent implements OnInit {
         this.getAllProducts();
       }
     });
+  }
+  
+  ngOnDestroy() {
+    if (this.timerSubscription) {
+      this.timerSubscription.unsubscribe();
+    }
   }
 
   getCategories() {
@@ -159,9 +184,18 @@ export class CustomerProductPageComponent implements OnInit {
 
     // Kullanıcı giriş yapmışsa ve stok varsa sepete ekle
     if (product.stock > 0) {
-      this.cartService.addToCart(product);
-      // Kullanıcıya başarı mesajı gösterebilirsiniz (isteğe bağlı)
-      console.log(`${product.name} sepete eklendi!`);
+      // Ürünün indirimli olup olmadığını kontrol et
+      if (this.hasDiscount(product.id)) {
+        // İndirimli ürün için fiyatı güncelle
+        const discountedPrice = this.getDiscountedPrice(product.id);
+        const clonedProduct = {...product, price: discountedPrice, originalPrice: product.price, isDiscounted: true};
+        this.cartService.addToCart(clonedProduct);
+        this.toastrService.success(`${product.name} indirimli fiyatla sepete eklendi!`, 'Sepete Eklendi');
+      } else {
+        // Normal ürün için direkt ekle
+        this.cartService.addToCart(product);
+        this.toastrService.success(`${product.name} sepete eklendi!`, 'Sepete Eklendi');
+      }
     }
   }
 
@@ -245,5 +279,119 @@ export class CustomerProductPageComponent implements OnInit {
 
   navigateToProduct(productId: number): void {
     this.router.navigate(['/product', productId]);
+  }
+
+  // İndirimli ürünlerle ilgili metodlar
+  getDiscountedProducts() {
+    this.discountedProductService.getDiscountedProducts().subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.discountedProducts = response.data.map(p => ({
+            ...p,
+            imageUrl: p.imageUrl || 'assets/img/product-placeholder.jpg'
+          }));
+          
+          // İndirimli ürünleri map olarak sakla (hızlı erişim için)
+          this.discountedProductsMap = new Map();
+          this.discountedProducts.forEach(product => {
+            this.discountedProductsMap.set(product.productId, product);
+          });
+          
+          // İlk kez kalan süreyi hesapla
+          this.updateRemainingTimes();
+          
+          // Timer başlat
+          this.startTimer();
+        } else {
+          console.error('İndirimli ürünler alınırken bir hata oluştu.');
+        }
+      },
+      error: (error) => {
+        console.error('İndirimli ürünler alınırken bir hata oluştu:', error);
+      }
+    });
+  }
+  
+  // Her saniye çalışacak timer
+  startTimer() {
+    // Önceki timer'ı temizle
+    if (this.timerSubscription) {
+      this.timerSubscription.unsubscribe();
+    }
+    
+    // Her saniye çalışan bir timer kur
+    this.timerSubscription = interval(1000).subscribe(() => {
+      this.updateRemainingTimes();
+    });
+  }
+
+  // Tüm ürünlerin kalan sürelerini güncelle
+  updateRemainingTimes() {
+    this.discountedProducts.forEach(product => {
+      product.remainingTime = this.calculateRemainingTime(product.discountEndDate);
+    });
+  }
+
+  // Kalan süreyi hesapla (gün, saat, dakika, saniye)
+  calculateRemainingTime(endDate: string) {
+    const currentDate = new Date();
+    const discountEndDate = new Date(endDate);
+    let differenceInMs = discountEndDate.getTime() - currentDate.getTime();
+    
+    // Süre bittiyse 0 değerleri döndür
+    if (differenceInMs <= 0) {
+      return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+    }
+    
+    // Hesaplamalar
+    const days = Math.floor(differenceInMs / (1000 * 60 * 60 * 24));
+    differenceInMs -= days * 1000 * 60 * 60 * 24;
+    
+    const hours = Math.floor(differenceInMs / (1000 * 60 * 60));
+    differenceInMs -= hours * 1000 * 60 * 60;
+    
+    const minutes = Math.floor(differenceInMs / (1000 * 60));
+    differenceInMs -= minutes * 1000 * 60;
+    
+    const seconds = Math.floor(differenceInMs / 1000);
+    
+    return { days, hours, minutes, seconds };
+  }
+  
+  // İndirim aktif mi kontrolü
+  isDiscountActive(endDate: string): boolean {
+    const currentDate = new Date();
+    const discountEndDate = new Date(endDate);
+    return currentDate <= discountEndDate;
+  }
+  
+  // Ürünün indirimli olup olmadığını kontrol et
+  hasDiscount(productId: number): boolean {
+    return this.discountedProductsMap.has(productId) && 
+           this.isDiscountActive(this.discountedProductsMap.get(productId)!.discountEndDate);
+  }
+  
+  // Ürünün indirimli fiyatını getir
+  getDiscountedPrice(productId: number): number {
+    if (this.hasDiscount(productId)) {
+      return this.discountedProductsMap.get(productId)!.discountedPrice;
+    }
+    return 0;
+  }
+  
+  // İndirim oranını getir
+  getDiscountRate(productId: number): number {
+    if (this.hasDiscount(productId)) {
+      return this.discountedProductsMap.get(productId)!.discountRate;
+    }
+    return 0;
+  }
+  
+  // Kalan süreyi getir
+  getRemainingTime(productId: number) {
+    if (this.hasDiscount(productId)) {
+      return this.discountedProductsMap.get(productId)!.remainingTime;
+    }
+    return null;
   }
 }

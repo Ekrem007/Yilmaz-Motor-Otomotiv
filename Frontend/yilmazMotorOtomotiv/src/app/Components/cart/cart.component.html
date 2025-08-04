@@ -48,11 +48,20 @@
                   <h6 class="fw-bold text-dark mb-1">{{ item.product.name }}</h6>
                   <p class="text-muted small mb-0">{{ item.product.description }}</p>
                   <span class="badge bg-light text-dark mt-1" *ngIf="hasCategory(item.product)">
-                    {{ item.product.categoryName }}
+                    {{ getCategoryName(item.product) }}
+                  </span>
+                  <span class="badge bg-danger text-white ms-1" *ngIf="isDiscountedProduct(item.product)">
+                    İndirimli Ürün
                   </span>
                 </div>
                 <div class="col-md-2 mb-3 mb-md-0">
                   <span class="fw-bold text-primary">{{ item.product.price | turkishCurrency }}</span>
+                  <div *ngIf="isDiscountedProduct(item.product)">
+                    <del class="text-muted small">{{ getOriginalPrice(item.product) | turkishCurrency }}</del>
+                    <div class="text-success small">
+                      <i class="bi bi-tag-fill me-1"></i>İndirimli
+                    </div>
+                  </div>
                 </div>
                 <div class="col-md-3 mb-3 mb-md-0">
                   <div class="d-flex align-items-center">
@@ -95,6 +104,10 @@
             <div class="d-flex justify-content-between mb-3">
               <span class="text-muted">Ara Toplam:</span>
               <span class="fw-bold">{{ totalPrice | turkishCurrency }}</span>
+            </div>
+            <div class="d-flex justify-content-between mb-3" *ngIf="getTotalSavings() > 0">
+              <span class="text-muted">İndirim Tutarı:</span>
+              <span class="fw-bold text-success">- {{ getTotalSavings() | turkishCurrency }}</span>
             </div>
             <div class="d-flex justify-content-between mb-3">
               <span class="text-muted">Kargo:</span>

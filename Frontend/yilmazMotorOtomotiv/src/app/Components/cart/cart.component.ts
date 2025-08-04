@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NavbarComponent } from '../navbar/navbar.component';
-import { CartService, CartItem } from '../../Services/cart.service';
+import { CartService, CartItem, ExtendedProduct, ExtendedProductWithCategoryNameDto } from '../../Services/cart.service';
 import { TurkishCurrencyPipe } from '../../pipes/turkish-currency.pipe';
 import { OrderServiceService } from '../../Services/order.service';
 import { AuthService } from '../../Services/auth.service';
@@ -13,6 +13,8 @@ import { CreateOrderItemDto } from '../../Models/createOrderItemDto';
 import { OrderItemDto } from '../../Models/OrderItemDto';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from '../../Services/user.service';
+import { Product } from '../../Models/product';
+import { ProductWithCategoryNameDto } from '../../Models/productWithCategoryNameDto';
 
 @Component({
   selector: 'app-cart',
@@ -84,11 +86,6 @@ export class CartComponent implements OnInit {
     if (currentQuantity > 1) {
       this.updateQuantity(productId, currentQuantity - 1);
     }
-  }
-
-  // Type guard to check if product has categoryName property
-  hasCategory(product: any): product is { categoryName: string } {
-    return 'categoryName' in product;
   }
 
   // Kullanıcının giriş yapıp yapmadığını kontrol et
@@ -298,6 +295,34 @@ export class CartComponent implements OnInit {
       value = value.substring(0, 2) + '/' + value.substring(2, 4);
     }
     event.target.value = value;
+  }
+  
+  // Ürünün kategori adını göstermek için kontrol - type guard olarak tanımlandı
+  hasCategory(product: Product | ProductWithCategoryNameDto | ExtendedProduct | ExtendedProductWithCategoryNameDto): product is ProductWithCategoryNameDto {
+    return product && 'categoryName' in product;
+  }
+  
+  // Ürünün kategori adını güvenli bir şekilde almak için
+  getCategoryName(product: Product | ProductWithCategoryNameDto | ExtendedProduct | ExtendedProductWithCategoryNameDto): string {
+    return this.hasCategory(product) ? product.categoryName : '';
+  }
+  
+  // Ürünün indirimli olup olmadığını kontrol et
+  isDiscountedProduct(product: Product | ProductWithCategoryNameDto | ExtendedProduct | ExtendedProductWithCategoryNameDto): boolean {
+    return 'isDiscounted' in product && product.isDiscounted === true && 'originalPrice' in product;
+  }
+  
+  // İndirimli ürünün orijinal fiyatını getir
+  getOriginalPrice(product: Product | ProductWithCategoryNameDto | ExtendedProduct | ExtendedProductWithCategoryNameDto): number {
+    if ('originalPrice' in product) {
+      return product.originalPrice || product.price;
+    }
+    return product.price;
+  }
+  
+  // Toplam tasarruf miktarını getir
+  getTotalSavings(): number {
+    return this.cartService.getTotalSavings();
   }
 }
 

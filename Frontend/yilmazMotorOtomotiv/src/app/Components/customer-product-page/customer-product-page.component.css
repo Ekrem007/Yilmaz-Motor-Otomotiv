@@ -57,6 +57,30 @@
   transform: scale(1.08);
 }
 
+/* İndirimli ürünler için eklenen stiller */
+.countdown-timer {
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 500;
+  font-size: 0.8rem;
+}
+
+/* İndirimli ürün kartı için özel stiller */
+.card .badge.bg-danger {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 /* Card content styling */
 .card-body {
   background: #fff;

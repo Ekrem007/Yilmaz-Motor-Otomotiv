@@ -4,8 +4,20 @@ import { isPlatformBrowser } from '@angular/common';
 import { Product } from '../Models/product';
 import { ProductWithCategoryNameDto } from '../Models/productWithCategoryNameDto';
 
+// Genişletilmiş ürün arayüzü - indirim için ek alanlar içerir
+export interface ExtendedProduct extends Product {
+  originalPrice?: number;
+  isDiscounted?: boolean;
+}
+
+// Genişletilmiş ürün kategori DTOsu
+export interface ExtendedProductWithCategoryNameDto extends ProductWithCategoryNameDto {
+  originalPrice?: number;
+  isDiscounted?: boolean;
+}
+
 export interface CartItem {
-  product: Product | ProductWithCategoryNameDto;
+  product: Product | ProductWithCategoryNameDto | ExtendedProduct | ExtendedProductWithCategoryNameDto;
   quantity: number;
 }
 
@@ -119,7 +131,23 @@ export class CartService {
 
   // Sepetteki toplam fiyat
   getTotalPrice(): number {
-    return this.cartItems.reduce((total, item) => total + (item.product.price * item.quantity), 0);
+    return this.cartItems.reduce((total, item) => {
+      // İndirimli fiyatı olan ürünler için indirimli fiyatı kullan
+      const price = item.product.price;
+      return total + (price * item.quantity);
+    }, 0);
+  }
+  
+  // İndirimden kazanılan toplam tutar
+  getTotalSavings(): number {
+    return this.cartItems.reduce((total, item) => {
+      // İndirimli ürünler için orijinal fiyat ve indirimli fiyat arasındaki fark
+      const product = item.product as ExtendedProduct;
+      if (product.originalPrice && product.isDiscounted) {
+        return total + ((product.originalPrice - product.price) * item.quantity);
+      }
+      return total;
+    }, 0);
   }
 
   // Sepetteki ürünleri getir
