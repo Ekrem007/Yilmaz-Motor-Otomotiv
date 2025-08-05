@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { TurkishCurrencyPipe } from '../../pipes/turkish-currency.pipe';
 import { interval, Subscription } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 interface ExtendedDiscountedProductDto extends DiscountedProductDto {
   remainingTime?: {
@@ -66,7 +67,8 @@ export class ProductComponent implements OnInit, OnDestroy {
     private cartService: CartService,
     private productReviewService: ProductReviewService,
     private authService: AuthService,
-    private discountedProductService: DiscountedProductService
+    private discountedProductService: DiscountedProductService,
+    private toastrService: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -122,11 +124,19 @@ export class ProductComponent implements OnInit, OnDestroy {
         // İndirimli ürün için fiyatı güncelle
         const discountedPrice = this.getDiscountedPrice(product.id);
         const clonedProduct = {...product, price: discountedPrice, originalPrice: product.price, isDiscounted: true};
-        this.cartService.addToCart(clonedProduct, 1);
+        const result = this.cartService.addToCart(clonedProduct, 1, this.toastrService);
+        if (result) {
+          this.toastrService.success('Ürün sepete eklendi', 'Başarılı');
+        }
       } else {
         // Normal ürün için direkt ekle
-        this.cartService.addToCart(product, 1);
+        const result = this.cartService.addToCart(product, 1, this.toastrService);
+        if (result) {
+          this.toastrService.success('Ürün sepete eklendi', 'Başarılı');
+        }
       }
+    } else {
+      this.toastrService.error('Bu ürün stokta bulunmamaktadır', 'Stok Yetersiz');
     }
   }
 

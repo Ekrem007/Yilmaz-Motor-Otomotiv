@@ -85,5 +85,14 @@ namespace YılmazMotorWeb.Business.Concretes
 			_ticketDal.ChangeStatus(ticketId, status);
 			return new SuccessResult("Ticket status updated successfully");
 		}
+		public IDataResult<List<TicketDto>> GetTicketsByStatus(TicketStatus status)
+		{
+			var tickets = _ticketDal.GetTicketsByStatus(status);
+			if (tickets == null || !tickets.Any())
+			{
+				return new ErrorDataResult<List<TicketDto>>("No tickets found with the specified status");
+			}
+			return new SuccessDataResult<List<TicketDto>>(tickets, "Tickets retrieved successfully by status");
+		}
 	}
 }

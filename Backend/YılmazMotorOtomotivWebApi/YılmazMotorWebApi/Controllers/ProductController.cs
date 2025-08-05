@@ -140,5 +140,16 @@ namespace YılmazMotorWebApi.Controllers
 				message = result.Message
 			});
 		}
+		[HttpPost]
+		[Route("api/[controller]/addStockToProduct/{productId}/{quantity}")]
+		public IActionResult AddStockToProduct(int productId, int quantity)
+		{
+			var result = _productService.AddStockToProduct(productId, quantity);
+			return Ok(new
+			{
+				success = result.Success,
+				message = result.Message
+			});
+		}
 	}
 }

@@ -40,6 +40,7 @@ namespace YılmazMotorWeb.Dal.Concretes
 				{
 					item.Price = product.Price;
 				}
+				product.Stock -= item.Quantity;
 
 			}
 

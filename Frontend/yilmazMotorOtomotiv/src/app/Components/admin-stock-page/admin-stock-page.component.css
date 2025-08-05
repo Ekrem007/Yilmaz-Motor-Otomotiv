@@ -1,0 +1,68 @@
+.table img {
+  max-width: 50px;
+  max-height: 50px;
+  object-fit: contain;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+/* Mobil görünüm için düzenlemeler */
+@media (max-width: 768px) {
+  .table th, .table td {
+    font-size: 0.9rem;
+  }
+  
+  .input-group .form-control {
+    max-width: 70px;
+  }
+  
+  .btn-sm {
+    padding: 0.2rem 0.4rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* Badge stilleri */
+.badge {
+  font-size: 0.9rem;
+  padding: 0.35em 0.65em;
+  /* border-radius: 50%; */ /* Bunu kaldırın */
+  min-width: 38px;
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Hover efekti */
+tr:hover {
+  background-color: #f8f9fa;
+}
+
+/* Input odaklı olduğunda stil */
+.form-control:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+.stock-badge {
+  display: inline-block;
+  border-radius: 20px !important; /* Tam yuvarlak için */
+  padding: 0.5em 1em;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #fff !important;
+}
+
+.bg-warning {
+  background-color: #ffc107 !important;
+  color: #fff !important;
+}
+
+.bg-danger {
+  background-color: #dc3545 !important;
+  color: #fff !important;
+}
+
+

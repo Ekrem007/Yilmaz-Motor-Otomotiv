@@ -143,5 +143,11 @@ namespace YılmazMotorWeb.Dal.Concretes
 			return products;
 		}
 
+		public void AddStockToProduct(int productId, int quantity)
+		{
+			var product = _context.Products.Find(productId);
+			product.Stock += quantity;
+			_context.SaveChanges();
+		}
 	}
 }

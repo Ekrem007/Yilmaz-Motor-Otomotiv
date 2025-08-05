@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { TicketDto, CreateTicketDto, CreateTicketReplyDto } from '../Models/ticket';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { TicketDto, CreateTicketDto, CreateTicketReplyDto, TicketStatus } from '../Models/ticket';
 import { ResponseModel } from '../Models/responseModel';
 import { ListResponseModel } from '../Models/listResponseModel';
 
@@ -59,6 +60,24 @@ export class TicketService {
 
   changeTicketStatus(ticketId: number, status: number): Observable<ResponseModel<any>> {
     return this.httpClient.put<ResponseModel<any>>(`${this.apiUrl}/changeStatus/${ticketId}`, status);
+  }
+  
+  getTicketsByStatus(status: TicketStatus): Observable<ListResponseModel<TicketDto>> {
+    return this.httpClient.get<ListResponseModel<TicketDto>>(`${this.apiUrl}/getTicketsByStatus/${status}`)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          // 400 Bad Request ve belirli bir mesaj durumunda boş liste dön
+          if (error.status === 400 && error.error?.message === 'No tickets found with the specified status') {
+            return of({
+              data: [],
+              success: true,
+              message: `${status} durumunda hiç talep bulunmamaktadır.`
+            } as ListResponseModel<TicketDto>);
+          }
+          // Diğer hataları tekrar fırlat
+          return throwError(() => error);
+        })
+      );
   }
   
 }

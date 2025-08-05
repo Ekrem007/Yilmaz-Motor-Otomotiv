@@ -76,8 +76,20 @@
                 <i class="bi bi-inbox text-muted" style="font-size: 3rem;"></i>
               </div>
             </div>
-            <h3 class="text-muted mb-3">Henüz Destek Talebi Yok</h3>
-            <p class="text-muted mb-0">Hiç destek talebi bulunmamaktadır.</p>
+            <ng-container *ngIf="selectedStatus === null; else filteredEmptyState">
+              <h3 class="text-muted mb-3">Henüz Destek Talebi Yok</h3>
+              <p class="text-muted mb-0">Hiç destek talebi bulunmamaktadır.</p>
+            </ng-container>
+            <ng-template #filteredEmptyState>
+              <h3 class="text-muted mb-3">Sonuç Bulunamadı</h3>
+              <p class="text-muted mb-0">
+                <span [ngClass]="getStatusClass(selectedStatus)" class="badge me-2">{{ getStatusText(selectedStatus) }}</span>
+                durumunda hiç destek talebi bulunmamaktadır.
+              </p>
+              <button class="btn btn-outline-primary mt-3" (click)="selectedStatus = null; loadAllTickets()">
+                <i class="bi bi-arrow-left me-1"></i>Tüm Talepleri Göster
+              </button>
+            </ng-template>
           </div>
         </div>
       </div>
@@ -86,9 +98,32 @@
       <div *ngIf="tickets.length > 0" class="col-12">
         <div class="bg-white rounded-4 shadow-sm p-4">
           <div class="d-flex justify-content-between align-items-center mb-4">
-            <h5 class="fw-bold text-dark mb-0">
-              <i class="bi bi-list-task text-primary me-2"></i>Tüm Destek Talepleri
-            </h5>
+            <div class="d-flex align-items-center">
+              <h5 class="fw-bold text-dark mb-0 me-3">
+                <i class="bi bi-list-task text-primary me-2"></i>Tüm Destek Talepleri
+              </h5>
+              
+              <!-- Durum Filtresi Dropdown -->
+              <div class="dropdown">
+                <button class="btn btn-outline-primary dropdown-toggle" type="button" id="statusFilterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="bi bi-filter me-1"></i>
+                  {{ selectedStatus !== null ? getStatusText(selectedStatus) : 'Tümünü Göster' }}
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="statusFilterDropdown">
+                  <li><a class="dropdown-item" (click)="selectedStatus = null; loadAllTickets()">Tümünü Göster</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" (click)="loadTicketsByStatus(TicketStatus.Open)" [class.active]="selectedStatus === TicketStatus.Open">
+                    <span class="badge bg-info me-2">•</span>Açık Talepler
+                  </a></li>
+                  <li><a class="dropdown-item" (click)="loadTicketsByStatus(TicketStatus.Answered)" [class.active]="selectedStatus === TicketStatus.Answered">
+                    <span class="badge bg-warning me-2">•</span>Cevaplanan Talepler
+                  </a></li>
+                  <li><a class="dropdown-item" (click)="loadTicketsByStatus(TicketStatus.Closed)" [class.active]="selectedStatus === TicketStatus.Closed">
+                    <span class="badge bg-danger me-2">•</span>Kapalı Talepler
+                  </a></li>
+                </ul>
+              </div>
+            </div>
             <span class="badge bg-primary fs-6">{{ tickets.length }} Talep</span>
           </div>
 

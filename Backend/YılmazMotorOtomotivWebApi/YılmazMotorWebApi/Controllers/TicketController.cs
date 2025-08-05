@@ -146,5 +146,14 @@ namespace YılmazMotorWebApi.Controllers
 				return Ok(result);
 			return BadRequest(result);
 		}
+		[HttpGet]
+		[Route("api/[controller]/getTicketsByStatus/{status}")]
+		public IActionResult GetTicketsByStatus(TicketStatus status)
+		{
+			var result = _ticketService.GetTicketsByStatus(status);
+			if (result.Success)
+				return Ok(result);
+			return BadRequest(result);
+		}
 	}
 }

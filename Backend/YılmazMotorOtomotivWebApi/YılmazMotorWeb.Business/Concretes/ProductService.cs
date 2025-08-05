@@ -78,5 +78,14 @@ namespace YılmazMotorWeb.Business.Concretes
 			}
 			return new SuccessDataResult<List<ProductWithCategoryNameDto>>(products, "Products retrieved successfully by name");
 		}
+		public IResult AddStockToProduct(int productId, int quantity)
+		{
+			if (quantity <= 0)
+			{
+				return new ErrorResult("Quantity must be greater than zero");
+			}
+			_productDal.AddStockToProduct(productId, quantity);
+			return new SuccessResult("Stock added successfully to the product");
+		}
 	}
 }

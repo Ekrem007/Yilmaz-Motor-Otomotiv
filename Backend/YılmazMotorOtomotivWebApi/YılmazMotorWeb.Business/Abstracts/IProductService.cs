@@ -18,5 +18,6 @@ namespace YılmazMotorWeb.Business.Abstracts
 		IResult Delete(int productId);
 		IDataResult<List<ProductWithCategoryNameDto>> GetProductsByCategoryId(int categoryId);
 		IDataResult<List<ProductWithCategoryNameDto>> GetProductsByName(string name);
+		IResult AddStockToProduct(int productId, int quantity);
 	}
 }

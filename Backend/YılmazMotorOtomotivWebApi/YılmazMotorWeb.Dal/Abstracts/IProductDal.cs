@@ -17,5 +17,6 @@ namespace YılmazMotorWeb.Dal.Abstracts
 		List<ProductWithCategoryNameDto> GetAllProducts();
 		List<ProductWithCategoryNameDto> GetProductsByCategoryId(int categoryId);
 		List<ProductWithCategoryNameDto> GetProductsByName(string name);
+		void AddStockToProduct(int productId, int quantity);
 	}
 }

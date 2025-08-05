@@ -63,7 +63,7 @@ export class CartComponent implements OnInit {
   }
 
   updateQuantity(productId: number, quantity: number) {
-    this.cartService.updateQuantity(productId, quantity);
+    this.cartService.updateQuantity(productId, quantity, this.toastr);
   }
 
   removeFromCart(productId: number) {
@@ -78,7 +78,7 @@ export class CartComponent implements OnInit {
 
   increaseQuantity(productId: number) {
     const currentQuantity = this.cartService.getProductQuantity(productId);
-    this.updateQuantity(productId, currentQuantity + 1);
+    this.cartService.updateQuantity(productId, currentQuantity + 1, this.toastr);
   }
 
   decreaseQuantity(productId: number) {

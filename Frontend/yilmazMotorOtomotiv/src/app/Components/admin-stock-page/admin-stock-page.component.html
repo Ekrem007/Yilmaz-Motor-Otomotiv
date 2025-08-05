@@ -1,0 +1,113 @@
+<app-navbar></app-navbar>
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="mb-4">Ürün Stok Yönetimi</h2>
+
+      <!-- Arama Çubuğu -->
+      <div class="input-group mb-2">
+        <input 
+          type="text" 
+          class="form-control" 
+          placeholder="Ürün adına göre arama yapın..." 
+          [(ngModel)]="searchTerm"
+          (input)="searchProducts()">
+        <button class="btn btn-outline-primary" type="button">
+          <i class="bi bi-search"></i> Ara
+        </button>
+      </div>
+      <!-- Sayfalama: arama butonunun hemen altında ve sağda -->
+      <nav *ngIf="!isLoading && totalPages > 1" aria-label="Sayfalama" class="mb-4 text-end">
+        <ul class="pagination justify-content-end">
+          <li class="page-item" [class.disabled]="currentPage === 1">
+            <button class="page-link" (click)="prevPage()">&laquo;</button>
+          </li>
+          <li class="page-item" *ngFor="let page of [].constructor(totalPages); let idx = index" [class.active]="currentPage === idx + 1">
+            <button class="page-link" (click)="goToPage(idx + 1)">{{ idx + 1 }}</button>
+          </li>
+          <li class="page-item" [class.disabled]="currentPage === totalPages">
+            <button class="page-link" (click)="nextPage()">&raquo;</button>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Yükleniyor göstergesi -->
+      <div *ngIf="isLoading" class="text-center my-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Yükleniyor...</span>
+        </div>
+        <p class="mt-2">Yükleniyor, lütfen bekleyiniz...</p>
+      </div>
+      <!-- Ürünler Tablosu -->
+      <div class="table-responsive" *ngIf="!isLoading && filteredProducts.length > 0">
+        <table class="table table-striped table-hover">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Ürün Resmi</th>
+              <th scope="col">Ürün Adı</th>
+              <th scope="col">Kategori</th>
+              <th scope="col">Mevcut Stok</th>
+              <th scope="col">Fiyat</th>
+              <th scope="col">Stok Ekle</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let product of pagedProducts; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>
+                <img [src]="product.imageUrl" class="img-thumbnail" alt="Ürün resmi" width="50">
+              </td>
+              <td>{{ product.name }}</td>
+              <td>{{ product.categoryName }}</td>
+              <td>
+                <span class="stock-badge" [ngClass]="{
+                  'bg-danger': product.stock < 10,
+                  'bg-warning': product.stock >= 10 && product.stock < 50,
+                  'bg-success': product.stock >= 50
+                }">
+                  {{ product.stock }} adet
+                </span>
+              </td>
+              <td>{{ product.price | currency:'₺' }}</td>
+              <td>
+                <div class="d-flex align-items-center">
+                  <div class="input-group" *ngIf="selectedProductId === product.id">
+                    <input 
+                      type="number" 
+                      class="form-control form-control-sm"
+                      min="1"
+                      [(ngModel)]="quantityToAdd"
+                      placeholder="Miktar">
+                    <button 
+                      class="btn btn-sm btn-success" 
+                      (click)="addStock(product.id, quantityToAdd)"
+                      [disabled]="quantityToAdd <= 0">
+                      Ekle
+                    </button>
+                    <button 
+                      class="btn btn-sm btn-secondary" 
+                      (click)="selectedProductId = null">
+                      İptal
+                    </button>
+                  </div>
+                  <button 
+                    class="btn btn-sm btn-outline-primary" 
+                    *ngIf="selectedProductId !== product.id"
+                    (click)="selectProduct(product.id)">
+                    Stok Ekle
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- Ürün bulunamadı mesajı -->
+      <div *ngIf="!isLoading && filteredProducts.length === 0" class="alert alert-info">
+        <i class="bi bi-exclamation-circle"></i> Arama kriterlerinize uygun ürün bulunamadı.
+      </div>
+    </div>
+  </div>
+</div>

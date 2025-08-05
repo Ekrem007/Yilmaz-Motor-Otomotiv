@@ -46,6 +46,10 @@ export class ProductService {
   getTotalProductStocks(): Observable<ResponseModel<number>> {
     return this.httpClient.get<ResponseModel<number>>(this.apiUrl + '/getTtoalProducStocks');
   }
+  
+  addStockToProduct(productId: number, quantity: number): Observable<ResponseModel<any>> {
+    return this.httpClient.post<ResponseModel<any>>(`${this.apiUrl}/addStockToProduct/${productId}/${quantity}`, null);
+  }
 }
 
 

@@ -189,13 +189,19 @@ export class CustomerProductPageComponent implements OnInit, OnDestroy {
         // İndirimli ürün için fiyatı güncelle
         const discountedPrice = this.getDiscountedPrice(product.id);
         const clonedProduct = {...product, price: discountedPrice, originalPrice: product.price, isDiscounted: true};
-        this.cartService.addToCart(clonedProduct);
-        this.toastrService.success(`${product.name} indirimli fiyatla sepete eklendi!`, 'Sepete Eklendi');
+        const result = this.cartService.addToCart(clonedProduct, 1, this.toastrService);
+        if (result) {
+          this.toastrService.success(`${product.name} indirimli fiyatla sepete eklendi!`, 'Sepete Eklendi');
+        }
       } else {
         // Normal ürün için direkt ekle
-        this.cartService.addToCart(product);
-        this.toastrService.success(`${product.name} sepete eklendi!`, 'Sepete Eklendi');
+        const result = this.cartService.addToCart(product, 1, this.toastrService);
+        if (result) {
+          this.toastrService.success(`${product.name} sepete eklendi!`, 'Sepete Eklendi');
+        }
       }
+    } else {
+      this.toastrService.error(`${product.name} stokta bulunmamaktadır.`, 'Stok Yetersiz');
     }
   }
 

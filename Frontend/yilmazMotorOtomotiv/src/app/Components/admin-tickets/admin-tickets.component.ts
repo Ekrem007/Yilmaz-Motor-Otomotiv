@@ -1,17 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TicketService } from '../../Services/ticket.service';
 import { AuthService } from '../../Services/auth.service';
 import { TicketDto, TicketStatus } from '../../Models/ticket';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { ToastrService } from 'ngx-toastr';
+import { provideToastr } from 'ngx-toastr';
 
 @Component({
   selector: 'app-admin-tickets',
   standalone: true,
-  imports: [CommonModule, RouterModule, NavbarComponent],
+  imports: [CommonModule, RouterModule, FormsModule, NavbarComponent],
   templateUrl: './admin-tickets.component.html',
   styleUrls: ['./admin-tickets.component.css']
 })
@@ -20,6 +22,7 @@ export class AdminTicketsComponent implements OnInit {
   isLoading = false;
   isAdmin = false;
   TicketStatus = TicketStatus;
+  selectedStatus: TicketStatus | null = null;
 
   constructor(
     private ticketService: TicketService,
@@ -44,6 +47,14 @@ export class AdminTicketsComponent implements OnInit {
 
   loadAllTickets(): void {
     this.isLoading = true;
+    
+    // Durum seçiliyse ona göre filtrele
+    if (this.selectedStatus !== null) {
+      this.loadTicketsByStatus(this.selectedStatus);
+      return;
+    }
+    
+    // Değilse tüm ticketları getir
     this.ticketService.getAllTickets().subscribe({
       next: (response) => {
         if (response.success) {
@@ -54,6 +65,41 @@ export class AdminTicketsComponent implements OnInit {
       error: (error) => {
         console.error('Ticketlar yüklenirken hata:', error);
         this.isLoading = false;
+        this.toastrService.error('Ticketlar yüklenirken bir hata oluştu.');
+      }
+    });
+  }
+  
+  loadTicketsByStatus(status: TicketStatus): void {
+    this.isLoading = true;
+    this.selectedStatus = status;
+    
+    this.ticketService.getTicketsByStatus(status).subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.tickets = response.data || [];
+          if (this.tickets.length > 0) {
+            this.toastrService.success(`${this.getStatusText(status)} durumundaki talepler listelendi.`);
+          } else {
+            this.toastrService.info(`${this.getStatusText(status)} durumunda hiç talep bulunmamaktadır.`);
+          }
+        } else {
+          this.toastrService.error('Talepler yüklenirken bir hata oluştu.');
+        }
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Ticketlar duruma göre yüklenirken hata:', error);
+        this.isLoading = false;
+        
+        // 400 Bad Request hatası - muhtemelen o durumda hiç talep yok
+        if (error.status === 400 && error.error && error.error.message === 'No tickets found with the specified status') {
+          // Bu durumu başarılı bir sonuç olarak ele alıp boş bir liste göstereceğiz
+          this.tickets = [];
+          this.toastrService.info(`${this.getStatusText(status)} durumunda hiç talep bulunmamaktadır.`);
+        } else {
+          this.toastrService.error('Talep filtreleme sırasında bir hata oluştu.');
+        }
       }
     });
   }
@@ -62,7 +108,11 @@ export class AdminTicketsComponent implements OnInit {
     this.router.navigate(['/tickets', ticketId]);
   }
 
-  getStatusText(status: TicketStatus): string {
+  getStatusText(status: TicketStatus | null): string {
+    if (status === null) {
+      return 'Tüm Talepler';
+    }
+    
     switch (status) {
       case TicketStatus.Open:
         return 'Açık';
@@ -75,7 +125,11 @@ export class AdminTicketsComponent implements OnInit {
     }
   }
 
-  getStatusClass(status: TicketStatus): string {
+  getStatusClass(status: TicketStatus | null): string {
+    if (status === null) {
+      return 'bg-primary';
+    }
+    
     switch (status) {
       case TicketStatus.Open:
         return 'bg-info';

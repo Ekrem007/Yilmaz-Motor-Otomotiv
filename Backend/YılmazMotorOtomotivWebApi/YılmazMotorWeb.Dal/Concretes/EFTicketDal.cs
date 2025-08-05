@@ -190,5 +190,41 @@ namespace YılmazMotorWeb.Dal.Concretes
 			_context.Tickets.Update(ticket);
 			_context.SaveChanges();
 		}
+		public List<TicketDto> GetTicketsByStatus(TicketStatus status)
+		{
+			return _context.Tickets
+				.Include(t => t.User)
+				.Include(t => t.Replies)
+					.ThenInclude(r => r.User)
+				.Where(t => t.Status == status)
+				.Select(t => new TicketDto
+				{
+					Id = t.Id,
+					Subject = t.Subject,
+					Message = t.Message,
+					CreatedAt = t.CreatedAt,
+					UserId = t.UserId,
+					Status = t.Status,
+					User = t.User == null ? null : new UserDto
+					{
+						Id = t.User.Id,
+						UserName = t.User.UserName
+					},
+					Replies = t.Replies.Select(r => new TicketReplyDto
+					{
+						Id = r.Id,
+						TicketId = r.TicketId,
+						ReplyMessage = r.ReplyMessage,
+						RepliedAt = r.RepliedAt,
+						UserId = r.UserId,
+						User = r.User == null ? null : new UserDto
+						{
+							Id = r.User.Id,
+							UserName = r.User.UserName
+						}
+					}).ToList()
+				})
+				.ToList();
+		}
 	}
 }

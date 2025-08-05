@@ -72,13 +72,25 @@ export class CartService {
   }
 
   // Ürünü sepete ekle
-  addToCart(product: Product | ProductWithCategoryNameDto, quantity: number = 1) {
+  addToCart(product: Product | ProductWithCategoryNameDto, quantity: number = 1, toastrService?: any) {
     if (!this.currentUserId) {
       console.warn('Sepete ürün eklemek için giriş yapmanız gerekiyor.');
-      return;
+      return false;
     }
 
     const existingItem = this.cartItems.find(item => item.product.id === product.id);
+    
+    // Stok kontrolü
+    const currentQuantity = existingItem ? existingItem.quantity : 0;
+    const newTotalQuantity = currentQuantity + quantity;
+    
+    // Stok sayısını aşıyorsa işlemi engelle ve false döndür
+    if (newTotalQuantity > product.stock) {
+      if (toastrService) {
+        toastrService.error(`Üzgünüz, bu üründen en fazla ${product.stock} adet ekleyebilirsiniz.`, 'Stok Yetersiz');
+      }
+      return false;
+    }
     
     if (existingItem) {
       // Ürün zaten sepette varsa miktarını artır
@@ -89,6 +101,7 @@ export class CartService {
     }
     
     this.saveCartToStorage();
+    return true;
   }
 
   // Sepetten ürün çıkar
@@ -100,18 +113,29 @@ export class CartService {
   }
 
   // Ürün miktarını güncelle
-  updateQuantity(productId: number, quantity: number) {
-    if (!this.currentUserId) return;
+  updateQuantity(productId: number, quantity: number, toastrService?: any) {
+    if (!this.currentUserId) return false;
     
     const item = this.cartItems.find(item => item.product.id === productId);
     if (item) {
       if (quantity <= 0) {
         this.removeFromCart(productId);
+        return true;
       } else {
+        // Stok kontrolü
+        if (quantity > item.product.stock) {
+          if (toastrService) {
+            toastrService.error(`Üzgünüz, bu üründen en fazla ${item.product.stock} adet ekleyebilirsiniz.`, 'Stok Yetersiz');
+          }
+          return false;
+        }
+        
         item.quantity = quantity;
         this.saveCartToStorage();
+        return true;
       }
     }
+    return false;
   }
 
   // Sepeti temizle
