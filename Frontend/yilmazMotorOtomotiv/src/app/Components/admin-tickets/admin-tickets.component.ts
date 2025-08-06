@@ -6,14 +6,12 @@ import { RouterModule } from '@angular/router';
 import { TicketService } from '../../Services/ticket.service';
 import { AuthService } from '../../Services/auth.service';
 import { TicketDto, TicketStatus } from '../../Models/ticket';
-import { NavbarComponent } from '../navbar/navbar.component';
 import { ToastrService } from 'ngx-toastr';
-import { provideToastr } from 'ngx-toastr';
 
 @Component({
   selector: 'app-admin-tickets',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, NavbarComponent],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './admin-tickets.component.html',
   styleUrls: ['./admin-tickets.component.css']
 })

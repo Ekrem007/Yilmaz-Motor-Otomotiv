@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { ProductService } from '../../Services/product.service';
 import { ProductWithCategoryNameDto } from '../../Models/productWithCategoryNameDto';
 import { ToastrService } from 'ngx-toastr';
-import { NavbarComponent } from '../navbar/navbar.component';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../Services/auth.service';
 import { Router } from '@angular/router';
@@ -12,7 +11,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-admin-stock-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, NavbarComponent, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './admin-stock-page.component.html',
   styleUrl: './admin-stock-page.component.css'
 })

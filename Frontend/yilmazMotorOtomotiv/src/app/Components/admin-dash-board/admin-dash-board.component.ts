@@ -71,7 +71,7 @@ export class AdminDashBoardComponent implements OnInit {
         };
         this.weeklySalesData = [
           {
-            name: 'Haftalık Satış',
+            name: 'Satışlar',
             series: response.data.map((item: any) => ({
               name: getDayName(item.day),
               value: item.totalSales
