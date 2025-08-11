@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using YılmazMotorWeb.Business.Abstracts;
 using YılmazMotorWeb.Core.Utilities;
 using YılmazMotorWeb.Dal.Abstracts;
+using YılmazMotorWeb.Dal.Concretes;
 using YılmazMotorWeb.Entities.Concretes;
 using YılmazMotorWeb.Entities.Dtos;
 
@@ -14,19 +15,122 @@ namespace YılmazMotorWeb.Business.Concretes
 	public class OrderService : IOrderService
 	{
 		private readonly IOrderDal _orderDal;
-		public OrderService(IOrderDal orderDal)
+		private readonly ITaskService _taskService;
+		private readonly IUserTaskService _userTaskService;
+		private readonly IUserTaskDal _userTaskDal;
+		private readonly IUserCouponCodeDal _userCouponCodeDal;
+		private readonly ICouponDal _couponDal;
+
+		public OrderService(
+			IOrderDal orderDal,
+			ITaskService taskService,
+			IUserTaskService userTaskService,
+			IUserTaskDal userTaskDal,
+			IUserCouponCodeDal userCouponCodeDal,
+			ICouponDal couponDal )
 		{
 			_orderDal = orderDal;
+			_taskService = taskService;
+			_userTaskService = userTaskService;
+			_userTaskDal = userTaskDal;
+			_userCouponCodeDal = userCouponCodeDal;
+			_couponDal = couponDal;
+
 		}
+
 		public IResult Add(Order order)
 		{
 			if (order == null)
 			{
 				return new ErrorResult("Order cannot be null");
 			}
+
+			decimal total = 0;
+			foreach (var item in order.OrderItems)
+			{
+				total += item.Price * item.Quantity;
+			}
+			order.TotalAmount = total;
+
+			// Kupon kodu girilmişse
+			if (order.CouponCode.HasValue)
+			{
+				var userCoupon = _userCouponCodeDal.GetUserCouponCodeByCode(order.CouponCode.Value);
+				if (userCoupon == null || userCoupon.IsUsed)
+				{
+					return new ErrorResult("Geçersiz veya daha önce kullanılmış kupon kodu.");
+				}
+
+				decimal discount = 0;
+				if (userCoupon.Coupon != null)
+				{
+					discount = userCoupon.Coupon.DiscountAmount;
+				}
+				else if (userCoupon.CouponId.HasValue)
+				{
+					var coupon = _couponDal.GetCouponById(userCoupon.CouponId.Value);
+					if (coupon != null)
+						discount = coupon.DiscountAmount;
+				}
+
+				order.TotalAmount -= discount;
+				if (order.TotalAmount < 0)
+					order.TotalAmount = 0;
+
+				userCoupon.IsUsed = true;
+				userCoupon.UsedDate = DateTime.Now;
+				_userCouponCodeDal.UpdateUserCouponCode(userCoupon.Id);
+			}
+
 			_orderDal.AddOrder(order);
+
+			int userId = order.UserId;
+			var allTasksResult = _taskService.GetAllTasks();
+
+			if (!allTasksResult.Success || allTasksResult.Data == null)
+			{
+				return new SuccessResult("Order added successfully");
+			}
+
+			var allTasks = allTasksResult.Data;
+
+			foreach (var taskDto in allTasks)
+			{
+				int taskId = taskDto.Id;
+				var completedResult = _userTaskService.IsTaskCompletedByUser(taskId, userId);
+				if (!completedResult.Success)
+				{
+					continue;
+				}
+				if (completedResult.Data)
+				{
+					continue;
+				}
+				if (order.TotalAmount >= taskDto.TargetAmount)
+				{
+					var userTask = new UserTask
+					{
+						UserId = userId,
+						TaskId = taskId,
+						CompletedDate = DateTime.Now
+					};
+					_userTaskDal.AddUserTask(userTask);
+
+					var userCoupon = new UserCouponCode
+					{
+						UserId = userId,
+						CouponId = taskDto.CouponId,
+						CouponCode = Guid.NewGuid(),
+						IsUsed = false,
+						UsedDate = null
+					};
+					_userCouponCodeDal.AddUserCouponCode(userCoupon);
+				}
+			}
+
 			return new SuccessResult("Order added successfully");
 		}
+
 
 		public IResult Delete(int orderId)
 		{

@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { ResponseModel } from '../Models/responseModel';
 import { ListResponseModel } from '../Models/listResponseModel';
 import { MostSellingProductDto } from '../Models/mostSellingProductDto';
+import { CreateOrderItemDto } from '../Models/createOrderItemDto';
 
 @Injectable({
   providedIn: 'root'

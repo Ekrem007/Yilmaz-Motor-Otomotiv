@@ -13,12 +13,12 @@ namespace YılmazMotorWeb.Dal.Context
 	public class YılmazMotorWebDbContext : IdentityDbContext<AppUser, AppRole, int>
 	{
 		protected override void OnConfiguring(DbContextOptionsBuilder options)
-    {
-        if (!options.IsConfigured)
-        {
-            options.UseSqlServer("Server=DESKTOP-66LKAVD;Database=YılmazOtomotiv;Trusted_Connection=True;TrustServerCertificate=True;");
-        }
-    }
+		{
+			if (!options.IsConfigured)
+			{
+				options.UseSqlServer("Server=DESKTOP-66LKAVD;Database=YılmazOtomotiv;Trusted_Connection=True;TrustServerCertificate=True;");
+			}
+		}
 
 		public YılmazMotorWebDbContext(DbContextOptions<YılmazMotorWebDbContext> options)
 		: base(options)
@@ -32,6 +32,11 @@ namespace YılmazMotorWeb.Dal.Context
 		public DbSet<Ticket> Tickets { get; set; }
 		public DbSet<TicketReply> TicketReplies { get; set; }
 		public DbSet<Discount> Discounts { get; set; }
+		public DbSet<UserCouponCode> UserCouponCodes { get; set; }
+		public DbSet<Coupon> Coupons { get; set; }
+		public DbSet<UserTask> UserTasks { get; set; }
+		public DbSet<YılmazMotorWeb.Entities.Concretes.Task> Tasks { get; set; }
+
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 
@@ -58,6 +63,36 @@ namespace YılmazMotorWeb.Dal.Context
 			modelBuilder.Entity<Discount>()
 				.Property(d => d.IsActive)
 				.HasComputedColumnSql("CAST(CASE WHEN GETDATE() BETWEEN StartDate AND EndDate THEN 1 ELSE 0 END AS bit)");
+			modelBuilder.Entity<YılmazMotorWeb.Entities.Concretes.Task>()
+				.HasOne(t => t.Coupon)
+				.WithMany()
+				.HasForeignKey(t => t.CouponId)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			modelBuilder.Entity<UserTask>()
+				.HasOne(ut => ut.User)
+				.WithMany(u => u.UserTasks)
+				.HasForeignKey(ut => ut.UserId)
+				.OnDelete(DeleteBehavior.Cascade);
+
+			modelBuilder.Entity<UserTask>()
+				.HasOne(ut => ut.Task)
+				.WithMany(t => t.UserTasks)
+				.HasForeignKey(ut => ut.TaskId)
+				.OnDelete(DeleteBehavior.Cascade);
+
+			modelBuilder.Entity<UserCouponCode>()
+				.HasOne(uc => uc.User)
+				.WithMany() 
+				.HasForeignKey(uc => uc.UserId)
+				.OnDelete(DeleteBehavior.Cascade);
+
+			modelBuilder.Entity<UserCouponCode>()
+				.HasOne(uc => uc.Coupon)
+				.WithMany()
+				.HasForeignKey(uc => uc.CouponId)
+				.OnDelete(DeleteBehavior.Restrict);
+
 
 		}
 		public YılmazMotorWebDbContext() { }

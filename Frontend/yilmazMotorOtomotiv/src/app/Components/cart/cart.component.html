@@ -109,14 +109,64 @@
               <span class="text-muted">İndirim Tutarı:</span>
               <span class="fw-bold text-success">- {{ getTotalSavings() | turkishCurrency }}</span>
             </div>
+            
+            <!-- Kupon Kodu Bölümü -->
+            <div class="mb-3">
+              <label for="couponCode" class="form-label small text-muted">Kupon Kodu</label>
+              <div class="input-group">
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  id="couponCode"
+                  [(ngModel)]="couponCode"
+                  placeholder="Kupon kodunuzu giriniz"
+                  [disabled]="isCouponValid || isValidatingCoupon">
+                <button 
+                  class="btn btn-outline-primary" 
+                  type="button" 
+                  (click)="validateCoupon()"
+                  [disabled]="!couponCode || isCouponValid || isValidatingCoupon">
+                  <span *ngIf="isValidatingCoupon" class="spinner-border spinner-border-sm me-1"></span>
+                  {{ isValidatingCoupon ? 'Kontrol Ediliyor...' : (isCouponValid ? 'Uygulandı' : 'Uygula') }}
+                </button>
+              </div>
+              
+              <!-- Uygulanan kupon bilgisi -->
+              <div *ngIf="isCouponValid" class="mt-2">
+                <div class="alert alert-success py-2 px-3 mb-0">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                      <i class="bi bi-check-circle me-2"></i>
+                      <strong>{{ appliedCouponName }}</strong> uygulandı
+                      <br>
+                      <small class="text-success">{{ couponDiscount | turkishCurrency }} indirim</small>
+                    </div>
+                    <button 
+                      class="btn btn-sm btn-outline-danger" 
+                      (click)="removeCoupon()"
+                      title="Kuponu Kaldır">
+                      <i class="bi bi-x"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div class="d-flex justify-content-between mb-3">
               <span class="text-muted">Kargo:</span>
               <span class="text-success fw-bold">Ücretsiz</span>
             </div>
+            
+            <!-- Kupon indirimi gösterimi -->
+            <div class="d-flex justify-content-between mb-3" *ngIf="isCouponValid && couponDiscount > 0">
+              <span class="text-muted">Kupon İndirimi:</span>
+              <span class="fw-bold text-success">- {{ couponDiscount | turkishCurrency }}</span>
+            </div>
+            
             <hr>
             <div class="d-flex justify-content-between mb-4">
               <span class="h5 fw-bold text-dark">Toplam:</span>
-              <span class="h5 fw-bold text-primary">{{ totalPrice | turkishCurrency }}</span>
+              <span class="h5 fw-bold text-primary">{{ getFinalPrice() | turkishCurrency }}</span>
             </div>
             
             <!-- Giriş yapmış kullanıcı için satın al butonu -->
@@ -189,10 +239,14 @@
                     <span>{{ item.product.name }} ({{ item.quantity }}x)</span>
                     <span>{{ (item.product.price * item.quantity) | turkishCurrency }}</span>
                   </div>
+                  <div class="d-flex justify-content-between mb-2" *ngIf="isCouponValid">
+                    <span class="text-success">Kupon İndirimi:</span>
+                    <span class="text-success">- {{ couponDiscount | turkishCurrency }}</span>
+                  </div>
                   <hr>
                   <div class="d-flex justify-content-between fw-bold">
                     <span>Toplam:</span>
-                    <span class="text-primary">{{ totalPrice | turkishCurrency }}</span>
+                    <span class="text-primary">{{ getFinalPrice() | turkishCurrency }}</span>
                   </div>
                 </div>
               </div>

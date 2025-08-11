@@ -41,10 +41,8 @@ namespace YılmazMotorWeb.Dal.Concretes
 					item.Price = product.Price;
 				}
 				product.Stock -= item.Quantity;
-
 			}
 
-			order.TotalAmount = order.OrderItems?.Sum(item => item.Price * item.Quantity) ?? 0;
 			order.Status = OrderStatus.Pending;
 
 			_context.Orders.Add(order);

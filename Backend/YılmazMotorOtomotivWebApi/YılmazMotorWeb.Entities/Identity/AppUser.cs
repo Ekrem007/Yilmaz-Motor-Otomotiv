@@ -24,6 +24,7 @@ namespace YılmazMotorWeb.Entities.Identity
 
 		public ICollection<Order> Orders { get; set; }
 		public ICollection<ProductReview> ProductReviews { get; set; }
+		public ICollection<UserTask> UserTasks { get; set; }
 
 	}
 }

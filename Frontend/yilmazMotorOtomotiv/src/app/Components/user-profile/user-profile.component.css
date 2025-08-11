@@ -98,9 +98,80 @@
 
 .profile-avatar {
   text-align: center;
-  padding-bottom: 2rem;
-  border-bottom: 1px solid #e9ecef;
-  margin-bottom: 2rem;
+}
+
+/* ===== TASK AND COUPON STYLES ===== */
+.tasks-list {
+  padding: 1rem 0;
+}
+
+.task-item {
+  margin-bottom: 1.5rem;
+  border: none;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+  transition: transform 0.2s;
+}
+
+.task-item:hover {
+  transform: translateY(-3px);
+}
+
+.task-name {
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+  color: #343a40;
+}
+
+.task-description {
+  color: #6c757d;
+  font-size: 0.95rem;
+}
+
+.task-target {
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.task-status .badge {
+  font-size: 0.8rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.coupon-info {
+  margin-top: 1rem;
+}
+
+.coupon-name {
+  font-weight: 600;
+  color: #495057;
+}
+
+.coupon-discount {
+  font-size: 0.95rem;
+  color: #1e7e34;
+}
+
+.coupon-code-section {
+  margin-top: 1rem;
+}
+
+.code-display {
+  margin-top: 0.75rem;
+  background-color: #f8f9fa;
+  padding: 0.75rem 1rem;
+  border-radius: 5px;
+  border: 1px dashed #ced4da;
+  font-family: monospace;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #343a40;
+}
+
+.incomplete-task-message {
+  font-size: 0.9rem;
+  margin-top: 1rem;
+  padding: 0.75rem;
 }
 
 .avatar-img {
@@ -841,4 +912,34 @@
 
 .page-link i {
   font-size: 0.8rem;
+}
+
+/* ===== COUPON STATUS STYLES ===== */
+.coupon-name .badge {
+  font-size: 0.7rem;
+  vertical-align: middle;
+}
+
+.coupon-name .badge.bg-success {
+  background-color: #28a745 !important;
+}
+
+.coupon-name .badge.bg-primary {
+  background-color: #007bff !important;
+}
+
+.coupon-code-section .text-success {
+  font-weight: 500;
+}
+
+.code-display {
+  background-color: #f8f9fa !important;
+  border: 1px dashed #28a745 !important;
+  position: relative;
+}
+
+.code-display code {
+  color: #2d3748;
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }

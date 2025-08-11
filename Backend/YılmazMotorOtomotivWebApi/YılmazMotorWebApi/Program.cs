@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using YýlmazMotorWeb.Business.Abstracts;
 using YýlmazMotorWeb.Business.Concretes;
+using YýlmazMotorWeb.Dal;
 using YýlmazMotorWeb.Dal.Abstracts;
 using YýlmazMotorWeb.Dal.Concretes;
 using YýlmazMotorWeb.Dal.Context;
@@ -54,6 +55,24 @@ builder.Services.AddScoped<ITicketReplyDal, EFTicketReplyDal>();
 
 builder.Services.AddScoped<IDiscountService, DiscountService>();
 builder.Services.AddScoped<IDiscountDal, EFDiscountDal>();
+
+builder.Services.AddScoped<ICouponService, CouponService>();
+builder.Services.AddScoped<ICouponDal, EFCouponDal>();
+
+builder.Services.AddScoped<ITaskDal, EFTaskDal>();
+builder.Services.AddScoped<ITaskService, TaskService>();
+
+builder.Services.AddScoped<IUserTaskService, UserTaskService>();
+builder.Services.AddScoped<IUserTaskDal, EFUserTaskDal>();
+
+builder.Services.AddScoped<IUserCouponCodeService, UserCouponCodeService>();
+builder.Services.AddScoped<IUserCouponCodeDal, EFUserCouponCodeDal>();
+
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserDal, EFUserDal>();
+
+
+
 
 
 

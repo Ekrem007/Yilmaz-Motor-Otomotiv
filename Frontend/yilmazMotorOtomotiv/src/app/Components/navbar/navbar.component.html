@@ -100,6 +100,11 @@
               </a>
             </li>
             <li *ngIf="isUser">
+              <a class="dropdown-item" routerLink="/profile" [queryParams]="{tab: 'tasks'}">
+                <i class="bi bi-check-circle me-2"></i> Görevler/Kuponlar
+              </a>
+            </li>
+            <li *ngIf="isUser">
               <a class="dropdown-item" routerLink="/tickets">
                 <i class="bi bi-headset me-2"></i> Destek Talepleri
               </a>

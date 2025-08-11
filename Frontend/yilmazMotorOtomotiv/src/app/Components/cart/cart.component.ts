@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { CartService, CartItem, ExtendedProduct, ExtendedProductWithCategoryNameDto } from '../../Services/cart.service';
@@ -15,11 +15,12 @@ import { ToastrService } from 'ngx-toastr';
 import { UserService } from '../../Services/user.service';
 import { Product } from '../../Models/product';
 import { ProductWithCategoryNameDto } from '../../Models/productWithCategoryNameDto';
+import { CouponService } from '../../Services/coupon.service';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, RouterModule, TurkishCurrencyPipe, ReactiveFormsModule, HttpClientModule],
+  imports: [CommonModule, NavbarComponent, RouterModule, TurkishCurrencyPipe, ReactiveFormsModule, FormsModule, HttpClientModule],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css'
 })
@@ -30,6 +31,14 @@ export class CartComponent implements OnInit {
   paymentForm!: FormGroup;
   isProcessing: boolean = false;
 
+  // Kupon kodu ile ilgili değişkenler
+  couponCode: string = '';
+  couponDiscount: number = 0;
+  isCouponValid: boolean = false;
+  isValidatingCoupon: boolean = false;
+  appliedCouponCode: string = '';
+  appliedCouponName: string = '';
+
   // Modern Angular inject() function kullanarak service'leri inject edelim
   private cartService = inject(CartService);
   private formBuilder = inject(FormBuilder);
@@ -37,6 +46,7 @@ export class CartComponent implements OnInit {
   private authService = inject(AuthService);
   private toastr = inject(ToastrService);
   private userService = inject(UserService);
+  private couponService = inject(CouponService);
 
   constructor() {
     this.initializePaymentForm();
@@ -91,6 +101,68 @@ export class CartComponent implements OnInit {
   // Kullanıcının giriş yapıp yapmadığını kontrol et
   isUserLoggedIn(): boolean {
     return this.authService.isLoggedIn();
+  }
+
+  // Kupon kodu doğrulama
+  validateCoupon() {
+    if (!this.couponCode || this.couponCode.trim() === '') {
+      this.toastr.warning('Lütfen bir kupon kodu giriniz', 'Kupon Kodu');
+      return;
+    }
+
+    this.isValidatingCoupon = true;
+    
+    this.couponService.validateCouponCode(this.couponCode.trim()).subscribe({
+      next: (response) => {
+        if (response.success && response.data && response.data.coupon) {
+          // Kuponun kullanılıp kullanılmadığını kontrol et
+          if (response.data.isUsed) {
+            this.resetCoupon();
+            this.toastr.error('Bu kupon kodu daha önce kullanılmış', 'Kupon Kullanılmış');
+          } else {
+            // Kupon geçerli ve kullanılmamış
+            this.isCouponValid = true;
+            this.couponDiscount = response.data.coupon.discountAmount;
+            this.appliedCouponCode = this.couponCode.trim();
+            this.appliedCouponName = response.data.coupon.couponName || 'Geçerli Kupon';
+            this.toastr.success(`Kupon kodu başarıyla uygulandı! ${this.couponDiscount}₺ indirim`, 'Kupon Uygulandı');
+          }
+        } else {
+          // Kupon geçersiz
+          this.resetCoupon();
+          this.toastr.error('Geçersiz kupon kodu', 'Kupon Hatası');
+        }
+        this.isValidatingCoupon = false;
+      },
+      error: (error) => {
+        this.resetCoupon();
+        this.isValidatingCoupon = false;
+        if (error.status === 404) {
+          this.toastr.error('Kupon kodu bulunamadı', 'Kupon Hatası');
+        } else {
+          this.toastr.error('Kupon kodu doğrulanamadı', 'Sistem Hatası');
+        }
+      }
+    });
+  }
+
+  // Kupon kodunu kaldır
+  removeCoupon() {
+    this.resetCoupon();
+    this.toastr.info('Kupon kodu kaldırıldı', 'Kupon Kaldırıldı');
+  }
+
+  // Kupon bilgilerini sıfırla
+  private resetCoupon() {
+    this.couponCode = '';
+    this.couponDiscount = 0;
+    this.isCouponValid = false;
+    this.appliedCouponCode = '';
+  }
+
+  // İndirim uygulanan toplam fiyat
+  getFinalPrice(): number {
+    return Math.max(0, this.totalPrice - this.couponDiscount);
   }
 
   initializePaymentForm() {
@@ -200,8 +272,10 @@ export class CartComponent implements OnInit {
 
       const orderData: CreateOrderDto = {
         userId: userId,
-        totalAmount: this.totalPrice,
-        orderItems: orderItems
+        totalAmount: this.getFinalPrice(), // İndirimli toplam fiyat
+        orderItems: orderItems,
+        couponCode: this.isCouponValid ? this.appliedCouponCode : undefined,
+        discountAmount: this.isCouponValid ? this.couponDiscount : undefined
       };
 
       this.handleBackendOrder(orderData);
@@ -252,6 +326,9 @@ export class CartComponent implements OnInit {
   private completeOrder() {
     // Sepeti temizle
     this.cartService.clearCart();
+    
+    // Kupon bilgilerini sıfırla
+    this.resetCoupon();
     
     // Modalı kapat
     const modal = document.getElementById('paymentModal');
@@ -325,5 +402,3 @@ export class CartComponent implements OnInit {
     return this.cartService.getTotalSavings();
   }
 }
-
-

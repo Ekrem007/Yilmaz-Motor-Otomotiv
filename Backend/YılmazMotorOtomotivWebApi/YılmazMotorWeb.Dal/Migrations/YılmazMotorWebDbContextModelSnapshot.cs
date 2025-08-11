@@ -146,6 +146,26 @@ namespace YılmazMotorWeb.Dal.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("YılmazMotorWeb.Entities.Concretes.Coupon", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CouponName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("DiscountAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Coupons");
+                });
+
             modelBuilder.Entity("YılmazMotorWeb.Entities.Concretes.Discount", b =>
                 {
                     b.Property<int>("Id")
@@ -185,6 +205,9 @@ namespace YılmazMotorWeb.Dal.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<Guid?>("CouponCode")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
@@ -306,6 +329,35 @@ namespace YılmazMotorWeb.Dal.Migrations
                     b.ToTable("ProductReviews");
                 });
 
+            modelBuilder.Entity("YılmazMotorWeb.Entities.Concretes.Task", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CouponId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TargetAmount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TaskName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CouponId");
+
+                    b.ToTable("Tasks");
+                });
+
             modelBuilder.Entity("YılmazMotorWeb.Entities.Concretes.Ticket", b =>
                 {
                     b.Property<int>("Id")
@@ -366,6 +418,64 @@ namespace YılmazMotorWeb.Dal.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("TicketReplies");
+                });
+
+            modelBuilder.Entity("YılmazMotorWeb.Entities.Concretes.UserCouponCode", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<Guid>("CouponCode")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("CouponId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsUsed")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("UsedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CouponId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserCouponCodes");
+                });
+
+            modelBuilder.Entity("YılmazMotorWeb.Entities.Concretes.UserTask", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CompletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("TaskId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TaskId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserTasks");
                 });
 
             modelBuilder.Entity("YılmazMotorWeb.Entities.Identity.AppRole", b =>
@@ -599,6 +709,17 @@ namespace YılmazMotorWeb.Dal.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("YılmazMotorWeb.Entities.Concretes.Task", b =>
+                {
+                    b.HasOne("YılmazMotorWeb.Entities.Concretes.Coupon", "Coupon")
+                        .WithMany()
+                        .HasForeignKey("CouponId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Coupon");
+                });
+
             modelBuilder.Entity("YılmazMotorWeb.Entities.Concretes.Ticket", b =>
                 {
                     b.HasOne("YılmazMotorWeb.Entities.Identity.AppUser", "User")
@@ -629,6 +750,43 @@ namespace YılmazMotorWeb.Dal.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("YılmazMotorWeb.Entities.Concretes.UserCouponCode", b =>
+                {
+                    b.HasOne("YılmazMotorWeb.Entities.Concretes.Coupon", "Coupon")
+                        .WithMany()
+                        .HasForeignKey("CouponId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("YılmazMotorWeb.Entities.Identity.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Coupon");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("YılmazMotorWeb.Entities.Concretes.UserTask", b =>
+                {
+                    b.HasOne("YılmazMotorWeb.Entities.Concretes.Task", "Task")
+                        .WithMany("UserTasks")
+                        .HasForeignKey("TaskId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("YılmazMotorWeb.Entities.Identity.AppUser", "User")
+                        .WithMany("UserTasks")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Task");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("YılmazMotorWeb.Entities.Concretes.Category", b =>
                 {
                     b.Navigation("Products");
@@ -646,6 +804,11 @@ namespace YılmazMotorWeb.Dal.Migrations
                     b.Navigation("Reviews");
                 });
 
+            modelBuilder.Entity("YılmazMotorWeb.Entities.Concretes.Task", b =>
+                {
+                    b.Navigation("UserTasks");
+                });
+
             modelBuilder.Entity("YılmazMotorWeb.Entities.Concretes.Ticket", b =>
                 {
                     b.Navigation("Replies");
@@ -656,6 +819,8 @@ namespace YılmazMotorWeb.Dal.Migrations
                     b.Navigation("Orders");
 
                     b.Navigation("ProductReviews");
+
+                    b.Navigation("UserTasks");
                 });
 #pragma warning restore 612, 618
         }

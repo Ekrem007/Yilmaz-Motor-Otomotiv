@@ -39,6 +39,14 @@
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" 
+                     [class.active]="activeTab === 'tasks'"
+                     (click)="switchTab('tasks')"
+                     href="javascript:void(0)">
+                    <i class="fas fa-shopping-bag"></i> Görevler/Kuponlar
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" 
                      [class.active]="activeTab === 'orders'"
                      (click)="switchTab('orders')"
                      href="javascript:void(0)">
@@ -321,7 +329,109 @@
                 </div>
               </div>
             </div>
+            
+            <!-- Görevler ve Kuponlar Sekmesi -->
+            <div class="tab-pane fade" 
+                 [class.show]="activeTab === 'tasks'" 
+                 [class.active]="activeTab === 'tasks'" 
+                 id="tasks">
+              <div class="profile-card">
+                <div class="card-header">
+                  <h3>Görevler ve Kuponlar</h3>
+                </div>
+                <div class="card-body">
+                  <!-- Loading Spinner for Tasks -->
+                  <div *ngIf="isTasksLoading" class="text-center p-4">
+                    <div class="spinner-border" role="status">
+                      <span class="visually-hidden">Görevler yükleniyor...</span>
+                    </div>
+                  </div>
 
+                  <!-- Tasks Error Message -->
+                  <div *ngIf="tasksErrorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ tasksErrorMessage }}
+                    <button type="button" class="btn-close" (click)="tasksErrorMessage = ''"></button>
+                  </div>
+
+                  <!-- Tasks List -->
+                  <div *ngIf="!isTasksLoading && !tasksErrorMessage" class="tasks-list">
+                    <div *ngFor="let task of userTasks" class="task-item card mb-3">
+                      <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                          <div>
+                            <h5 class="task-name">{{ task.taskName }}</h5>
+                            <p class="task-description">{{ task.description }}</p>
+                            <p class="task-target">
+                              <strong>Hedef:</strong> {{ task.targetAmount | turkishCurrency }}
+                            </p>
+                          </div>
+                          <div class="task-status">
+                            <span class="badge" 
+                                  [ngClass]="task.isCompleted ? 'bg-success' : 'bg-secondary'">
+                              {{ task.isCompleted ? 'Tamamlandı' : 'Devam Ediyor' }}
+                            </span>
+                          </div>
+                        </div>
+                        
+                        <hr />
+                        
+                        <div class="coupon-info">
+                          <h6 class="coupon-name mb-2">
+                            <i class="fas fa-ticket-alt me-2"></i> {{ task.couponName }}
+                            <!-- Kupon kullanım durumu gösterimi -->
+                            <span *ngIf="task.isCompleted && task.couponCode && isCouponUsed(task.couponCode)" 
+                                  class="badge bg-success ms-2">
+                              <i class="fas fa-check-circle me-1"></i>Kullanıldı
+                            </span>
+                            <span *ngIf="task.isCompleted && task.couponCode && !isCouponUsed(task.couponCode)" 
+                                  class="badge bg-primary ms-2">
+                              <i class="fas fa-clock me-1"></i>Kullanılabilir
+                            </span>
+                          </h6>
+                          <p class="coupon-discount">
+                            <strong>İndirim Tutarı:</strong> {{ task.couponDiscountAmount | turkishCurrency }}
+                          </p>
+                          
+                          <!-- Tamamlanan görevler için kupon kodu gösterme -->
+                          <div *ngIf="task.isCompleted" class="coupon-code-section">
+                            <button 
+                              class="btn btn-sm" 
+                              [ngClass]="visibleCouponCodes[task.taskId] ? 'btn-secondary' : 'btn-primary'"
+                              (click)="toggleCouponCodeVisibility(task.taskId)">
+                              {{ visibleCouponCodes[task.taskId] ? 'Gizle' : 'Kupon Kodunu Göster' }}
+                            </button>
+                            <div *ngIf="visibleCouponCodes[task.taskId]" class="coupon-code mt-2">
+                              <div class="code-display p-2 bg-light border rounded">
+                                <code>{{ task.couponCode }}</code>
+                              </div>
+                              <small class="text-muted" *ngIf="!isCouponUsed(task.couponCode)">
+                                Bu kodu ödeme ekranında kullanabilirsiniz.
+                              </small>
+                              <small class="text-success" *ngIf="isCouponUsed(task.couponCode)">
+                                <i class="fas fa-check-circle me-1"></i>Bu kupon kodu kullanılmıştır.
+                              </small>
+                            </div>
+                          </div>
+                          
+                          <!-- Tamamlanmayan görevler için uyarı -->
+                          <div *ngIf="!task.isCompleted" class="incomplete-task-message alert alert-warning">
+                            Bu görevi henüz tamamlamadınız. Görevi tamamladığınızda kupon kodunuz burada görünecektir.
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <!-- Görev yoksa -->
+                    <div *ngIf="userTasks.length === 0" class="empty-state">
+                      <i class="fas fa-tasks empty-icon"></i>
+                      <h4>Henüz görev bulunmuyor</h4>
+                      <p>Alışveriş yaparak görev kazanabilirsiniz</p>
+                      <a routerLink="/products" class="btn btn-primary">Alışverişe Başla</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
            
             <!-- Change Password Tab -->
             <div class="tab-pane fade" 
@@ -356,59 +466,6 @@
                 </div>
               </div>
             </div>
-
-            <!-- Favorites Tab -->
-            <div class="tab-pane fade" id="favorites">
-              <div class="profile-card">
-                <div class="card-header">
-                  <h3>Favorilerim</h3>
-                </div>
-                <div class="card-body">
-                  <div class="favorites-grid">
-                    <!-- Favorite Product -->
-                    <div class="favorite-item">
-                      <div class="product-img-container">
-                        <img src="assets/images/product-placeholder.jpg" alt="Ürün" class="product-img">
-                        <button class="btn btn-remove-favorite">
-                          <i class="fas fa-times"></i>
-                        </button>
-                      </div>
-                      <div class="product-info">
-                        <h5>Motor Yağı 5W-30</h5>
-                        <p class="product-price">₺89,99</p>
-                        <p class="product-status text-success">Stokta</p>
-                        <button class="btn btn-primary btn-sm w-100">Sepete Ekle</button>
-                      </div>
-                    </div>
-
-                    <!-- Another Favorite Product -->
-                    <div class="favorite-item">
-                      <div class="product-img-container">
-                        <img src="assets/images/product-placeholder.jpg" alt="Ürün" class="product-img">
-                        <button class="btn btn-remove-favorite">
-                          <i class="fas fa-times"></i>
-                        </button>
-                      </div>
-                      <div class="product-info">
-                        <h5>Fren Balata Takımı</h5>
-                        <p class="product-price">₺149,99</p>
-                        <p class="product-status text-danger">Stokta Yok</p>
-                        <button class="btn btn-secondary btn-sm w-100" disabled>Stokta Yok</button>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Empty State -->
-                  <div class="empty-state" style="display: none;">
-                    <i class="fas fa-heart empty-icon"></i>
-                    <h4>Henüz favori ürününüz yok</h4>
-                    <p>Beğendiğiniz ürünleri favorilere ekleyerek kolayca bulabilirsiniz</p>
-                    <a href="/products" class="btn btn-primary">Ürünleri İncele</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-
           </div>
         </div>
       </div>
@@ -416,71 +473,3 @@
   </div>
 </div>
 
-<!-- Add Address Modal -->
-<div class="modal fade" id="addAddressModal" tabindex="-1" aria-labelledby="addAddressModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="addAddressModalLabel">Yeni Adres Ekle</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form class="address-form">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="addressTitle">Adres Başlığı</label>
-                <input type="text" class="form-control" id="addressTitle" placeholder="Örn: Ev, İş" required>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="recipientName">Alıcı Adı Soyadı</label>
-                <input type="text" class="form-control" id="recipientName" required>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="city">İl</label>
-                <select class="form-control" id="city" required>
-                  <option value="">İl Seçin</option>
-                  <option value="istanbul">İstanbul</option>
-                  <option value="ankara">Ankara</option>
-                  <option value="izmir">İzmir</option>
-                </select>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="district">İlçe</label>
-                <select class="form-control" id="district" required>
-                  <option value="">İlçe Seçin</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="fullAddress">Detay Adres</label>
-            <textarea class="form-control" id="fullAddress" rows="3" placeholder="Mahalle, sokak, bina no, daire no" required></textarea>
-          </div>
-          <div class="form-group">
-            <label for="addressPhone">Telefon</label>
-            <input type="tel" class="form-control" id="addressPhone" required>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="setAsDefault">
-            <label class="form-check-label" for="setAsDefault">
-              Bu adresi varsayılan adres olarak ayarla
-            </label>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
-        <button type="button" class="btn btn-primary">Adresi Kaydet</button>
-      </div>
-    </div>
-  </div>
-</div>

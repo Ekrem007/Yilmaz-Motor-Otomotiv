@@ -5,9 +5,14 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../Services/auth.service';
 import { UserService } from '../../Services/user.service';
 import { OrderServiceService } from '../../Services/order.service';
+import { UserTaskServiceService } from '../../Services/user-task-service.service';
+import { CouponService } from '../../Services/coupon.service';
 import { UserDto, UpdateUserDto } from '../../Models/userDto';
 import { OrderDetailsDto } from '../../Models/OrderDetailsDto';
+import { OrderDto } from '../../Models/orderDto';
+import { UserTaskStatus } from '../../Models/userTask';
 import { TurkishCurrencyPipe } from '../../pipes/turkish-currency.pipe';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-user-profile',
@@ -31,18 +36,28 @@ export class UserProfileComponent implements OnInit {
   isOrdersLoading = false;
   ordersErrorMessage = '';
   groupedOrders: { [orderId: number]: OrderDetailsDto[] } = {};
+  orderTotals: { [orderId: number]: number } = {}; // Her sipariş için toplam tutarlar
   
   // Pagination özellikleri
   currentPage = 1;
   itemsPerPage = 3;
   totalOrders = 0;
   paginatedOrderKeys: number[] = [];
+  
+  // Görevler ve kuponlar için eklenen özellikler
+  userTasks: UserTaskStatus[] = [];
+  isTasksLoading = false;
+  tasksErrorMessage = '';
+  visibleCouponCodes: { [taskId: number]: boolean } = {};
+  couponUsageStatus: { [couponCode: string]: boolean } = {}; // Kuponların kullanım durumu
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
     private userService: UserService,
     private orderService: OrderServiceService,
+    private userTaskService: UserTaskServiceService,
+    private couponService: CouponService,
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {
@@ -67,6 +82,8 @@ export class UserProfileComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe(params => {
       if (params['tab'] === 'orders') {
         this.activeTab = 'orders';
+      } else if (params['tab'] === 'tasks') {
+        this.activeTab = 'tasks';
       } else {
         this.activeTab = 'profile-info';
       }
@@ -74,6 +91,7 @@ export class UserProfileComponent implements OnInit {
 
     this.loadUserData();
     this.loadUserOrders();
+    this.loadUserTasks();
   }
 
   loadUserData(): void {
@@ -217,20 +235,50 @@ export class UserProfileComponent implements OnInit {
     this.isOrdersLoading = true;
     this.ordersErrorMessage = '';
 
-    this.orderService.getOrdersByUserId(this.currentUserId).subscribe({
-      next: (response) => {
-        if (response.success) {
-          this.userOrders = response.data || [];
+    // Hem sipariş detaylarını hem de tüm siparişleri paralel olarak yükle
+    forkJoin({
+      details: this.orderService.getOrdersByUserId(this.currentUserId),
+      allOrders: this.orderService.getOrders()
+    }).subscribe({
+      next: (responses) => {
+        if (responses.details.success) {
+          this.userOrders = responses.details.data || [];
+          
+          // Sipariş toplam tutarlarını sakla - kullanıcının siparişlerini filtrele
+          this.orderTotals = {};
+          if (responses.allOrders.success) {
+            (responses.allOrders.data || []).forEach((order: OrderDto) => {
+              if (order.userId === this.currentUserId) {
+                this.orderTotals[order.id] = order.totalAmount;
+              }
+            });
+          }
+          
           this.groupOrdersByOrderId();
         } else {
-          this.ordersErrorMessage = response.message || 'Siparişler yüklenirken bir hata oluştu.';
+          this.ordersErrorMessage = responses.details.message || 'Siparişler yüklenirken bir hata oluştu.';
         }
         this.isOrdersLoading = false;
       },
       error: (error) => {
-        this.ordersErrorMessage = 'Siparişler yüklenirken bir hata oluştu.';
-        this.isOrdersLoading = false;
-        console.error('Sipariş yükleme hatası:', error);
+        // Eğer allOrders API'si çalışmıyorsa, sadece detayları kullan
+        console.warn('AllOrders API failed, falling back to details only:', error);
+        this.orderService.getOrdersByUserId(this.currentUserId!).subscribe({
+          next: (response) => {
+            if (response.success) {
+              this.userOrders = response.data || [];
+              this.groupOrdersByOrderId();
+            } else {
+              this.ordersErrorMessage = response.message || 'Siparişler yüklenirken bir hata oluştu.';
+            }
+            this.isOrdersLoading = false;
+          },
+          error: (error) => {
+            this.ordersErrorMessage = 'Siparişler yüklenirken bir hata oluştu.';
+            this.isOrdersLoading = false;
+            console.error('Sipariş yükleme hatası:', error);
+          }
+        });
       }
     });
   }
@@ -251,6 +299,12 @@ export class UserProfileComponent implements OnInit {
 
   // Sipariş grubu için toplam tutar hesapla
   getOrderTotal(orderId: number): number {
+    // Önce backend'den gelen asıl sipariş toplam tutarını kullan
+    if (this.orderTotals[orderId] !== undefined) {
+      return this.orderTotals[orderId];
+    }
+    
+    // Eğer toplam tutar yoksa, ürün bazında hesapla (fallback)
     if (!this.groupedOrders[orderId]) return 0;
     return this.groupedOrders[orderId].reduce((total, item) => total + item.totalAmount, 0);
   }
@@ -383,6 +437,73 @@ export class UserProfileComponent implements OnInit {
       pages.push(i);
     }
     return pages;
+  }
+  
+  // Görevler ve kuponları yükle
+  loadUserTasks(): void {
+    if (!this.currentUserId) return;
+    
+    this.isTasksLoading = true;
+    this.tasksErrorMessage = '';
+    
+    this.userTaskService.getUserTaskStatus(this.currentUserId).subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.userTasks = response.data;
+          // Tüm görevlerin kupon kodlarını başlangıçta gizle
+          this.userTasks.forEach(task => {
+            this.visibleCouponCodes[task.taskId] = false;
+          });
+          
+          // Kupon kullanım durumlarını kontrol et
+          this.checkCouponUsageStatus();
+        } else {
+          this.tasksErrorMessage = 'Görev bilgileri alınamadı: ' + response.message;
+        }
+        this.isTasksLoading = false;
+      },
+      error: (error) => {
+        this.tasksErrorMessage = 'Görev ve kupon bilgileri yüklenirken bir hata oluştu.';
+        this.isTasksLoading = false;
+        console.error('Görev yükleme hatası:', error);
+      }
+    });
+  }
+
+  // Kupon kullanım durumlarını kontrol et
+  private checkCouponUsageStatus(): void {
+    const completedTasks = this.userTasks.filter(task => task.isCompleted && task.couponCode);
+    
+    completedTasks.forEach(task => {
+      if (task.couponCode) {
+        this.couponService.validateCouponCode(task.couponCode).subscribe({
+          next: (response) => {
+            if (response.success && response.data) {
+              // Kupon bulundu, kullanım durumunu kontrol et
+              this.couponUsageStatus[task.couponCode!] = response.data.isUsed;
+            } else {
+              // Kupon bulunamadı veya hata durumu
+              this.couponUsageStatus[task.couponCode!] = false;
+            }
+          },
+          error: (error) => {
+            // Hata durumunda kullanılmamış kabul et
+            this.couponUsageStatus[task.couponCode!] = false;
+          }
+        });
+      }
+    });
+  }
+
+  // Kuponun kullanılıp kullanılmadığını kontrol et
+  isCouponUsed(couponCode: string | null): boolean {
+    if (!couponCode) return false;
+    return this.couponUsageStatus[couponCode] || false;
+  }
+  
+  // Kupon kodunun görünürlüğünü değiştir
+  toggleCouponCodeVisibility(taskId: number): void {
+    this.visibleCouponCodes[taskId] = !this.visibleCouponCodes[taskId];
   }
 
   // Önceki sayfa kontrolü

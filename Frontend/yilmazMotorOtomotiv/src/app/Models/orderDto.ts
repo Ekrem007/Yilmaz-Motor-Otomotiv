@@ -6,5 +6,6 @@ export interface OrderDto {
   totalAmount: number;
   orderDate: string;
   status: string;
+  couponCode?: string; // Nullable kupon kodu
   orderItems: OrderItemDto[];
 }
