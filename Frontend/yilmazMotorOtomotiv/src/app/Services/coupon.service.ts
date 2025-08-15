@@ -2,13 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResponseModel } from '../Models/responseModel';
-
-// Kupon objesi için tip tanımı
-export interface Coupon {
-  id: number;
-  couponName: string;
-  discountAmount: number;
-}
+import { Coupon } from '../Models/coupon';
 
 // Kupon kodu için yanıt verisi tipini tanımlıyoruz
 export interface UserCouponCode {
@@ -56,5 +50,19 @@ export class CouponService {
   // Kullanıcı ID'sine göre tüm kuponları getiren metot
   getUserCoupons(userId: number): Observable<ResponseModel<UserCouponCode[]>> {
     return this.httpClient.get<ResponseModel<UserCouponCode[]>>(`${this.apiUrl}/getByUserId/${userId}`);
+  }
+
+  // Tüm kuponları getiren metot
+  getAllCoupons(): Observable<ResponseModel<Coupon[]>> {
+    return this.httpClient.get<ResponseModel<Coupon[]>>('https://localhost:7062/api/Coupon/getall');
+  }
+
+  // Kullanıcıya kupon tanımlama metodu
+  addCouponToUser(userId: number, couponId: number): Observable<ResponseModel> {
+    const body = {
+      userId: userId,
+      couponId: couponId
+    };
+    return this.httpClient.post<ResponseModel>(`${this.apiUrl}/add`, body);
   }
 }

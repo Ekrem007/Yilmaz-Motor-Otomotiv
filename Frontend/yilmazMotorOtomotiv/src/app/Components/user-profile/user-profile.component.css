@@ -6,6 +6,116 @@
   background-color: #f8f9fa;
 }
 
+/* ===== SECTION TITLES ===== */
+.section-title {
+  margin: 2rem 0 1.5rem 0;
+}
+
+.section-title h4 {
+  color: #495057;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.section-title h4 i {
+  color: #667eea;
+  font-size: 1.2rem;
+}
+
+.section-title hr {
+  margin: 0.5rem 0;
+  border-color: #dee2e6;
+  opacity: 0.6;
+}
+
+/* ===== TASKS AND COUPONS SECTIONS ===== */
+.tasks-section,
+.other-coupons-section {
+  margin-bottom: 2rem;
+}
+
+.coupon-info-text {
+  font-style: italic;
+  margin-bottom: 0.5rem;
+}
+
+.coupon-info-text small {
+  font-size: 0.85rem;
+}
+
+/* Empty state improvements for subsections */
+.empty-state {
+  text-align: center;
+  padding: 2rem;
+  color: #6c757d;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px dashed #dee2e6;
+}
+
+.empty-state h5 {
+  color: #495057;
+  margin-bottom: 1rem;
+}
+
+.empty-icon {
+  font-size: 3rem;
+  color: #dee2e6;
+  margin-bottom: 1rem;
+}
+
+/* ===== PAGINATION STYLES FOR TASKS AND COUPONS ===== */
+.pagination-container {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem;
+  border: 1px solid #e9ecef;
+}
+
+.pagination-container .pagination {
+  margin-bottom: 0.5rem;
+}
+
+.pagination-container .page-link {
+  color: #495057;
+  background-color: #fff;
+  border-color: #dee2e6;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+.pagination-container .page-item:not(.disabled) .page-link:hover {
+  color: #667eea;
+  background-color: #e9ecef;
+  border-color: #dee2e6;
+}
+
+.pagination-container .page-item.active .page-link {
+  color: #fff;
+  background-color: #667eea;
+  border-color: #667eea;
+}
+
+.pagination-container .page-item.disabled .page-link {
+  color: #6c757d;
+  background-color: #fff;
+  border-color: #dee2e6;
+  cursor: not-allowed;
+}
+
+.pagination-info {
+  border-top: 1px solid #e9ecef;
+  padding-top: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.pagination-info small {
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
 /* ===== VALIDATION STYLES ===== */
 .form-control.is-invalid {
   border-color: #dc3545;

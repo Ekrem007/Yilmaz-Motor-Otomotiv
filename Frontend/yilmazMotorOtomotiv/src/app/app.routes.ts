@@ -1,3 +1,4 @@
+import { AdminUserPageComponent } from './Components/admin-user-page/admin-user-page.component';
 import { Component } from '@angular/core';
 import { Routes } from '@angular/router';
 import { LoginComponent } from './Components/login/login.component';
@@ -44,6 +45,7 @@ export const routes: Routes = [
   {path: 'tickets/create', component: CreateTicketComponent, canActivate: [AuthGuard] },
   {path: 'tickets/:id', component: TicketDetailComponent, canActivate: [AuthGuard] },
   {path: 'discountedProducts', component: DiscountedProductsComponent},
+  {path: "admin/users", component: AdminUserPageComponent, canActivate:[AuthGuard]},
   {path: 'register', component: RegisterComponent },
   { path: '**', redirectTo: '' }
 ];

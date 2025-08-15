@@ -1,0 +1,237 @@
+<div class="admin-user-container">
+    <!-- Combined Header and Search Section -->
+    <div class="page-header">
+        <div class="header-content">
+            <div class="header-top">
+                <h1 class="page-title">
+                    <i class="fas fa-users"></i>
+                    Kullanıcı Yönetimi
+                </h1>
+                <p class="page-description">Sistemdeki kullanıcıları yönetin ve kupon tanımlaması yapın</p>
+            </div>
+            
+            <!-- Search Section in Header -->
+            <div class="search-section-in-header">
+                <div class="search-container">
+                    <div class="search-input-group">
+                        <i class="fas fa-search search-icon"></i>
+                        <input 
+                            type="text" 
+                            class="search-input" 
+                            placeholder="Kullanıcı adı, ad, soyad veya email ile arayın..."
+                            [(ngModel)]="searchTerm"
+                            (input)="onSearch()">
+                        <button 
+                            *ngIf="searchTerm" 
+                            class="clear-search-btn" 
+                            (click)="clearSearch()"
+                            title="Aramayı Temizle">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Results Info -->
+                <div class="results-info">
+                    <span class="results-count">
+                        {{ filteredUsers.length }} kullanıcı bulundu
+                        <span *ngIf="searchTerm" class="search-term">"{{ searchTerm }}" için</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Users Table Section -->
+    <div class="table-section">
+        <div class="table-container">
+            <div class="table-responsive">
+                <table class="modern-table">
+                    <thead>
+                        <tr>
+                            <th>
+                                <div class="th-content">
+                                    <i class="fas fa-hashtag"></i>
+                                    ID
+                                </div>
+                            </th>
+                            <th>
+                                <div class="th-content">
+                                    <i class="fas fa-user"></i>
+                                    Kullanıcı Adı
+                                </div>
+                            </th>
+                            <th>
+                                <div class="th-content">
+                                    <i class="fas fa-envelope"></i>
+                                    Email
+                                </div>
+                            </th>
+                            <th>
+                                <div class="th-content">
+                                    <i class="fas fa-id-card"></i>
+                                    Ad Soyad
+                                </div>
+                            </th>
+                            <th>
+                                <div class="th-content">
+                                    <i class="fas fa-phone"></i>
+                                    Telefon
+                                </div>
+                            </th>
+                            <th>
+                                <div class="th-content">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Adres
+                                </div>
+                            </th>
+                            <th>
+                                <div class="th-content">
+                                    <i class="fas fa-cogs"></i>
+                                    İşlemler
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let user of paginatedUsers; let i = index" class="table-row">
+                            <td class="user-id">
+                                <span class="id-badge">{{ user.id }}</span>
+                            </td>
+                            <td class="username">
+                                <div class="user-info">
+                                    <div class="avatar">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <span>{{ user.userName }}</span>
+                                </div>
+                            </td>
+                            <td class="email">{{ user.email }}</td>
+                            <td class="full-name">
+                                <span class="name-text">{{ user.name }} {{ user.surName }}</span>
+                            </td>
+                            <td class="phone">{{ user.phoneNumber || 'Belirtilmemiş' }}</td>
+                            <td class="address">
+                                <span class="address-text" [title]="user.address || 'Belirtilmemiş'">
+                                    {{ user.address && user.address.length > 30 ? (user.address | slice:0:30) + '...' : (user.address || 'Belirtilmemiş') }}
+                                </span>
+                            </td>
+                            <td class="actions">
+                                <button 
+                                    class="action-btn coupon-btn" 
+                                    (click)="openCouponModal(user.id)"
+                                    title="Kupon Tanımla">
+                                    <i class="fas fa-ticket-alt"></i>
+                                    Kupon Tanımla
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Empty State -->
+                <div *ngIf="paginatedUsers.length === 0" class="empty-state">
+                    <div class="empty-content">
+                        <i class="fas fa-search empty-icon"></i>
+                        <h3>Kullanıcı Bulunamadı</h3>
+                        <p>Arama kriterlerinize uygun kullanıcı bulunamadı.</p>
+                        <button class="btn-clear" (click)="clearSearch()" *ngIf="searchTerm">
+                            Aramayı Temizle
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pagination Section -->
+    <div class="pagination-section" *ngIf="totalPages > 1">
+        <div class="pagination-info">
+            <span>
+                {{ (currentPage - 1) * itemsPerPage + 1 }} - 
+                {{ Math.min(currentPage * itemsPerPage, filteredUsers.length) }} 
+                / {{ filteredUsers.length }} kullanıcı gösteriliyor
+            </span>
+        </div>
+        
+        <nav class="pagination-nav">
+            <ul class="pagination">
+                <li class="page-item" [class.disabled]="currentPage === 1">
+                    <button class="page-link" (click)="previousPage()" [disabled]="currentPage === 1">
+                        <i class="fas fa-chevron-left"></i>
+                        Önceki
+                    </button>
+                </li>
+                
+                <li *ngFor="let page of getPageNumbers()" 
+                    class="page-item" 
+                    [class.active]="page === currentPage">
+                    <button class="page-link" (click)="changePage(page)">
+                        {{ page }}
+                    </button>
+                </li>
+                
+                <li class="page-item" [class.disabled]="currentPage === totalPages">
+                    <button class="page-link" (click)="nextPage()" [disabled]="currentPage === totalPages">
+                        Sonraki
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Kupon Modal -->
+    <div *ngIf="showModal" class="modal-backdrop">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-ticket-alt"></i>
+                        Kupon Seç
+                    </h5>
+                    <button type="button" class="btn-close" (click)="closeModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p class="modal-description">Kullanıcıya tanımlamak istediğiniz kuponu seçin:</p>
+                    <div class="coupon-list">
+                        <div *ngFor="let coupon of coupons" class="coupon-item">
+                            <div class="coupon-card">
+                                <div class="coupon-info">
+                                    <h6 class="coupon-name">
+                                        <i class="fas fa-tag"></i>
+                                        {{ coupon.couponName }}
+                                    </h6>
+                                    <p class="coupon-discount">
+                                        <i class="fas fa-percentage"></i>
+                                        İndirim: {{ coupon.discountAmount }}₺
+                                    </p>
+                                </div>
+                                <button 
+                                    class="btn-assign-coupon" 
+                                    (click)="assignCoupon(coupon.id)"
+                                    [disabled]="isLoading">
+                                    <i class="fas fa-plus"></i>
+                                    {{ isLoading ? 'Tanımlanıyor...' : 'Tanımla' }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="coupons.length === 0" class="no-coupons">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span>Henüz kupon bulunmuyor.</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-cancel" (click)="closeModal()">
+                        <i class="fas fa-times"></i>
+                        İptal
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

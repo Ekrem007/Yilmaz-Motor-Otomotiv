@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("YılmazMotorWeb.Dal")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3059f65098063f1176235c839488df1fb5c37be1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2feab180207d5d4fcaf8aa954ee86765cb80df86")]
 [assembly: System.Reflection.AssemblyProductAttribute("YılmazMotorWeb.Dal")]
 [assembly: System.Reflection.AssemblyTitleAttribute("YılmazMotorWeb.Dal")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

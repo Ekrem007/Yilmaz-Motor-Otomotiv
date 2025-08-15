@@ -46,10 +46,21 @@ export class UserProfileComponent implements OnInit {
   
   // Görevler ve kuponlar için eklenen özellikler
   userTasks: UserTaskStatus[] = [];
+  userCouponsWithoutTask: any[] = []; // Görevsiz kuponlar için
   isTasksLoading = false;
   tasksErrorMessage = '';
   visibleCouponCodes: { [taskId: number]: boolean } = {};
   couponUsageStatus: { [couponCode: string]: boolean } = {}; // Kuponların kullanım durumu
+
+  // Görevli kuponlar için pagination
+  taskCouponsCurrentPage = 1;
+  taskCouponsItemsPerPage = 3;
+  paginatedUserTasks: UserTaskStatus[] = [];
+
+  // Görevsiz kuponlar için pagination  
+  nonTaskCouponsCurrentPage = 1;
+  nonTaskCouponsItemsPerPage = 4;
+  paginatedUserCouponsWithoutTask: any[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -91,7 +102,8 @@ export class UserProfileComponent implements OnInit {
 
     this.loadUserData();
     this.loadUserOrders();
-    this.loadUserTasks();
+    this.loadUserTasks(); // Önce görevleri yükle
+    // loadUserCouponsWithoutTask görevler yüklendikten sonra çağrılacak
   }
 
   loadUserData(): void {
@@ -439,6 +451,54 @@ export class UserProfileComponent implements OnInit {
     return pages;
   }
   
+  // Görevsiz kuponları yükle (sadece kullanıcıya admin tarafından tanımlanan kuponlar)
+  loadUserCouponsWithoutTask(): void {
+    if (!this.currentUserId) return;
+    
+    this.couponService.getUserCoupons(this.currentUserId).subscribe({
+      next: (response) => {
+        if (response.success && response.data) {
+          // Tüm kuponları al
+          const allUserCoupons = response.data;
+          
+          // Görevlerden kazanılan kupon kodlarını topla
+          const taskCouponCodes = this.userTasks
+            .filter(task => task.isCompleted && task.couponCode)
+            .map(task => task.couponCode);
+          
+          // Sadece görevden kazanılmamış kuponları filtrele
+          this.userCouponsWithoutTask = allUserCoupons.filter(coupon => 
+            !taskCouponCodes.includes(coupon.couponCode)
+          );
+          
+          // Her kuponun kullanım durumunu kontrol et
+          this.userCouponsWithoutTask.forEach(coupon => {
+            if (coupon.couponCode) {
+              this.couponUsageStatus[coupon.couponCode] = coupon.isUsed || false;
+            }
+          });
+          
+          // Görevsiz kuponlar için pagination'ı güncelle
+          this.updateNonTaskCouponsPagination();
+        } else {
+          console.warn('Görevsiz kuponlar alınamadı:', response.message);
+        }
+      },
+      error: (error) => {
+        console.error('Görevsiz kuponlar yüklenirken hata:', error);
+      }
+    });
+  }
+
+  // Görevsiz kupon kodunun görünürlüğünü değiştir
+  toggleNonTaskCouponCodeVisibility(couponId: number): void {
+    if (!this.visibleCouponCodes[couponId]) {
+      this.visibleCouponCodes[couponId] = true;
+    } else {
+      this.visibleCouponCodes[couponId] = !this.visibleCouponCodes[couponId];
+    }
+  }
+
   // Görevler ve kuponları yükle
   loadUserTasks(): void {
     if (!this.currentUserId) return;
@@ -457,6 +517,12 @@ export class UserProfileComponent implements OnInit {
           
           // Kupon kullanım durumlarını kontrol et
           this.checkCouponUsageStatus();
+          
+          // Görevli kuponlar için pagination'ı güncelle
+          this.updateTaskCouponsPagination();
+          
+          // Görevler yüklendikten sonra görevsiz kuponları yükle
+          this.loadUserCouponsWithoutTask();
         } else {
           this.tasksErrorMessage = 'Görev bilgileri alınamadı: ' + response.message;
         }
@@ -519,5 +585,91 @@ export class UserProfileComponent implements OnInit {
   // Sayfalandırılmış sipariş key'lerini döndür (HTML'de kullanılacak)
   getPaginatedOrderKeys(): number[] {
     return this.paginatedOrderKeys;
+  }
+
+  // ===== GÖREVLI KUPONLAR PAGINATION =====
+  
+  // Görevli kuponlar pagination'ını güncelle
+  updateTaskCouponsPagination(): void {
+    const startIndex = (this.taskCouponsCurrentPage - 1) * this.taskCouponsItemsPerPage;
+    const endIndex = startIndex + this.taskCouponsItemsPerPage;
+    this.paginatedUserTasks = this.userTasks.slice(startIndex, endIndex);
+  }
+
+  // Görevli kuponlar sayfa değiştir
+  changeTaskCouponsPage(page: number): void {
+    const totalPages = this.getTaskCouponsTotalPages();
+    if (page >= 1 && page <= totalPages) {
+      this.taskCouponsCurrentPage = page;
+      this.updateTaskCouponsPagination();
+    }
+  }
+
+  // Görevli kuponlar toplam sayfa sayısı
+  getTaskCouponsTotalPages(): number {
+    return Math.ceil(this.userTasks.length / this.taskCouponsItemsPerPage);
+  }
+
+  // Görevli kuponlar sayfa numaraları
+  getTaskCouponsPageNumbers(): number[] {
+    const totalPages = this.getTaskCouponsTotalPages();
+    const pages: number[] = [];
+    for (let i = 1; i <= totalPages; i++) {
+      pages.push(i);
+    }
+    return pages;
+  }
+
+  // Görevli kuponlar önceki sayfa kontrolü
+  hasTaskCouponsPreviousPage(): boolean {
+    return this.taskCouponsCurrentPage > 1;
+  }
+
+  // Görevli kuponlar sonraki sayfa kontrolü
+  hasTaskCouponsNextPage(): boolean {
+    return this.taskCouponsCurrentPage < this.getTaskCouponsTotalPages();
+  }
+
+  // ===== GÖREVSIZ KUPONLAR PAGINATION =====
+  
+  // Görevsiz kuponlar pagination'ını güncelle
+  updateNonTaskCouponsPagination(): void {
+    const startIndex = (this.nonTaskCouponsCurrentPage - 1) * this.nonTaskCouponsItemsPerPage;
+    const endIndex = startIndex + this.nonTaskCouponsItemsPerPage;
+    this.paginatedUserCouponsWithoutTask = this.userCouponsWithoutTask.slice(startIndex, endIndex);
+  }
+
+  // Görevsiz kuponlar sayfa değiştir
+  changeNonTaskCouponsPage(page: number): void {
+    const totalPages = this.getNonTaskCouponsTotalPages();
+    if (page >= 1 && page <= totalPages) {
+      this.nonTaskCouponsCurrentPage = page;
+      this.updateNonTaskCouponsPagination();
+    }
+  }
+
+  // Görevsiz kuponlar toplam sayfa sayısı
+  getNonTaskCouponsTotalPages(): number {
+    return Math.ceil(this.userCouponsWithoutTask.length / this.nonTaskCouponsItemsPerPage);
+  }
+
+  // Görevsiz kuponlar sayfa numaraları
+  getNonTaskCouponsPageNumbers(): number[] {
+    const totalPages = this.getNonTaskCouponsTotalPages();
+    const pages: number[] = [];
+    for (let i = 1; i <= totalPages; i++) {
+      pages.push(i);
+    }
+    return pages;
+  }
+
+  // Görevsiz kuponlar önceki sayfa kontrolü
+  hasNonTaskCouponsPreviousPage(): boolean {
+    return this.nonTaskCouponsCurrentPage > 1;
+  }
+
+  // Görevsiz kuponlar sonraki sayfa kontrolü
+  hasNonTaskCouponsNextPage(): boolean {
+    return this.nonTaskCouponsCurrentPage < this.getNonTaskCouponsTotalPages();
   }
 }

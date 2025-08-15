@@ -355,78 +355,248 @@
 
                   <!-- Tasks List -->
                   <div *ngIf="!isTasksLoading && !tasksErrorMessage" class="tasks-list">
-                    <div *ngFor="let task of userTasks" class="task-item card mb-3">
-                      <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-start">
-                          <div>
-                            <h5 class="task-name">{{ task.taskName }}</h5>
-                            <p class="task-description">{{ task.description }}</p>
-                            <p class="task-target">
-                              <strong>Hedef:</strong> {{ task.targetAmount | turkishCurrency }}
-                            </p>
+                    
+                    <!-- Görevden Kazanılan Kuponlar Bölümü -->
+                    <div class="section-title">
+                      <h4><i class="fas fa-tasks me-2"></i>Görevlerden Kazanılan Kuponlar</h4>
+                      <hr>
+                    </div>
+                    
+                    <div *ngIf="userTasks.length > 0" class="tasks-section mb-4">
+                      <div *ngFor="let task of paginatedUserTasks" class="task-item card mb-3">
+                        <div class="card-body">
+                          <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                              <h5 class="task-name">{{ task.taskName }}</h5>
+                              <p class="task-description">{{ task.description }}</p>
+                              <p class="task-target">
+                                <strong>Hedef:</strong> {{ task.targetAmount | turkishCurrency }}
+                              </p>
+                            </div>
+                            <div class="task-status">
+                              <span class="badge" 
+                                    [ngClass]="task.isCompleted ? 'bg-success' : 'bg-secondary'">
+                                {{ task.isCompleted ? 'Tamamlandı' : 'Devam Ediyor' }}
+                              </span>
+                            </div>
                           </div>
-                          <div class="task-status">
-                            <span class="badge" 
-                                  [ngClass]="task.isCompleted ? 'bg-success' : 'bg-secondary'">
-                              {{ task.isCompleted ? 'Tamamlandı' : 'Devam Ediyor' }}
-                            </span>
+                          
+                          <hr />
+                          
+                          <div class="coupon-info">
+                            <h6 class="coupon-name mb-2">
+                              <i class="fas fa-ticket-alt me-2"></i> {{ task.couponName }}
+                              <!-- Kupon kullanım durumu gösterimi -->
+                              <span *ngIf="task.isCompleted && task.couponCode && isCouponUsed(task.couponCode)" 
+                                    class="badge bg-success ms-2">
+                                <i class="fas fa-check-circle me-1"></i>Kullanıldı
+                              </span>
+                              <span *ngIf="task.isCompleted && task.couponCode && !isCouponUsed(task.couponCode)" 
+                                    class="badge bg-primary ms-2">
+                                <i class="fas fa-clock me-1"></i>Kullanılabilir
+                              </span>
+                            </h6>
+                            <p class="coupon-discount">
+                              <strong>İndirim Tutarı:</strong> {{ task.couponDiscountAmount | turkishCurrency }}
+                            </p>
+                            
+                            <!-- Tamamlanan görevler için kupon kodu gösterme -->
+                            <div *ngIf="task.isCompleted" class="coupon-code-section">
+                              <button 
+                                class="btn btn-sm" 
+                                [ngClass]="visibleCouponCodes[task.taskId] ? 'btn-secondary' : 'btn-primary'"
+                                (click)="toggleCouponCodeVisibility(task.taskId)">
+                                {{ visibleCouponCodes[task.taskId] ? 'Gizle' : 'Kupon Kodunu Göster' }}
+                              </button>
+                              <div *ngIf="visibleCouponCodes[task.taskId]" class="coupon-code mt-2">
+                                <div class="code-display p-2 bg-light border rounded">
+                                  <code>{{ task.couponCode }}</code>
+                                </div>
+                                <small class="text-muted" *ngIf="!isCouponUsed(task.couponCode)">
+                                  Bu kodu ödeme ekranında kullanabilirsiniz.
+                                </small>
+                                <small class="text-success" *ngIf="isCouponUsed(task.couponCode)">
+                                  <i class="fas fa-check-circle me-1"></i>Bu kupon kodu kullanılmıştır.
+                                </small>
+                              </div>
+                            </div>
+                            
+                            <!-- Tamamlanmayan görevler için uyarı -->
+                            <div *ngIf="!task.isCompleted" class="incomplete-task-message alert alert-warning">
+                              Bu görevi henüz tamamlamadınız. Görevi tamamladığınızda kupon kodunuz burada görünecektir.
+                            </div>
                           </div>
                         </div>
+                      </div>
+
+                      <!-- Görevli Kuponlar Pagination -->
+                      <div *ngIf="getTaskCouponsTotalPages() > 1" class="pagination-container mt-3">
+                        <nav aria-label="Görevli kuponlar sayfaları">
+                          <ul class="pagination justify-content-center">
+                            <!-- Önceki sayfa butonu -->
+                            <li class="page-item" [class.disabled]="!hasTaskCouponsPreviousPage()">
+                              <a class="page-link" 
+                                 (click)="changeTaskCouponsPage(taskCouponsCurrentPage - 1)" 
+                                 href="javascript:void(0)"
+                                 [attr.aria-disabled]="!hasTaskCouponsPreviousPage()">
+                                <i class="fas fa-chevron-left"></i>
+                                Önceki
+                              </a>
+                            </li>
+                            
+                            <!-- Sayfa numaraları -->
+                            <li *ngFor="let page of getTaskCouponsPageNumbers()" 
+                                class="page-item" 
+                                [class.active]="page === taskCouponsCurrentPage">
+                              <a class="page-link" 
+                                 (click)="changeTaskCouponsPage(page)" 
+                                 href="javascript:void(0)">
+                                {{ page }}
+                              </a>
+                            </li>
+                            
+                            <!-- Sonraki sayfa butonu -->
+                            <li class="page-item" [class.disabled]="!hasTaskCouponsNextPage()">
+                              <a class="page-link" 
+                                 (click)="changeTaskCouponsPage(taskCouponsCurrentPage + 1)" 
+                                 href="javascript:void(0)"
+                                 [attr.aria-disabled]="!hasTaskCouponsNextPage()">
+                                Sonraki
+                                <i class="fas fa-chevron-right"></i>
+                              </a>
+                            </li>
+                          </ul>
+                        </nav>
                         
-                        <hr />
-                        
-                        <div class="coupon-info">
-                          <h6 class="coupon-name mb-2">
-                            <i class="fas fa-ticket-alt me-2"></i> {{ task.couponName }}
-                            <!-- Kupon kullanım durumu gösterimi -->
-                            <span *ngIf="task.isCompleted && task.couponCode && isCouponUsed(task.couponCode)" 
-                                  class="badge bg-success ms-2">
-                              <i class="fas fa-check-circle me-1"></i>Kullanıldı
-                            </span>
-                            <span *ngIf="task.isCompleted && task.couponCode && !isCouponUsed(task.couponCode)" 
-                                  class="badge bg-primary ms-2">
-                              <i class="fas fa-clock me-1"></i>Kullanılabilir
-                            </span>
-                          </h6>
-                          <p class="coupon-discount">
-                            <strong>İndirim Tutarı:</strong> {{ task.couponDiscountAmount | turkishCurrency }}
-                          </p>
+                        <!-- Sayfa bilgisi -->
+                        <div class="pagination-info text-center mt-2">
+                          <small class="text-muted">
+                            {{ (taskCouponsCurrentPage - 1) * taskCouponsItemsPerPage + 1 }} - 
+                            {{ Math.min(taskCouponsCurrentPage * taskCouponsItemsPerPage, userTasks.length) }} 
+                            / {{ userTasks.length }} görev gösteriliyor
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Görev Yoksa Mesajı -->
+                    <div *ngIf="userTasks.length === 0" class="empty-state mb-4">
+                      <i class="fas fa-tasks empty-icon"></i>
+                      <h5>Henüz görev bulunmuyor</h5>
+                      <p>Alışveriş yaparak görev kazanabilirsiniz</p>
+                      <a routerLink="/products" class="btn btn-primary">Alışverişe Başla</a>
+                    </div>
+
+                    <!-- Diğer Kuponlar Bölümü -->
+                    <div class="section-title mt-5">
+                      <h4><i class="fas fa-gift me-2"></i>Admin Tarafından Tanımlanan Kuponlarım</h4>
+                      <hr>
+                    </div>
+                    
+                    <div *ngIf="userCouponsWithoutTask.length > 0" class="other-coupons-section">
+                      <div *ngFor="let coupon of paginatedUserCouponsWithoutTask" class="coupon-item card mb-3">
+                        <div class="card-body">
+                          <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                              <h5 class="coupon-name">
+                                <i class="fas fa-ticket-alt me-2"></i> {{ coupon.coupon.couponName }}
+                                <!-- Kupon kullanım durumu -->
+                                <span *ngIf="coupon.isUsed" class="badge bg-success ms-2">
+                                  <i class="fas fa-check-circle me-1"></i>Kullanıldı
+                                </span>
+                                <span *ngIf="!coupon.isUsed" class="badge bg-primary ms-2">
+                                  <i class="fas fa-clock me-1"></i>Kullanılabilir
+                                </span>
+                              </h5>
+                              <p class="coupon-discount">
+                                <strong>İndirim Tutarı:</strong> {{ coupon.coupon.discountAmount | turkishCurrency }}
+                              </p>
+                              <p class="coupon-info-text text-muted">
+                                <small>Admin tarafından tanımlanmış kupon</small>
+                              </p>
+                            </div>
+                          </div>
                           
-                          <!-- Tamamlanan görevler için kupon kodu gösterme -->
-                          <div *ngIf="task.isCompleted" class="coupon-code-section">
+                          <hr />
+                          
+                          <!-- Kupon kodu gösterme -->
+                          <div class="coupon-code-section">
                             <button 
                               class="btn btn-sm" 
-                              [ngClass]="visibleCouponCodes[task.taskId] ? 'btn-secondary' : 'btn-primary'"
-                              (click)="toggleCouponCodeVisibility(task.taskId)">
-                              {{ visibleCouponCodes[task.taskId] ? 'Gizle' : 'Kupon Kodunu Göster' }}
+                              [ngClass]="visibleCouponCodes[coupon.id] ? 'btn-secondary' : 'btn-primary'"
+                              (click)="toggleNonTaskCouponCodeVisibility(coupon.id)">
+                              {{ visibleCouponCodes[coupon.id] ? 'Gizle' : 'Kupon Kodunu Göster' }}
                             </button>
-                            <div *ngIf="visibleCouponCodes[task.taskId]" class="coupon-code mt-2">
+                            <div *ngIf="visibleCouponCodes[coupon.id]" class="coupon-code mt-2">
                               <div class="code-display p-2 bg-light border rounded">
-                                <code>{{ task.couponCode }}</code>
+                                <code>{{ coupon.couponCode }}</code>
                               </div>
-                              <small class="text-muted" *ngIf="!isCouponUsed(task.couponCode)">
+                              <small class="text-muted" *ngIf="!coupon.isUsed">
                                 Bu kodu ödeme ekranında kullanabilirsiniz.
                               </small>
-                              <small class="text-success" *ngIf="isCouponUsed(task.couponCode)">
+                              <small class="text-success" *ngIf="coupon.isUsed">
                                 <i class="fas fa-check-circle me-1"></i>Bu kupon kodu kullanılmıştır.
                               </small>
                             </div>
                           </div>
-                          
-                          <!-- Tamamlanmayan görevler için uyarı -->
-                          <div *ngIf="!task.isCompleted" class="incomplete-task-message alert alert-warning">
-                            Bu görevi henüz tamamlamadınız. Görevi tamamladığınızda kupon kodunuz burada görünecektir.
-                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Görevsiz Kuponlar Pagination -->
+                      <div *ngIf="getNonTaskCouponsTotalPages() > 1" class="pagination-container mt-3">
+                        <nav aria-label="Diğer kuponlar sayfaları">
+                          <ul class="pagination justify-content-center">
+                            <!-- Önceki sayfa butonu -->
+                            <li class="page-item" [class.disabled]="!hasNonTaskCouponsPreviousPage()">
+                              <a class="page-link" 
+                                 (click)="changeNonTaskCouponsPage(nonTaskCouponsCurrentPage - 1)" 
+                                 href="javascript:void(0)"
+                                 [attr.aria-disabled]="!hasNonTaskCouponsPreviousPage()">
+                                <i class="fas fa-chevron-left"></i>
+                                Önceki
+                              </a>
+                            </li>
+                            
+                            <!-- Sayfa numaraları -->
+                            <li *ngFor="let page of getNonTaskCouponsPageNumbers()" 
+                                class="page-item" 
+                                [class.active]="page === nonTaskCouponsCurrentPage">
+                              <a class="page-link" 
+                                 (click)="changeNonTaskCouponsPage(page)" 
+                                 href="javascript:void(0)">
+                                {{ page }}
+                              </a>
+                            </li>
+                            
+                            <!-- Sonraki sayfa butonu -->
+                            <li class="page-item" [class.disabled]="!hasNonTaskCouponsNextPage()">
+                              <a class="page-link" 
+                                 (click)="changeNonTaskCouponsPage(nonTaskCouponsCurrentPage + 1)" 
+                                 href="javascript:void(0)"
+                                 [attr.aria-disabled]="!hasNonTaskCouponsNextPage()">
+                                Sonraki
+                                <i class="fas fa-chevron-right"></i>
+                              </a>
+                            </li>
+                          </ul>
+                        </nav>
+                        
+                        <!-- Sayfa bilgisi -->
+                        <div class="pagination-info text-center mt-2">
+                          <small class="text-muted">
+                            {{ (nonTaskCouponsCurrentPage - 1) * nonTaskCouponsItemsPerPage + 1 }} - 
+                            {{ Math.min(nonTaskCouponsCurrentPage * nonTaskCouponsItemsPerPage, userCouponsWithoutTask.length) }} 
+                            / {{ userCouponsWithoutTask.length }} kupon gösteriliyor
+                          </small>
                         </div>
                       </div>
                     </div>
-                    
-                    <!-- Görev yoksa -->
-                    <div *ngIf="userTasks.length === 0" class="empty-state">
-                      <i class="fas fa-tasks empty-icon"></i>
-                      <h4>Henüz görev bulunmuyor</h4>
-                      <p>Alışveriş yaparak görev kazanabilirsiniz</p>
-                      <a routerLink="/products" class="btn btn-primary">Alışverişe Başla</a>
+
+                    <!-- Diğer Kupon Yoksa Mesajı -->
+                    <div *ngIf="userCouponsWithoutTask.length === 0" class="empty-state">
+                      <i class="fas fa-gift empty-icon"></i>
+                      <h5>Henüz admin kupon tanımlamadı</h5>
+                      <p>Size özel admin kuponları burada görünecektir</p>
                     </div>
                   </div>
                 </div>
