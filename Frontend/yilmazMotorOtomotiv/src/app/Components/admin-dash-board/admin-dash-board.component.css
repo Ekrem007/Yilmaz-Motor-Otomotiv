@@ -21,7 +21,7 @@
 
 /* Modern Sidebar */
 .sidebar {
-  width: 320px;
+  width: 280px;
   background: rgba(44, 62, 80, 0.95);
   backdrop-filter: blur(20px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
@@ -33,7 +33,7 @@
 }
 
 .sidebar-header {
-  padding: 2rem 1.5rem;
+  padding: 1.5rem 1.2rem;
   text-align: center;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -46,49 +46,49 @@
 }
 
 .logo-icon {
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   background: linear-gradient(135deg, #667eea, #764ba2);
-  border-radius: 16px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
   box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
 }
 
 .logo-icon i {
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   color: white;
 }
 
 .sidebar-header h3 {
   color: #e2e8f0;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: 700;
   margin: 0;
 }
 
 .subtitle {
   color: #a0aec0;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 500;
 }
 
 .sidebar-nav {
-  padding: 1rem 0;
+  padding: 0.8rem 0;
 }
 
 .sidebar-item {
   display: flex;
   align-items: center;
-  padding: 1rem 1.5rem;
+  padding: 0.7rem 1.2rem;
   color: #a0aec0;
   text-decoration: none;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
-  margin: 0.25rem 0.75rem;
-  border-radius: 12px;
+  margin: 0.2rem 0.6rem;
+  border-radius: 10px;
 }
 
 .sidebar-item:hover {
@@ -110,13 +110,13 @@
 }
 
 .sidebar-icon {
-  width: 45px;
-  height: 45px;
-  border-radius: 12px;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 1rem;
+  margin-right: 0.8rem;
   background: rgba(255, 255, 255, 0.1);
   transition: all 0.3s ease;
 }
@@ -128,7 +128,7 @@
 }
 
 .sidebar-icon i {
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   color: #a0aec0;
 }
 
@@ -142,22 +142,22 @@
 }
 
 .sidebar-content h5 {
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 600;
-  margin: 0 0 0.25rem 0;
+  margin: 0 0 0.2rem 0;
   color: #e2e8f0;
 }
 
 .sidebar-content p {
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   margin: 0;
   color: #a0aec0;
-  line-height: 1.4;
+  line-height: 1.3;
 }
 
 .item-indicator {
-  width: 4px;
-  height: 20px;
+  width: 3px;
+  height: 16px;
   background: transparent;
   border-radius: 2px;
   transition: all 0.3s ease;
@@ -170,7 +170,7 @@
 /* Modern Main Content */
 .main-content {
   flex: 1;
-  margin-left: 320px;
+  margin-left: 280px;
   padding: 0;
   position: relative;
   z-index: 1;

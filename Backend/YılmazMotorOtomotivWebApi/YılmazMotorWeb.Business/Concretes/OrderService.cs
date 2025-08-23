@@ -52,7 +52,6 @@ namespace YılmazMotorWeb.Business.Concretes
 			}
 			order.TotalAmount = total;
 
-			// Kupon kodu girilmişse
 			if (order.CouponCode.HasValue)
 			{
 				var userCoupon = _userCouponCodeDal.GetUserCouponCodeByCode(order.CouponCode.Value);
@@ -218,6 +217,15 @@ namespace YılmazMotorWeb.Business.Concretes
 		{
 			var totalMoney = _orderDal.GetTotalGainedMoney();
 			return new SuccessDataResult<int>(totalMoney, "Total gained money retrieved successfully");
+		}
+		public IDataResult<List<CategorySalesDto>> GetSalesValuesCategories()
+		{
+			var salesData = _orderDal.getSalesValuesCategories();
+			if (salesData == null || !salesData.Any())
+			{
+				return new ErrorDataResult<List<CategorySalesDto>>("No sales data found");
+			}
+			return new SuccessDataResult<List<CategorySalesDto>>(salesData, "Category sales values retrieved successfully");
 		}
 
 	}

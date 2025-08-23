@@ -21,6 +21,7 @@ namespace YılmazMotorWeb.Dal.Abstracts
 		MostSellingProductDto GetMostSellingProduct();
 		int GetTotalCompletedOrdersCount();
 		int GetTotalGainedMoney();
+		List<CategorySalesDto> getSalesValuesCategories();
 
 
 	}

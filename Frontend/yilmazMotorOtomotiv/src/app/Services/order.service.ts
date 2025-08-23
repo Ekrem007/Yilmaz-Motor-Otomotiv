@@ -9,6 +9,7 @@ import { ResponseModel } from '../Models/responseModel';
 import { ListResponseModel } from '../Models/listResponseModel';
 import { MostSellingProductDto } from '../Models/mostSellingProductDto';
 import { CreateOrderItemDto } from '../Models/createOrderItemDto';
+import { CategorySalesDto } from '../Models/categorySalesDto';
 
 @Injectable({
   providedIn: 'root'
@@ -76,5 +77,9 @@ export class OrderServiceService {
     }
     getWeeklySalesForLastWeek() {
       return this.httpClient.get<any>('https://localhost:7062/api/Order/getDailySalesForLastWeek');
+    }
+    
+    getCategorySalesCount(): Observable<{ success: boolean; message: string; data: CategorySalesDto[] }> {
+      return this.httpClient.get<{ success: boolean; message: string; data: CategorySalesDto[] }>('https://localhost:7062/api/Order/getCategorySalesCount');
     }
 }

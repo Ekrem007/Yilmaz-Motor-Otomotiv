@@ -198,6 +198,19 @@ namespace YılmazMotorWeb.Dal.Concretes
 		{
 			return (int)_context.Orders.Where(o => o.Status !=OrderStatus.Cancelled).Sum(o => o.TotalAmount);
 		}
-		
+		public List<CategorySalesDto> getSalesValuesCategories()
+		{
+			return _context.OrderItems
+				.Include(oi => oi.Product)
+				.ThenInclude(p => p.Category)
+				.Where(oi => oi.Order.Status != OrderStatus.Cancelled)
+				.GroupBy(oi => oi.Product.Category.Name)
+				.Select(g => new CategorySalesDto
+				{
+					CategoryName = g.Key,
+					TotalSales = g.Sum(oi => oi.Price * oi.Quantity)
+				}).ToList();
+		}
+
 	}
 }

@@ -358,7 +358,7 @@
                     
                     <!-- Görevden Kazanılan Kuponlar Bölümü -->
                     <div class="section-title">
-                      <h4><i class="fas fa-tasks me-2"></i>Görevlerden Kazanılan Kuponlar</h4>
+                      <h4><i class="fas fa-tasks me-2"></i>Görevler - Kuponlar</h4>
                       <hr>
                     </div>
                     
@@ -489,7 +489,7 @@
 
                     <!-- Diğer Kuponlar Bölümü -->
                     <div class="section-title mt-5">
-                      <h4><i class="fas fa-gift me-2"></i>Admin Tarafından Tanımlanan Kuponlarım</h4>
+                      <h4><i class="fas fa-gift me-2"></i>Görev Harici Kuponlarım</h4>
                       <hr>
                     </div>
                     
@@ -510,9 +510,6 @@
                               </h5>
                               <p class="coupon-discount">
                                 <strong>İndirim Tutarı:</strong> {{ coupon.coupon.discountAmount | turkishCurrency }}
-                              </p>
-                              <p class="coupon-info-text text-muted">
-                                <small>Admin tarafından tanımlanmış kupon</small>
                               </p>
                             </div>
                           </div>
@@ -595,8 +592,8 @@
                     <!-- Diğer Kupon Yoksa Mesajı -->
                     <div *ngIf="userCouponsWithoutTask.length === 0" class="empty-state">
                       <i class="fas fa-gift empty-icon"></i>
-                      <h5>Henüz admin kupon tanımlamadı</h5>
-                      <p>Size özel admin kuponları burada görünecektir</p>
+                      <h5>Henüz Harici kupon yoktur</h5>
+                      <p>Harici kuponlar burada görünecektir</p>
                     </div>
                   </div>
                 </div>

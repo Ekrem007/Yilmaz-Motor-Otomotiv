@@ -20,7 +20,6 @@
         </div>
         <div class="sidebar-content">
           <h5>Dashboard</h5>
-          <p>Genel istatistikler</p>
         </div>
         <div class="item-indicator"></div>
       </a>
@@ -32,7 +31,6 @@
         </div>
         <div class="sidebar-content">
           <h5>Ürün Yönetimi</h5>
-          <p>Ürünleri yönetin</p>
         </div>
         <div class="item-indicator"></div>
       </a>
@@ -44,7 +42,6 @@
         </div>
         <div class="sidebar-content">
           <h5>Sipariş Yönetimi</h5>
-          <p>Siparişleri takip edin</p>
         </div>
         <div class="item-indicator"></div>
       </a>
@@ -56,7 +53,6 @@
         </div>
         <div class="sidebar-content">
           <h5>Kullanıcı Yönetimi</h5>
-          <p>Müşteri bilgileri</p>
         </div>
         <div class="item-indicator"></div>
       </a>
@@ -68,7 +64,6 @@
         </div>
         <div class="sidebar-content">
           <h5>Kategori Yönetimi</h5>
-          <p>Kategorileri düzenleyin</p>
         </div>
         <div class="item-indicator"></div>
       </a>
@@ -80,7 +75,6 @@
         </div>
         <div class="sidebar-content">
           <h5>Kullanıcı Yönetimi</h5>
-          <p>Kullanıcıları yönetin</p>
         </div>
         <div class="item-indicator"></div>
       </a>
@@ -92,7 +86,6 @@
         </div>
         <div class="sidebar-content">
           <h5>İndirim Yönetimi</h5>
-          <p>İndirimleri düzenleyin</p>
         </div>
         <div class="item-indicator"></div>
       </a>
@@ -104,7 +97,6 @@
         </div>
         <div class="sidebar-content">
           <h5>Stok Yönetimi</h5>
-          <p>Stokları güncelleyin</p>
         </div>
         <div class="item-indicator"></div>
       </a>
@@ -116,7 +108,6 @@
         </div>
         <div class="sidebar-content">
           <h5>İletişim</h5>
-          <p>Müşteri mesajları</p>
         </div>
         <div class="item-indicator"></div>
       </a>
@@ -128,7 +119,6 @@
         </div>
         <div class="sidebar-content">
           <h5>Destek Talepleri</h5>
-          <p>Teknik destek</p>
         </div>
         <div class="item-indicator"></div>
       </a>
@@ -456,6 +446,32 @@
     yAxisLabel="Satış"
     [animations]="false">
   </ngx-charts-line-chart>
+</div>
+
+  <!-- Kategori Satışları Pie Chart -->
+<div class="stat-card" style="padding: 1.2rem; min-height: 160px; width: 600px; background: white; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.05); margin-top: 2rem;">
+  <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+    <div class="card-icon bg-gradient-success" style="width:48px; height:48px; display: flex; justify-content: center; align-items: center; border-radius: 8px;">
+      <i class="bi bi-pie-chart" style="font-size:1.3rem;"></i>
+    </div>
+    <div>
+      <h3 class="card-title" style="font-size: 1.1rem; margin-bottom: 0;">Kategori Satış Dağılımı</h3>
+      <p class="card-subtitle" style="font-size: 0.95rem; color: #718096;">Kategorilere göre toplam satış tutarları</p>
+    </div>
+  </div>
+  <ngx-charts-pie-chart
+    [view]="[600, 400]"
+    [results]="categorySalesData"
+    [scheme]="pieChartColorScheme"
+    [legend]="true"
+    [explodeSlices]="false"
+    [labels]="true"
+    [doughnut]="false"
+    [arcWidth]="0.25"
+    [gradient]="true"
+    [tooltipDisabled]="false"
+    [animations]="true">
+  </ngx-charts-pie-chart>
 </div>
 
   </div>

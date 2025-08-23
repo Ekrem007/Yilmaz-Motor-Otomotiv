@@ -22,6 +22,7 @@ namespace YılmazMotorWeb.Business.Abstracts
 		IDataResult<MostSellingProductDto> GetMostSellingProduct();
 		IDataResult<int> GetTotalCompletedOrdersCount();
 		IDataResult<int> GetTotalGainedMoney();
+		IDataResult<List<CategorySalesDto>> GetSalesValuesCategories();
 
 	}
 }

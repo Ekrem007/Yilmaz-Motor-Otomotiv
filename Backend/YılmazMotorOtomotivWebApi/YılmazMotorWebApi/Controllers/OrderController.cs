@@ -320,7 +320,6 @@ namespace YılmazMotorWebApi.Controllers
 			if (result.Success && result.Data.Any())
 			{
 				var now = DateTime.Now;
-				// İçinde bulunduğumuz ay dahil son 12 ay
 				var startMonth = new DateTime(now.Year, now.Month, 1).AddMonths(-11);
 
 				var orders = result.Data
@@ -401,6 +400,21 @@ namespace YılmazMotorWebApi.Controllers
 				});
 			}
 		}
+		[HttpGet]
+		[Route("api/[controller]/getCategorySalesCount")]
+		public IActionResult GetCategorySalesCount()
+		{
+			var result = _orderService.GetSalesValuesCategories();
+			return Ok(new
+			{
+				success = result.Success,
+				message = result.Message,
+				data = result.Data
+			});
+
+			
+		}
+
 
 	}
 }

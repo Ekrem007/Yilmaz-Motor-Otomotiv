@@ -12,6 +12,7 @@ import { ProductService } from '../../Services/product.service';
 import { TurkishCurrencyPipe } from '../../pipes/turkish-currency.pipe';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { PortalModule } from '@angular/cdk/portal';
+import { CategorySalesDto } from '../../Models/categorySalesDto';
 
 @Component({
   selector: 'app-admin-dash-board',
@@ -42,6 +43,10 @@ export class AdminDashBoardComponent implements OnInit {
   salesChartColorScheme = 'vivid';
   weeklySalesData: any[] = [];
   weeklySalesDataChart: any[] = [];
+  
+  // Kategori satış verisi için pie chart
+  categorySalesData: any[] = [];
+  pieChartColorScheme = 'cool';
 
 
   // Y ekseni için sayı formatlama fonksiyonu (ngx-charts)
@@ -58,6 +63,7 @@ export class AdminDashBoardComponent implements OnInit {
     this.refreshDashboard();
     this.getMonthlySalesForLastYear();
     this.loadWeeklySalesData();
+    this.getCategorySalesData();
   }
   loadWeeklySalesData(): void {
   this.orderService.getWeeklySalesForLastWeek().subscribe({
@@ -104,6 +110,25 @@ export class AdminDashBoardComponent implements OnInit {
       },
       error: (error) => {
         console.error('Aylık satış verisi alınırken hata oluştu:', error);
+      }
+    });
+  }
+
+  // Kategori satış verilerini çek ve pie chart formatına dönüştür
+  getCategorySalesData(): void {
+    this.orderService.getCategorySalesCount().subscribe({
+      next: (response) => {
+        if (response.success && Array.isArray(response.data)) {
+          this.categorySalesData = response.data.map((item: CategorySalesDto) => ({
+            name: item.categoryName,
+            value: item.totalSales
+          }));
+        } else {
+          console.error('Kategori satış verisi alınamadı:', response.message);
+        }
+      },
+      error: (error) => {
+        console.error('Kategori satış verisi alınırken hata oluştu:', error);
       }
     });
   }

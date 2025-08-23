@@ -5,6 +5,7 @@ import { Coupon } from '../../Models/coupon';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { User } from '../../Models/user';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-admin-user-page',
@@ -33,7 +34,8 @@ export class AdminUserPageComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private couponService: CouponService
+    private couponService: CouponService,
+    private toastrService: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -150,16 +152,16 @@ export class AdminUserPageComponent implements OnInit {
       this.couponService.addCouponToUser(this.selectedUserId, couponId).subscribe({
         next: (response) => {
           if (response.success) {
-            alert('Kupon başarıyla kullanıcıya tanımlandı!');
+            this.toastrService.info('Kupon başarıyla kullanıcıya tanımlandı!', 'Başarılı');
             this.closeModal();
           } else {
-            alert('Kupon tanımlama işlemi başarısız: ' + response.message);
+            this.toastrService.error('Kupon tanımlama işlemi başarısız: ' + response.message, 'Hata');
           }
           this.isLoading = false;
         },
         error: (error) => {
           console.error('Error assigning coupon:', error);
-          alert('Kupon tanımlama sırasında bir hata oluştu!');
+          this.toastrService.error('Kupon tanımlama sırasında bir hata oluştu!', 'Hata');
           this.isLoading = false;
         }
       });
