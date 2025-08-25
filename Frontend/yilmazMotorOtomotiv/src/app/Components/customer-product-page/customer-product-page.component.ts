@@ -50,6 +50,10 @@ export class CustomerProductPageComponent implements OnInit, OnDestroy {
   itemsPerPage: number = 8;
   totalPages: number = 0;
 
+  // Karşılaştırma sistemi özellikleri
+  compareProducts: (Product | ProductWithCategoryNameDto)[] = [];
+  maxCompareProducts: number = 3;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -399,5 +403,69 @@ export class CustomerProductPageComponent implements OnInit, OnDestroy {
       return this.discountedProductsMap.get(productId)!.remainingTime;
     }
     return null;
+  }
+
+  // Karşılaştırma sistemi metodları
+  addToCompare(product: Product | ProductWithCategoryNameDto, event: Event) {
+    event.stopPropagation();
+    
+    // Eğer ürün zaten karşılaştırmada varsa, çıkar
+    if (this.isInCompare(product.id)) {
+      this.removeFromCompare(product.id);
+      return;
+    }
+
+    // Maksimum ürün sayısını kontrol et
+    if (this.compareProducts.length >= this.maxCompareProducts) {
+      this.toastrService.warning(`Maksimum ${this.maxCompareProducts} ürün karşılaştırabilirsiniz!`, 'Karşılaştırma Limiti');
+      return;
+    }
+
+    // Ürünü karşılaştırma listesine ekle
+    this.compareProducts.push(product);
+    this.toastrService.success(`${product.name} karşılaştırma listesine eklendi!`, 'Karşılaştırmaya Eklendi');
+  }
+
+  removeFromCompare(productId: number) {
+    const index = this.compareProducts.findIndex(p => p.id === productId);
+    if (index > -1) {
+      const removedProduct = this.compareProducts[index];
+      this.compareProducts.splice(index, 1);
+      this.toastrService.info(`${removedProduct.name} karşılaştırma listesinden çıkarıldı!`, 'Karşılaştırmadan Çıkarıldı');
+    }
+  }
+
+  isInCompare(productId: number): boolean {
+    return this.compareProducts.some(p => p.id === productId);
+  }
+
+  canShowCompareModal(): boolean {
+    return this.compareProducts.length >= 2;
+  }
+
+  showCompareModal() {
+    // Modal açma işlemi - şimdilik console.log ile test edelim
+    if (this.canShowCompareModal()) {
+      console.log('Karşılaştırma modalı açılacak:', this.compareProducts);
+      // Burada modal açma işlemi yapılacak
+      this.openCompareModal();
+    } else {
+      this.toastrService.warning('Karşılaştırma yapmak için en az 2 ürün seçmelisiniz!', 'Yetersiz Ürün');
+    }
+  }
+
+  openCompareModal() {
+    // Modal açma işlemi - Bootstrap modal kullanacağız
+    const modalElement = document.getElementById('compareModal');
+    if (modalElement) {
+      // @ts-ignore
+      const modal = new window.bootstrap.Modal(modalElement);
+      modal.show();
+    }
+  }
+
+  clearCompareList() {
+    this.compareProducts = [];
+    this.toastrService.info('Karşılaştırma listesi temizlendi!', 'Liste Temizlendi');
   }
 }
