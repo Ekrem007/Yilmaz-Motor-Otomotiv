@@ -1,59 +1,161 @@
-# YilmazMotorOtomotiv
+# Yılmaz Motor Otomotiv Web Uygulaması
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.8.
+<div align="center">
+  <img src="https://img.shields.io/badge/Angular-19.2-DD0031?style=for-the-badge&logo=angular&logoColor=white" alt="Angular">
+  <img src="https://img.shields.io/badge/TypeScript-5.7-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript">
+  <img src="https://img.shields.io/badge/Bootstrap-5.3-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white" alt="Bootstrap">
+  <img src="https://img.shields.io/badge/Chart.js-4.5-FF6384?style=for-the-badge&logo=chart.js&logoColor=white" alt="Chart.js">
+</div>
 
-## Development server
+<div align="center">
+  
+  **� Dil Seçenekleri / Language Options**
+  
+  [![Türkçe](https://img.shields.io/badge/Türkçe-README-blue?style=for-the-badge)](README.md) 
+  [![English](https://img.shields.io/badge/English-README-red?style=for-the-badge)](README.en.md)
+  
+</div>
 
-To start a local development server, run:
+---
+
+## 📋 Proje Hakkında
+
+Yılmaz Motor Otomotiv Web Uygulaması, otomotiv sektöründe faaliyet gösteren şirketler için geliştirilmiş modern bir e-ticaret platformudur. Angular 19 ve Asp.NET Core teknolojileri kullanılarak geliştirilmiştir.
+
+## ✨ Özellikler
+
+### 🛍️ Müşteri Özellikleri
+- **Ürün Katalogu**: Kategoriye göre ürün listeleme ve detay sayfaları
+- **Gelişmiş Filtreleme**: Fiyat aralığı, stok durumu ve indirim filtrelemeleri
+- **Sepet Yönetimi**: Ürün ekleme, çıkarma ve miktar güncelleme
+- **Ürün Karşılaştırma**: Birden fazla ürünü karşılaştırma özelliği
+- **Arama Sistemi**: Ürün adı ve kategoriye göre arama
+- **Kullanıcı Profili**: Hesap yönetimi ve sipariş geçmişi
+- **İndirimli Ürünler**: Zamanlı indirim kampanyaları
+- **Responsive Tasarım**: Mobil, tablet ve masaüstü uyumlu
+
+### 🔐 Yönetici Özellikleri
+- **Dashboard**: Satış ve stok istatistikleri
+- **Ürün Yönetimi**: Ürün ekleme, düzenleme ve silme
+- **Kategori Yönetimi**: Kategori CRUD işlemleri
+- **Sipariş Yönetimi**: Sipariş takibi ve durum güncelleme
+- **Kullanıcı Yönetimi**: Müşteri hesapları yönetimi
+- **İndirim Yönetimi**: Kampanya oluşturma ve yönetme
+- **Stok Takibi**: Gerçek zamanlı stok kontrolü
+- **İstatistikler**: Grafik ve raporlar
+
+### 🎫 Destek Sistemi
+- **Ticket Sistemi**: Müşteri destek talepleri
+- **İletişim Formu**: Doğrudan iletişim
+- **Canlı Destek**: Anlık müşteri desteği
+
+## 🚀 Teknolojiler
+
+- **Frontend Framework**: Angular 19.2
+- **Backend Framework**: Asp.NET Core 9.0
+- **UI Framework**: Bootstrap 5.3
+- **CSS Framework**: Angular Material 19.2
+- **Grafik Kütüphanesi**: Chart.js 4.5, ng2-charts 8.0
+- **HTTP İstemcisi**: Angular HTTP Client
+- **Bildirim Sistemi**: ngx-toastr 19.0
+- **Icon Kütüphanesi**: Bootstrap Icons
+- **Server Side Rendering**: Angular SSR
+
+## 📦 Kurulum
+
+### Gereksinimler
+- Node.js (v18 veya üzeri)
+- npm veya yarn
+- Angular CLI
+
+### Adımlar
+
+1. **Projeyi klonlayın**
+   ```bash
+   git clone https://github.com/Ekrem007/Yilmaz-Motor-Otomotiv.git
+   cd Yilmaz-Motor-Otomotiv/Frontend/yilmazMotorOtomotiv
+   ```
+
+2. **Bağımlılıkları yükleyin**
+   ```bash
+   npm install
+   ```
+
+3. **Geliştirme sunucusunu başlatın**
+   ```bash
+   npm start
+   # veya
+   ng serve
+   ```
+
+4. **Uygulamayı görüntüleyin**
+   ```
+   http://localhost:4200
+   ```
+
+## 🛠️ Geliştirme
+
+### Mevcut Komutlar
 
 ```bash
-ng serve
+# Geliştirme sunucusu
+npm start
+
+# Production build
+npm run build
+
+# Test çalıştırma
+npm run test
+
+# Development build (watch mode)
+npm run watch
+
+# SSR sunucusu
+npm run serve:ssr:yilmazMotorOtomotiv
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### Kod Üretimi
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Yeni bir component oluşturmak için:
 
 ```bash
-ng generate component component-name
+ng generate component component-adı
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Tüm kullanılabilir şemalar için:
 
 ```bash
 ng generate --help
 ```
 
-## Building
+## �️ Build
 
-To build the project run:
+Projeyi build etmek için:
 
 ```bash
 ng build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Build dosyaları `dist/` dizininde oluşturulacaktır.
 
-## Running unit tests
+## 🧪 Test
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+### End-to-end testleri çalıştırma
 
 ```bash
 ng e2e
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## 🔧 Konfigürasyon
 
-## Additional Resources
+API endpoint'lerini `src/app/Services/` klasöründeki servis dosyalarından düzenleyebilirsiniz.
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## 📞 İletişim
+
+**Proje Sahibi**: Ekrem  
+**GitHub**: [@Ekrem007](https://github.com/Ekrem007)  
+**Repository**: [Yilmaz-Motor-Otomotiv](https://github.com/Ekrem007/Yilmaz-Motor-Otomotiv)
+
+## 📚 Ek Kaynaklar
+
+Angular CLI hakkında daha fazla bilgi için [Angular CLI Dokümantasyonu](https://angular.dev/tools/cli) sayfasını ziyaret edin.
