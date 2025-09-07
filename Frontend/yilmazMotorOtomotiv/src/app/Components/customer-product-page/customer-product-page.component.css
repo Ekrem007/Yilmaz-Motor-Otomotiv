@@ -34,6 +34,48 @@
   color: #0d6efd;
 }
 
+/* Filtreleme paneli stilleri */
+.filter-panel {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.filter-panel h5, .filter-panel h6 {
+  color: #343a40;
+}
+
+.form-control {
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+  transition: all 0.2s ease;
+}
+
+.form-control:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+.form-check-input:checked {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+.btn-outline-primary {
+  border-radius: 6px;
+  font-size: 0.8rem;
+  padding: 0.25rem 0.5rem;
+}
+
+.btn-outline-secondary {
+  border-radius: 6px;
+}
+
+.btn-danger {
+  border-radius: 8px;
+}
+
 /* Product card styling */
 .product-card {
   transition: all 0.3s ease;

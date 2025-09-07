@@ -64,8 +64,104 @@
     </div>
 
     <div *ngIf="!isLoading">
-      <div *ngIf="selectedCategoryId && products.length > 0" class="row g-4">
-        <div class="col-xl-3 col-lg-4 col-md-6" *ngFor="let product of getPaginatedProducts()">
+      <!-- Filtreleme ve Ürünler Bölümü -->
+      <div class="row">
+        <!-- Sol Filtreleme Paneli -->
+        <div class="col-lg-3 mb-4">
+          <div class="bg-white rounded-4 shadow-sm p-4 border">
+            <h5 class="fw-bold text-dark mb-4">
+              <i class="bi bi-funnel me-2"></i>Filtreler
+            </h5>
+            
+            <!-- Fiyat Filtreleme -->
+            <div class="mb-4">
+              <h6 class="fw-bold text-dark mb-3">Fiyat Aralığı</h6>
+              <div class="mb-3">
+                <label for="minPrice" class="form-label small text-muted">Minimum Fiyat</label>
+                <input type="number" 
+                       class="form-control" 
+                       id="minPrice" 
+                       placeholder="₺ 0"
+                       [(ngModel)]="priceFilter.min"
+                       (input)="applyPriceFilter()">
+              </div>
+              <div class="mb-3">
+                <label for="maxPrice" class="form-label small text-muted">Maksimum Fiyat</label>
+                <input type="number" 
+                       class="form-control" 
+                       id="maxPrice" 
+                       placeholder="₺ 999999"
+                       [(ngModel)]="priceFilter.max"
+                       (input)="applyPriceFilter()">
+              </div>
+              <button class="btn btn-outline-secondary btn-sm w-100 mt-2" (click)="clearPriceFilter()">
+                <i class="bi bi-x-circle me-1"></i>Temizle
+              </button>
+            </div>
+
+            <!-- Stok Durumu Filtreleme -->
+            <div class="mb-4">
+              <h6 class="fw-bold text-dark mb-3">Stok Durumu</h6>
+              <div class="form-check mb-2">
+                <input class="form-check-input" 
+                       type="checkbox" 
+                       id="inStock"
+                       [(ngModel)]="stockFilter.inStock"
+                       (change)="applyStockFilter()">
+                <label class="form-check-label" for="inStock">
+                  <i class="bi bi-check-circle text-success me-1"></i>Stokta Var
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" 
+                       type="checkbox" 
+                       id="outOfStock"
+                       [(ngModel)]="stockFilter.outOfStock"
+                       (change)="applyStockFilter()">
+                <label class="form-check-label" for="outOfStock">
+                  <i class="bi bi-x-circle text-danger me-1"></i>Stokta Yok
+                </label>
+              </div>
+            </div>
+
+            <!-- İndirimli Ürünler Filtreleme -->
+            <div class="mb-4">
+              <h6 class="fw-bold text-dark mb-3">Özel Durumlar</h6>
+              <div class="form-check">
+                <input class="form-check-input" 
+                       type="checkbox" 
+                       id="discounted"
+                       [(ngModel)]="discountFilter"
+                       (change)="applyDiscountFilter()">
+                <label class="form-check-label" for="discounted">
+                  <i class="bi bi-percent text-danger me-1"></i>İndirimli Ürünler
+                </label>
+              </div>
+            </div>
+
+            <!-- Sıralama -->
+            <div class="mb-4">
+              <h6 class="fw-bold text-dark mb-3">Sıralama</h6>
+              <select class="form-select" [(ngModel)]="sortBy" (change)="applySorting()">
+                <option value="">Varsayılan</option>
+                <option value="price-asc">Fiyat (Düşükten Yükseğe)</option>
+                <option value="price-desc">Fiyat (Yüksekten Düşüğe)</option>
+                <option value="name-asc">İsim (A-Z)</option>
+                <option value="name-desc">İsim (Z-A)</option>
+              </select>
+            </div>
+
+            <!-- Filtreleri Temizle -->
+            <button class="btn btn-danger w-100" (click)="clearAllFilters()">
+              <i class="bi bi-trash me-2"></i>Tüm Filtreleri Temizle
+            </button>
+          </div>
+        </div>
+
+        <!-- Sağ Ürünler Bölümü -->
+        <div class="col-lg-9">
+          <div *ngIf="selectedCategoryId && getFilteredProducts().length > 0" class="row g-4">
+            <div class="col-lg-4 col-md-6" *ngFor="let product of getPaginatedProducts()">
           <div class="card h-100 shadow-sm border-0 product-card bg-white" 
                style="cursor: pointer;" 
                (click)="navigateToProduct(product.id)">
@@ -148,8 +244,8 @@
         </div>
       </div>
 
-      <div *ngIf="!selectedCategoryId && allProducts.length > 0" class="row g-4">
-        <div class="col-xl-3 col-lg-4 col-md-6" *ngFor="let product of getPaginatedProducts()">
+          <div *ngIf="!selectedCategoryId && getFilteredProducts().length > 0" class="row g-4">
+            <div class="col-lg-4 col-md-6" *ngFor="let product of getPaginatedProducts()">
           <div class="card h-100 shadow-sm border-0 product-card bg-white" 
                style="cursor: pointer;" 
                (click)="navigateToProduct(product.id)">
@@ -235,6 +331,38 @@
               </div>
             </div>
           </div>
+            </div>
+          </div>
+
+          <!-- Ürün Bulunamadı Mesajı -->
+          <div *ngIf="getFilteredProducts().length === 0" class="text-center py-5">
+            <div class="bg-white rounded-4 shadow-sm p-5">
+              <div class="mb-4">
+                <div class="icon-wrapper bg-light rounded-circle p-4 d-inline-flex">
+                  <i class="bi bi-search text-muted" style="font-size: 3rem;" *ngIf="isSearchMode"></i>
+                  <i class="bi bi-funnel text-muted" style="font-size: 3rem;" *ngIf="!isSearchMode && (priceFilter.min || priceFilter.max || !stockFilter.inStock || !stockFilter.outOfStock || discountFilter)"></i>
+                  <i class="bi bi-box text-muted" style="font-size: 3rem;" *ngIf="!isSearchMode && !priceFilter.min && !priceFilter.max && stockFilter.inStock && stockFilter.outOfStock && !discountFilter"></i>
+                </div>
+              </div>
+              <h3 class="text-muted mb-3" *ngIf="!isSearchMode && (priceFilter.min || priceFilter.max || !stockFilter.inStock || !stockFilter.outOfStock || discountFilter)">Filtrelere uygun ürün bulunamadı</h3>
+              <h3 class="text-muted mb-3" *ngIf="!isSearchMode && !priceFilter.min && !priceFilter.max && stockFilter.inStock && stockFilter.outOfStock && !discountFilter">Bu kategoride ürün bulunamadı</h3>
+              <h3 class="text-muted mb-3" *ngIf="isSearchMode">"{{ searchTerm }}" için sonuç bulunamadı</h3>
+              <p class="text-muted mb-4" *ngIf="!isSearchMode && (priceFilter.min || priceFilter.max || !stockFilter.inStock || !stockFilter.outOfStock || discountFilter)">Seçtiğiniz filtrelere uygun ürün bulunmuyor. Filtreleri değiştirerek tekrar deneyebilirsiniz.</p>
+              <p class="text-muted mb-4" *ngIf="!isSearchMode && !priceFilter.min && !priceFilter.max && stockFilter.inStock && stockFilter.outOfStock && !discountFilter">Bu kategori henüz ürün içermiyor veya ürünler geçici olarak mevcut değil.</p>
+              <p class="text-muted mb-4" *ngIf="isSearchMode">Aradığınız terime uygun ürün bulunamadı. Farklı anahtar kelimeler deneyebilirsiniz.</p>
+              <div class="d-flex gap-3 justify-content-center flex-wrap">
+                <button class="btn btn-warning" (click)="clearAllFilters()" *ngIf="!isSearchMode && (priceFilter.min || priceFilter.max || !stockFilter.inStock || !stockFilter.outOfStock || discountFilter)">
+                  <i class="bi bi-arrow-clockwise me-2"></i>Filtreleri Temizle
+                </button>
+                <a routerLink="/products" class="btn btn-primary">
+                  <i class="bi bi-grid me-2"></i>Tüm Ürünleri Görüntüle
+                </a>
+                <a routerLink="/" class="btn btn-outline-secondary">
+                  <i class="bi bi-house me-2"></i>Anasayfaya Dön
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -268,31 +396,6 @@
           </button>
         </div>
       </div>
-
-      <div *ngIf="(selectedCategoryId && products.length === 0) || (!selectedCategoryId && allProducts.length === 0)" 
-           class="text-center py-5">
-        <div class="bg-white rounded-4 shadow-sm p-5">
-          <div class="mb-4">
-            <div class="icon-wrapper bg-light rounded-circle p-4 d-inline-flex">
-              <i class="bi bi-search text-muted" style="font-size: 3rem;" *ngIf="isSearchMode"></i>
-              <i class="bi bi-box text-muted" style="font-size: 3rem;" *ngIf="!isSearchMode"></i>
-            </div>
-          </div>
-          <h3 class="text-muted mb-3" *ngIf="!isSearchMode">Bu kategoride ürün bulunamadı</h3>
-          <h3 class="text-muted mb-3" *ngIf="isSearchMode">"{{ searchTerm }}" için sonuç bulunamadı</h3>
-          <p class="text-muted mb-4" *ngIf="!isSearchMode">Bu kategori henüz ürün içermiyor veya ürünler geçici olarak mevcut değil.</p>
-          <p class="text-muted mb-4" *ngIf="isSearchMode">Aradığınız terime uygun ürün bulunamadı. Farklı anahtar kelimeler deneyebilirsiniz.</p>
-          <div class="d-flex gap-3 justify-content-center flex-wrap">
-            <a routerLink="/products" class="btn btn-primary">
-              <i class="bi bi-grid me-2"></i>Tüm Ürünleri Görüntüle
-            </a>
-            <a routerLink="/" class="btn btn-outline-secondary">
-              <i class="bi bi-house me-2"></i>Anasayfaya Dön
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <div class="mt-5 pt-5" *ngIf="!isLoading">
       <div class="bg-white rounded-4 shadow-sm p-4 border">

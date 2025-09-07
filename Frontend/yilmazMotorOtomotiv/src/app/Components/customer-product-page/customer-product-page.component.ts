@@ -2,6 +2,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { ProductService } from '../../Services/product.service';
 import { CategoryService } from '../../Services/category.service';
 import { CartService } from '../../Services/cart.service';
@@ -26,13 +27,14 @@ interface ExtendedDiscountedProductDto extends DiscountedProductDto {
 
 @Component({
   selector: 'app-customer-product-page',
-  imports: [CommonModule, RouterModule, NavbarComponent, TurkishCurrencyPipe],
+  imports: [CommonModule, RouterModule, NavbarComponent, TurkishCurrencyPipe, FormsModule],
   templateUrl: './customer-product-page.component.html',
   styleUrl: './customer-product-page.component.css'
 })
 export class CustomerProductPageComponent implements OnInit, OnDestroy {
   products: Product[] = [];
   allProducts: ProductWithCategoryNameDto[] = [];
+  filteredProducts: (Product | ProductWithCategoryNameDto)[] = [];
   categories: Category[] = [];
   selectedCategoryId: number | null = null;
   selectedCategoryName: string = '';
@@ -47,12 +49,26 @@ export class CustomerProductPageComponent implements OnInit, OnDestroy {
 
   // Pagination properties
   currentPage: number = 1;
-  itemsPerPage: number = 8;
+  itemsPerPage: number = 9; // 3 sütun için 9 ürün (3x3)
   totalPages: number = 0;
 
   // Karşılaştırma sistemi özellikleri
   compareProducts: (Product | ProductWithCategoryNameDto)[] = [];
   maxCompareProducts: number = 3;
+
+  // Filtreleme özellikleri
+  priceFilter = {
+    min: null as number | null,
+    max: null as number | null
+  };
+  
+  stockFilter = {
+    inStock: true,
+    outOfStock: true
+  };
+  
+  discountFilter: boolean = false;
+  sortBy: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -221,9 +237,7 @@ export class CustomerProductPageComponent implements OnInit, OnDestroy {
 
   // Pagination Methods
   calculateTotalPages(): void {
-    const totalItems = this.selectedCategoryId 
-      ? (this.products?.length || 0) 
-      : (this.allProducts?.length || 0);
+    const totalItems = this.getFilteredProducts().length;
     this.totalPages = Math.ceil(totalItems / this.itemsPerPage);
     if (this.currentPage > this.totalPages && this.totalPages > 0) {
       this.currentPage = this.totalPages;
@@ -231,9 +245,7 @@ export class CustomerProductPageComponent implements OnInit, OnDestroy {
   }
 
   getPaginatedProducts(): (Product | ProductWithCategoryNameDto)[] {
-    const items = this.selectedCategoryId 
-      ? (this.products || []) 
-      : (this.allProducts || []);
+    const items = this.getFilteredProducts();
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
     return items.slice(startIndex, endIndex);
@@ -262,25 +274,19 @@ export class CustomerProductPageComponent implements OnInit, OnDestroy {
   }
 
   getStartItem(): number {
-    const totalItems = this.selectedCategoryId 
-      ? (this.products?.length || 0) 
-      : (this.allProducts?.length || 0);
+    const totalItems = this.getFilteredProducts().length;
     if (totalItems === 0) return 0;
     return (this.currentPage - 1) * this.itemsPerPage + 1;
   }
 
   getEndItem(): number {
-    const totalItems = this.selectedCategoryId 
-      ? (this.products?.length || 0) 
-      : (this.allProducts?.length || 0);
+    const totalItems = this.getFilteredProducts().length;
     const end = this.currentPage * this.itemsPerPage;
     return end > totalItems ? totalItems : end;
   }
 
   getTotalItems(): number {
-    return this.selectedCategoryId 
-      ? (this.products?.length || 0) 
-      : (this.allProducts?.length || 0);
+    return this.getFilteredProducts().length;
   }
 
   getCategoryName(product: Product | ProductWithCategoryNameDto): string {
@@ -452,6 +458,104 @@ export class CustomerProductPageComponent implements OnInit, OnDestroy {
     } else {
       this.toastrService.warning('Karşılaştırma yapmak için en az 2 ürün seçmelisiniz!', 'Yetersiz Ürün');
     }
+  }
+
+  // Filtreleme Metodları
+  getFilteredProducts(): (Product | ProductWithCategoryNameDto)[] {
+    let products: (Product | ProductWithCategoryNameDto)[] = this.selectedCategoryId ? [...this.products] : [...this.allProducts];
+    
+    // Fiyat filtresi
+    if (this.priceFilter.min !== null || this.priceFilter.max !== null) {
+      products = products.filter(product => {
+        const price = this.hasDiscount(product.id) ? this.getDiscountedPrice(product.id) : product.price;
+        const min = this.priceFilter.min ?? 0;
+        const max = this.priceFilter.max ?? Infinity;
+        return price >= min && price <= max;
+      });
+    }
+
+    // Stok filtresi
+    if (!this.stockFilter.inStock || !this.stockFilter.outOfStock) {
+      products = products.filter(product => {
+        if (this.stockFilter.inStock && !this.stockFilter.outOfStock) {
+          return product.stock > 0;
+        } else if (!this.stockFilter.inStock && this.stockFilter.outOfStock) {
+          return product.stock === 0;
+        }
+        return true;
+      });
+    }
+
+    // İndirim filtresi
+    if (this.discountFilter) {
+      products = products.filter(product => this.hasDiscount(product.id));
+    }
+
+    // Sıralama
+    if (this.sortBy) {
+      products = [...products].sort((a, b) => {
+        switch (this.sortBy) {
+          case 'price-asc':
+            const priceA = this.hasDiscount(a.id) ? this.getDiscountedPrice(a.id) : a.price;
+            const priceB = this.hasDiscount(b.id) ? this.getDiscountedPrice(b.id) : b.price;
+            return priceA - priceB;
+          case 'price-desc':
+            const priceDescA = this.hasDiscount(a.id) ? this.getDiscountedPrice(a.id) : a.price;
+            const priceDescB = this.hasDiscount(b.id) ? this.getDiscountedPrice(b.id) : b.price;
+            return priceDescB - priceDescA;
+          case 'name-asc':
+            return a.name.localeCompare(b.name, 'tr');
+          case 'name-desc':
+            return b.name.localeCompare(a.name, 'tr');
+          default:
+            return 0;
+        }
+      });
+    }
+
+    this.filteredProducts = products;
+    return products;
+  }
+
+  applyPriceFilter(): void {
+    this.currentPage = 1;
+    this.calculateTotalPages();
+  }
+
+  setPriceRange(min: number, max: number): void {
+    this.priceFilter.min = min;
+    this.priceFilter.max = max;
+    this.applyPriceFilter();
+  }
+
+  clearPriceFilter(): void {
+    this.priceFilter.min = null;
+    this.priceFilter.max = null;
+    this.applyPriceFilter();
+  }
+
+  applyStockFilter(): void {
+    this.currentPage = 1;
+    this.calculateTotalPages();
+  }
+
+  applyDiscountFilter(): void {
+    this.currentPage = 1;
+    this.calculateTotalPages();
+  }
+
+  applySorting(): void {
+    this.currentPage = 1;
+    this.calculateTotalPages();
+  }
+
+  clearAllFilters(): void {
+    this.priceFilter = { min: null, max: null };
+    this.stockFilter = { inStock: true, outOfStock: true };
+    this.discountFilter = false;
+    this.sortBy = '';
+    this.currentPage = 1;
+    this.calculateTotalPages();
   }
 
   openCompareModal() {

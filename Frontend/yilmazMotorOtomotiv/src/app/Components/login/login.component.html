@@ -16,13 +16,13 @@
           <!-- Hata ve Başarı Mesajları -->
           <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
             <i class="bi bi-exclamation-triangle-fill me-2"></i>
-            <strong>Hata!</strong> {{ errorMessage }}
+            <strong>Hata!</strong> 
             <button type="button" class="btn-close" (click)="clearMessages()" aria-label="Kapat"></button>
           </div>
 
           <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
             <i class="bi bi-check-circle-fill me-2"></i>
-            <strong>Başarılı!</strong> {{ successMessage }}
+            <strong>Başarılı!</strong> 
             <button type="button" class="btn-close" (click)="clearMessages()" aria-label="Kapat"></button>
           </div>
 
